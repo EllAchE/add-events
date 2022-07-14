@@ -1,0 +1,33 @@
+{
+    "action":{
+        "default_icon":{
+          "16":"a.jpg",
+          "48":"b.jpg"
+        },
+        "default_popup": "popup.html"
+    },
+    "manifest_version" : 3,
+    "version":"0.0",
+    "name" : "CalEvent",
+    "description": "Automatically add events to your calendar",
+    "content_scripts":[
+      {
+       "matches":["<all_urls>"],
+       "js":["main.ts"]
+      }
+    ],
+    "background": {
+        "service_worker": "background.ts"
+    },
+    "permissions": [
+        "tabs",
+        "storage",
+        "webNavigation"
+    ],
+    "homepage_url": "https://ellache.github.io/",
+    "options_ui": {
+        "open_in_tab": true,
+        "page": "popup.html"
+        
+      }
+  }
