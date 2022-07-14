@@ -1,35 +1,40 @@
-const path = require('path');
+const {resolve} = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CopyPlugin = require('copy-webpack-plugin')
+const CleanWebpackPlugin = require('clean-webpack-plugin')
 
 module.exports = {
   entry: {
       popup: './src/popup/popup.tsx'
   },
   output: {
-    path: path.resolve(__dirname, 'dist'),
+    path: resolve(__dirname, 'dist'),
     filename: '[name].js',
   },
-  mode: "development",
   module: {
       rules: [{
-          test: /\.(ts|tsx)$/,
+          test: /\.tsx?$/,
           exclude: /node_modules/,
-          use: {
-              loader: 'babel-loader',
-              options: {
-                  presets: ['@babel/preset-env', '@babel/preset-react'], 
-              }
-          }
-      }]
+          use: 'ts-loader'
+      },
+    {
+        test: /\.jsx?$/,
+        use: {
+            loader: 'babel-loader',
+            options: {
+                presets: ['@babel/preset-env', '@babel/preset-react'], 
+            }
+        }
+    }],
   },
   plugins: [new HtmlWebpackPlugin({
       template: './src/popup/popup.html',
       filename: 'popup.html'
-  }),
+    }),
     new CopyPlugin({
         patterns: [
             {from: "public"},
+            {from: "src/scripts", to: "scripts"}
         ]
     })],
 };

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC, ReactElement } from 'react';
 import { render } from 'react-dom';
 import Checkbox from '@mui/material/Checkbox';
 import FormGroup from '@mui/material/FormGroup';
@@ -6,7 +6,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 
-function Popup() {
+function Popup(): ReactElement {
   return (
     <div>
       <h1>Eventful</h1>
@@ -36,4 +36,4 @@ function Popup() {
   );
 }
 
-render(<Popup />, document.getElementById('react-target'));
+render(<Popup />, document.getElementById('popup'));
