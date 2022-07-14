@@ -13,11 +13,11 @@
     "content_scripts":[
       {
        "matches":["<all_urls>"],
-       "js":["main.ts"]
+       "js":["main.js"]
       }
     ],
     "background": {
-        "service_worker": "background.ts"
+        "service_worker": "background.js"
     },
     "permissions": [
         "tabs",
@@ -28,6 +28,5 @@
     "options_ui": {
         "open_in_tab": true,
         "page": "popup.html"
-        
       }
   }

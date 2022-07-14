@@ -5,7 +5,9 @@ const CleanWebpackPlugin = require('clean-webpack-plugin')
 
 module.exports = {
   entry: {
-      popup: './src/popup/popup.tsx'
+      popup: './src/popup/popup.tsx',
+      main: './src/scripts/main.ts',
+      background: './src/scripts/background.ts'
   },
   output: {
     path: resolve(__dirname, 'dist'),
@@ -33,8 +35,7 @@ module.exports = {
     }),
     new CopyPlugin({
         patterns: [
-            {from: "public"},
-            {from: "src/scripts", to: "scripts"}
+            {from: "public"}
         ]
     })],
 };
