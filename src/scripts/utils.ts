@@ -33,9 +33,9 @@ export function extractDates(text: string): string[] {
   ];
 
   for (const i in regexes) {
-    let matches: RegExpMatchArray = regexes[i].exec(text);
-    console.dir(matches);
-    matches = text.match(regexes[i]);
+    // let matches: RegExpMatchArray = regexes[i].exec(text);
+    // console.dir(matches);
+    let matches = text.match(regexes[i]);
     if (matches) {
       console.log('match occured at ' + matches.index);
       console.dir(text);
