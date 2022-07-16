@@ -3,6 +3,7 @@ import { getElements } from './utils';
 
 const run = () => {
   var elements = getElements();
+  console.log('running element replacement scritp');
   createEventButtons(elements as HTMLCollectionOf<HTMLElement>);
 };
 
