@@ -7,6 +7,7 @@ test('properly identifies dates', () => {
       out: ['11/11/2034', '11/11/2034', '09/17/2023'],
     },
     { in: 'AMEIC 11/11/2034', out: ['11/11/2034'] },
+    { in: 'January 1991', out: [] },
     { in: 'GO USA why. On 09/22/2044 at 3', out: ['09/22/2044'] },
     { in: '1/2', out: ['1/2'] }, // it may be better to miss some than to worry about catching shorter
     { in: 'uni', out: [] },
@@ -30,6 +31,10 @@ test('properly identifies dates', () => {
   ];
 
   for (const i in americanDates) {
-    expect(extractDates(americanDates[i].in)).toEqual(americanDates[i].out);
+    expect(
+      extractDates(americanDates[i].in).map((el) => {
+        return el.date;
+      })
+    ).toEqual(americanDates[i].out);
   }
 });
