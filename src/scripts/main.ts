@@ -1,18 +1,26 @@
 import { extractDates, getElements } from './utils';
 
+console.info('RUNNING MAIN');
+console.info('RUNNING MAIN');
+console.info('RUNNING MAIN');
+console.info('RUNNING MAIN');
+console.info('RUNNING MAIN');
+console.info('RUNNING MAIN');
+console.info('RUNNING MAIN');
+
 function createEventButtons(elements: any): void {
   for (const i in elements) {
     if (elements[i].innerText?.length) {
+      //console.log('checking');
+      //console.log(elements[i].innerText);
       const regMatches = extractDates(elements[i].innerText);
 
       if (regMatches.length > 0) {
+        console.log('there was a match');
         var btn = document.createElement('button');
         btn.classList.add('add_to_cal_button');
 
         btn.appendChild(document.createTextNode('Add to Cal'));
-
-        console.dir('element that had a hit');
-        console.dir(elements[i]);
 
         elements[i].appendChild(btn);
 
@@ -46,12 +54,12 @@ function createEventButtons(elements: any): void {
 const runCheck = () => {
   var elements = getElements();
 
-  console.log('number of matching elements', elements.length);
-
   createEventButtons(elements);
 };
 
 chrome.runtime.onMessage.addListener((msg, sender, callback) => {
   console.log('received from sender', sender.id, msg);
-  callback(runCheck());
+  runCheck();
 });
+
+runCheck();

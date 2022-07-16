@@ -9,6 +9,9 @@ module.exports = {
       main: './src/scripts/main.ts',
       background: './src/scripts/background.ts'
   },
+  resolve: {
+    extensions: [".ts", ".tsx", ".js"]
+  },
   output: {
     path: resolve(__dirname, 'dist'),
     filename: '[name].js',

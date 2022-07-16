@@ -9,14 +9,14 @@ import Grid from '@mui/material/Grid';
 function Popup(): ReactElement {
   // TODO add usestate etc. here to display retrieved events in the popup
 
-  useEffect(() => {
-    chrome.tabs.query({ currentWindow: true, active: true }, (tabs) => {
-      const activeTabId = tabs.length === 0 ? 0 : tabs[0].id;
-      chrome.tabs.sendMessage(activeTabId, '', (response) => {
-        console.log('receieved res', response);
-      });
-    });
-  });
+  // useEffect(() => {
+  //   chrome.tabs.query({ currentWindow: true, active: true }, (tabs) => {
+  //     const activeTabId = tabs.length === 0 ? 0 : tabs[0].id;
+  //     chrome.tabs.sendMessage(activeTabId, '', (response) => {
+  //       console.log('receieved res', response);
+  //     });
+  //   });
+  // });
 
   return (
     <div>
