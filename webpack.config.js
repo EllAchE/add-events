@@ -1,13 +1,12 @@
 const {resolve} = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CopyPlugin = require('copy-webpack-plugin')
-const CleanWebpackPlugin = require('clean-webpack-plugin')
 
 module.exports = {
   entry: {
       popup: './src/popup/popup.tsx',
       main: './src/scripts/main.ts',
-      background: './src/scripts/background.ts'
+      background: './src/scripts/background.ts',
   },
   resolve: {
     extensions: [".ts", ".tsx", ".js"]

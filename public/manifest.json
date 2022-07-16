@@ -1,12 +1,9 @@
 {
     "action":{
-        "default_icon":{
-          "16":"a.jpg",
-          "48":"b.jpg"
-        },
         "default_popup": "popup.html"
     },
     "manifest_version" : 3,
+    "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAu3Wb6VZY/7Rt3R5uGVJmaW2Y2LqOGb5X9WBnCfBtxwivD83i5CBW5cxCu6hXHpwFj8naYNLFh2as1xFTFLv/05goyvN0hcxwtNqAQfo7+osLDfXm3ew6yr+vpbzko3smdZhvp7Wesp3DRUXsj1ZBM8XkKOOTVb4kFbgu3QZpk0HUWLAjkKF2UBiscTLLjiDk9facVV78/QtIyfPcBnW1lW1AGGy7jOn2W+SjpUdFUpHBpfsB5/Ad8DfdTaEhMxszm6xHbNq/8dNdwuTYX/mMFc88P31286lq5VoGP9zZVgYQyx8wLe8pB/+k9qmdNBXyVkpBv3CGoY5288U22BoDowIDAQAB",
     "version":"0.0",
     "name" : "CalEvent",
     "description": "Automatically add events to your calendar",
@@ -23,7 +20,9 @@
     "permissions": [
         "tabs",
         "storage",
-        "webNavigation"
+        "webNavigation",
+        "identity",
+        "identity.email"
     ],
     "homepage_url": "https://ellache.github.io/",
     "options_ui": {

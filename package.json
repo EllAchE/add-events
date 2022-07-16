@@ -6,6 +6,7 @@
   "scripts": {
     "build": "webpack --config webpack.prod.js",
     "dev": "webpack --watch --config webpack.dev.js",
+    "sw_test": "node src/service-workers/calendar/google.js",
     "test": "jest ./test/test.ts"
   },
   "keywords": [],
@@ -15,10 +16,17 @@
     "@emotion/core": "^11.0.0",
     "@emotion/react": "^11.9.3",
     "@emotion/styled": "^11.9.3",
-    "@jest/types": "^28.1.3",
+    "assert": "^2.0.0",
+    "buffer": "^6.0.3",
     "clean-webpack-plugin": "^4.0.0",
+    "crypto": "^1.0.1",
+    "fs": "^0.0.2",
+    "glob": "^8.0.3",
+    "googleapis": "^105.0.0",
     "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "react-dom": "^17.0.2",
+    "readline": "^1.3.0",
+    "stream": "^0.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.15.5",
@@ -35,6 +43,7 @@
     "jest": "^28.0.6",
     "ts-jest": "^28.0.6",
     "ts-loader": "^9.3.1",
+    "ts-node": "^10.9.1",
     "typescript": "^4.7.4",
     "webpack": "5.52.1",
     "webpack-cli": "^4.8.0",
