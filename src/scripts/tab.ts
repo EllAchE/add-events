@@ -1,7 +1,3 @@
-// function openTab() {
-//   window.open('https://www.google.com', '_blank');
-// }
-
-// openTab();
-
-// likely service worker doesn't have access to the window/dom etc.? Would need to be pulled from main script
+export function openTab() {
+  window.open('https://calendar.google.com/calendar/u/0/r', '_blank');
+}

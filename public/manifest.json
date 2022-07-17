@@ -1,4 +1,6 @@
 {
+    "name" : "CalEvent",
+    "version":"0.0",
     "action":{
         "default_popup": "popup.html"
     },
@@ -11,8 +13,6 @@
         "https://www.googleapis.com/auth/calendar"
       ]
     },
-    "version":"0.0",
-    "name" : "CalEvent",
     "description": "Automatically add events to your calendar",
     "content_scripts":[
       {
@@ -34,6 +34,6 @@
     "homepage_url": "https://ellache.github.io/",
     "options_ui": {
         "open_in_tab": true,
-        "page": "popup.html"
+        "page": "options.html"
       }
   }
