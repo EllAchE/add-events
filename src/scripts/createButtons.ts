@@ -1,15 +1,17 @@
-import { replaceText } from './checkcontent';
-import { getUsReg } from '../utils';
+import { regexes } from '../utils';
+import { replaceText } from './replaceText';
 
-function createHyperlinkNode(node: HTMLElement, match: string, offset: number) {
+function createHyperlinkNode(
+  node: HTMLElement,
+  match: string,
+  offset: number
+): HTMLAnchorElement {
   let btn = document.createElement('a');
   btn.className = 'add_to_cal_button_ce';
   btn.textContent = match;
 
-  console.log('creating');
   btn.addEventListener('click', (e) => {
-    console.log('aaaded');
-    //alert('button action');
+    alert('button action');
   });
 
   return btn;
@@ -28,7 +30,7 @@ export function createEventButtons(
       elements[i].tagName != 'META' &&
       elements[i].className != 'add_to_cal_button_ce'
     ) {
-      replaceText(elements[i], getUsReg(), createHyperlinkNode);
+      replaceText(elements[i], regexes[1], createHyperlinkNode);
     }
   }
 }

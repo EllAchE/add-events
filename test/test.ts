@@ -34,11 +34,11 @@ test('properly identifies dates', () => {
     },
     {
       in: 'Fri, Aug 5, 3:00 PM',
-      out: 'Aug 5',
+      out: ['Aug 5'],
     },
     {
       in: 'FoodieLand Night Market - Berkeley | August 5-7',
-      out: 'August 5-7',
+      out: ['August 5-7'],
     },
   ];
 

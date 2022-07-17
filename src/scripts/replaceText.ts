@@ -1,7 +1,7 @@
 export function replaceText(
   node: HTMLElement,
   regex: RegExp,
-  callback: any,
+  callback: (node: any, params: string, other: any) => HTMLAnchorElement,
   excludeElements?: string[]
 ) {
   excludeElements ||
@@ -9,36 +9,24 @@ export function replaceText(
   var child: any = node.firstChild;
 
   while (child) {
-    console.log('repeat whil');
-    switch (child.nodeType) {
-      //   case 1:
-      //     console.log('case ' + child.nodeType);
-      //     if (excludeElements.indexOf(child.tagName.toLowerCase()) > -1) {
-      //       break;
-      //     }
-      //     replaceText(child, regex, callback, excludeElements);
-      //     break;
-      case 3:
-        console.log('case ' + child.nodeType);
-        let bk = 0;
-        child.data.replace(regex, function (all: HTMLElement[]) {
-          let args = [].slice.call(arguments);
-          let offset = args[args.length - 2];
-          let newTextNode = child.splitText(offset + bk);
-          let tag;
+    if (child.nodeType == 3) {
+      let breakpt = 0;
+      child.data.replace(regex, function (match: HTMLElement[]) {
+        let args = [].slice.call(arguments);
+        let offset = args[args.length - 2];
+        let newTextNode = child.splitText(offset + breakpt);
 
-          bk -= child.data.length + all.length;
+        breakpt -= child.data.length + match.length;
 
-          newTextNode.data = newTextNode.data.substr(all.length);
-          tag = callback.apply(window, [child].concat(args));
-          console.log('adding buttton to ');
-          child.parentNode.insertBefore(tag, newTextNode);
-          child = newTextNode;
-        });
-        regex.lastIndex = 0;
-        break;
+        newTextNode.data = newTextNode.data.substr(match.length);
+        let tag = callback.apply(window, [child].concat(args));
+
+        child.parentNode.insertBefore(tag, newTextNode);
+        child = newTextNode;
+      });
+      regex.lastIndex = 0;
+      break;
     }
-
     child = child.nextSibling;
   }
 
