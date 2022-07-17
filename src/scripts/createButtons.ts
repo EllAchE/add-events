@@ -1,20 +1,35 @@
 import { regexes } from '../utils';
 import { replaceText } from './replaceText';
+import { CalendarEvent } from './types';
 
 function createHyperlinkNode(
+  // this button or some other item will eventually need to house all
+  // of the information needed to create an event once one has been identified
+  // then send that information to the service worker to add event to calendar
   node: HTMLElement,
   match: string,
   offset: number
 ): HTMLAnchorElement {
-  let btn = document.createElement('a');
-  btn.className = 'add_to_cal_button_ce';
-  btn.textContent = match;
+  let button = document.createElement('a');
+  button.className = 'add_to_cal_button_ce';
+  button.textContent = match;
 
-  btn.addEventListener('click', (e) => {
-    alert('button action');
+  const eventDetails: CalendarEvent = {
+    summary: 'testTitle',
+    end: {
+      dateTime: '2022-07-29T09:00:00-07:00',
+    },
+    start: {
+      dateTime: '2022-07-29T09:00:00-07:00',
+    },
+  };
+
+  button.addEventListener('click', (e) => {
+    chrome.runtime.sendMessage([eventDetails]);
+    alert('Created Test Event');
   });
 
-  return btn;
+  return button;
 }
 
 export function createEventButtons(

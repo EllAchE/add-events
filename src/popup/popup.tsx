@@ -49,4 +49,3 @@ function Popup(): ReactElement {
 
 render(<Popup />, document.getElementById('popup'));
 
-chrome.runtime.sendMessage({ message: 'msg' });
