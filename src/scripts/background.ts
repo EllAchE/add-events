@@ -1,11 +1,3 @@
-// function openTab() {
-//   window.open('https://www.google.com', '_blank');
-// }
-
-// openTab();
-
-// likely service worker doesn't have access to the window/dom etc.? Would need to be pulled from main script
-
 // const API_KEY = process.env.APP_API_KEY ? process.env.APP_API_KEY : '';
 
 const testEvent = {

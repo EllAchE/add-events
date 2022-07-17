@@ -1,5 +1,5 @@
 import { replaceText } from './checkcontent';
-import { getUsReg } from './utils';
+import { getUsReg } from '../utils';
 
 function createHyperlinkNode(node: HTMLElement, match: string, offset: number) {
   let btn = document.createElement('a');

@@ -1,5 +1,5 @@
 import { createEventButtons } from './createButtons';
-import { getElements } from './utils';
+import { getElements } from '../utils';
 
 const run = () => {
   var elements = getElements();

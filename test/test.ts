@@ -1,4 +1,4 @@
-import { extractDates } from '../src/scripts/utils';
+import { extractDates } from '../src/utils';
 
 test('properly identifies dates', () => {
   const americanDates = [
