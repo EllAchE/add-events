@@ -1,15 +1,15 @@
 import React, { ReactElement } from 'react';
 import { render } from 'react-dom';
-import Checkbox from '@mui/material/Checkbox';
-import FormGroup from '@mui/material/FormGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import SettingsIcon from '@mui/icons-material/Settings';
 import HelpIcon from '@mui/icons-material/Help';
 import { openTab } from '../scripts/tab';
 import { IconButton } from '@mui/material';
-//import InfoIcon from '@mui/icons-material/Info';
+
+import { DateAccordion } from './DateAccordion';
+
+// potentially use a drawer https://mui.com/material-ui/react-drawer/
 
 function Popup(): ReactElement {
   // TODO add usestate etc. here to display retrieved events in the popup
@@ -23,37 +23,51 @@ function Popup(): ReactElement {
   //   });
   // });
 
+  // https://mui.com/material-ui/react-drawer/
+
   return (
-    <div>
-      <h1>Eventful</h1>
-      <p>Customize your events!</p>
+    <>
+      <Grid
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        <h1 style={{ fontSize: 48 }}>Eventful</h1>
+      </Grid>
+      <Grid>
+        <p>Customize your events!</p>
+      </Grid>
+      <DateAccordion
+        eventPrefills={[
+          {
+            startDate: 'July 1, 2023',
+            endDate: 'July 1, 2023',
+            description: 'A is gonna be lit Time: 5pm-6pm',
+            title: 'Event Title',
+          },
+          {
+            startDate: 'July 4, 2023',
+            endDate: 'July 5, 2023',
+            description: 'A is gonna be lit Time: 5pm-6pm',
+          },
+        ]}
+      />
       <IconButton onClick={() => alert('open settings page')}>
         <SettingsIcon />
       </IconButton>
       <IconButton>
         <HelpIcon />
       </IconButton>
-      <FormGroup>
-        <Grid container spacing={2}>
-          <Grid item xs={4}>
-            <FormControlLabel control={<Checkbox />} label="Include times" />
-          </Grid>
-          <Grid item xs={4}>
-            <FormControlLabel control={<Checkbox />} label="Include times" />
-          </Grid>
-          <Grid item xs={4}>
-            <FormControlLabel control={<Checkbox />} label="Include times" />
-          </Grid>
-        </Grid>
-      </FormGroup>
       <Grid container spacing={2} justifyContent="space-around">
         <Grid item xs={4}>
           <Button variant="contained" onClick={() => openTab()}>
-            Open Calendar
+            Open Google Calendar
           </Button>
         </Grid>
       </Grid>
-    </div>
+    </>
   );
 }
 

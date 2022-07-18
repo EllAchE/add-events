@@ -2,6 +2,16 @@
 
 import { ExtractedDate } from './scripts/types';
 
+// { ruleType: "time", pattern: /yyyy-?MM-?dd-?'T'HH(:?mm(:?ss([.,]S{1,3})?)?)?(Z)?/ }
+// { ruleType: "time", pattern: /yyyy-MM-dd/ }
+// { ruleType: "time", pattern: /'T'HH(:?mm(:?ss(.,)?)?)?(Z)?/ }
+// // Tokenizer "sometimes adds extra slash
+// { ruleType: "time", pattern: /yyyy\?/MM\?/dd/ }
+// { ruleType: "time", pattern: /MM?\?/dd?\?/(yyyy|yy)/ }
+// { ruleType: "time", pattern: /MM?-dd?-(yyyy|yy)/ }
+// { ruleType: "time", pattern: /HH?:mm(:ss)?/ }
+// { ruleType: "time", pattern: /yyyy-MM/ }
+
 const wordMonthRegex =
   '(January,?|February,?|March,?|April,?|May,?|June,?|July,?|August,?|September,?|October,?|November,?|December,?|Jan\\.?|Feb\\.?|Mar\\.?|Apr\\.?|May\\.?|Jun\\.?|Jul\\.?|Aug\\.?|Sep\\.?|Oct\\.?|Nov\\.?|Dec\\.?)';
 

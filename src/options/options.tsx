@@ -1,3 +1,15 @@
+import {
+  Autocomplete,
+  Checkbox,
+  FormControl,
+  FormControlLabel,
+  FormGroup,
+  Grid,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+} from '@mui/material';
 import React, { ReactElement } from 'react';
 import { render } from 'react-dom';
 
@@ -84,7 +96,76 @@ chrome.storage.local.get('settings', ({ settings }) => {
 });
 
 function Settings(): ReactElement {
-  return <div>Settings Page</div>;
+  return (
+    <>
+      <h1>Settings Page</h1>
+      <div>aaaaa</div>
+      <FormGroup>
+        <Grid container spacing={2}>
+          <Grid item xs={4}>
+            <FormControlLabel
+              control={<Checkbox />}
+              label="Match European Times"
+            />
+          </Grid>
+          <Grid item xs={4}>
+            <FormControlLabel
+              control={<Checkbox />}
+              label="Match American times"
+            />
+          </Grid>
+          <Grid item xs={4}>
+            <FormControlLabel control={<Checkbox />} label="Include times" />
+          </Grid>
+        </Grid>
+        <Grid container spacing={2}>
+          <Grid item xs={4}>
+            <FormControlLabel control={<Checkbox />} label="Insert Button" />
+          </Grid>
+          <Grid item xs={4}>
+            <FormControlLabel
+              control={<Checkbox />}
+              label="Ask Before Adding Event"
+            />
+          </Grid>
+        </Grid>
+        <Grid container spacing={2}>
+          <Grid>
+            <Autocomplete
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  variant="filled"
+                  label="Automatically Invite Guests"
+                  placeholder="Search"
+                  sx={{ width: 300 }}
+                />
+              )}
+              options={[]}
+              freeSolo
+              multiple
+            ></Autocomplete>
+          </Grid>
+          <Grid>
+            <FormControl fullWidth>
+              <InputLabel>Match Color</InputLabel>
+              <Select value={'a'} label="Match Color" sx={{ width: 200 }}>
+                <MenuItem value={'red'}>Magenta</MenuItem>
+              </Select>
+            </FormControl>
+            {/* <FormControl>
+              <Select sx={{ width: 300 }} label="Match Color">
+                <InputLabel>Match Color</InputLabel>
+                <MenuItem value={'magenta'} defaultValue={'magenta'}>
+                  Magenta
+                </MenuItem>
+              </Select>
+            </FormControl> */}
+          </Grid>
+        </Grid>
+      </FormGroup>
+    </>
+  );
 }
 
 render(<Settings />, document.getElementById('options_ce'));

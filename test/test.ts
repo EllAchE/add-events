@@ -40,6 +40,17 @@ test('properly identifies dates', () => {
       in: 'FoodieLand Night Market - Berkeley | August 5-7',
       out: ['August 5-7'],
     },
+    {
+      in: 'every, the first of, the second of, the third of,',
+      out: ['']
+    },
+    {
+      in: 'tomorrow, the day after tomorrow, next week, two weeks from now',
+      out: ['']
+    },
+    {
+      in: 'the Friday after next, the following week. This upcoming monday, this monday'
+    }
   ];
 
   for (const i in americanDates) {
