@@ -36,9 +36,6 @@ function Popup(): ReactElement {
       >
         <h1 style={{ fontSize: 48 }}>Eventful</h1>
       </Grid>
-      <Grid>
-        <p>Customize your events!</p>
-      </Grid>
       <DateAccordion
         eventPrefills={[
           {
@@ -54,7 +51,8 @@ function Popup(): ReactElement {
           },
         ]}
       />
-      <IconButton onClick={() => alert('open settings page')}>
+      <IconButton onClick={() => chrome.runtime.openOptionsPage()}>
+        {/** TODO: callback to the openOptionsPage call */}
         <SettingsIcon />
       </IconButton>
       <IconButton>
@@ -63,7 +61,7 @@ function Popup(): ReactElement {
       <Grid container spacing={2} justifyContent="space-around">
         <Grid item xs={4}>
           <Button variant="contained" onClick={() => openTab()}>
-            Open Google Calendar
+            Open Calendar
           </Button>
         </Grid>
       </Grid>

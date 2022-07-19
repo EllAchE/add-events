@@ -4,13 +4,35 @@ import {
   Typography,
   AccordionDetails,
   TextField,
+  Grid,
+  Button,
+  IconButton,
+  Tooltip,
 } from '@mui/material';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import React, { useState, ReactElement } from 'react';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import FindInPageIcon from '@mui/icons-material/FindInPage';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { LocalizationProvider } from '@mui/x-date-pickers';
+import { createEvents } from '../scripts/background';
+import AlertDialog from './ConfirmationDialog';
+
+const testEvent = {
+  // date: 'July 16, 2022',
+  //attendees: [] as any[],
+  description: 'Test Event',
+  summary: 'Test Title' + new Date().toString(),
+  end: {
+    dateTime: '2022-07-29T09:00:00-07:00',
+  },
+  start: {
+    dateTime: '2022-07-29T09:00:00-07:00',
+  },
+};
+
+const events = [testEvent];
 
 function DateSubmissionForm({ eventPrefill }: { eventPrefill: any }) {
   const {
@@ -32,8 +54,19 @@ function DateSubmissionForm({ eventPrefill }: { eventPrefill: any }) {
     setEndDate(newValue);
   };
 
+  const [confirmationOpen, setConfirmationOpen] = useState(false);
+
+  const openConfirmation = () => {
+    setConfirmationOpen(true);
+  };
+
+  const closeConfirmation = () => {
+    setConfirmationOpen(false);
+  };
+
   return (
     <AccordionDetails>
+      <AlertDialog open={confirmationOpen} handleClose={closeConfirmation} />
       <TextField
         label="Title"
         variant="outlined"
@@ -72,6 +105,19 @@ function DateSubmissionForm({ eventPrefill }: { eventPrefill: any }) {
           renderInput={(params) => <TextField {...params} />}
         />
       </LocalizationProvider>
+      <Grid container spacing={2} justifyContent="space-around">
+        <Grid item xs={4}>
+          <Button
+            variant="contained"
+            onClick={() => {
+              openConfirmation();
+              createEvents(events);
+            }}
+          >
+            Create Event
+          </Button>
+        </Grid>
+      </Grid>
     </AccordionDetails>
   );
 }
@@ -81,6 +127,10 @@ export function DateAccordion({
 }: {
   eventPrefills: any;
 }): ReactElement {
+  if (eventPrefills.length < 1) {
+    return <>No events found on page!</>;
+  }
+
   return (
     <>
       {eventPrefills.map((eventPrefill: any) => {
@@ -94,7 +144,11 @@ export function DateAccordion({
                     ? startDate
                     : `${startDate} - ${endDate}`}
                 </Typography>
-                {/* this needs to conditionally render */}
+                <Tooltip title="Go to event on webpage">
+                  <IconButton onClick={() => alert('not implemented')}>
+                    <FindInPageIcon />
+                  </IconButton>
+                </Tooltip>
               </AccordionSummary>
               <DateSubmissionForm eventPrefill={eventPrefill} />
               {/** There is a better way to pass the same name child prop I believe */}

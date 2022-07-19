@@ -21,3 +21,6 @@ Known bugs/areas for improvement:
 Doesn't handle hidden text
 doesn't select on user input
 doesn't work if text for dates is across child nodes
+
+https://mui.com/material-ui/react-alert/
+For success messaging, make it fixed and have it fade after x period

@@ -18,7 +18,10 @@ const testEvent: CalendarEvent = {
 const events: CalendarEvent[] = [testEvent];
 
 // calls the insert API https://developers.google.com/calendar/api/v3/reference/events/insert
-function createEvents(events: CalendarEvent[], calendarId?: string): void {
+export function createEvents(
+  events: CalendarEvent[],
+  calendarId?: string
+): void {
   calendarId = calendarId ? calendarId : 'primary';
   // will need to create a new calendar and persist that id
 
