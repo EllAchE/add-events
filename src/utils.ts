@@ -69,44 +69,54 @@ export function extractDatesRegex(text: string): ExtractedDate[] {
 export function extractDatesNLP(text: string): ExtractedDate[] {
   let doc: Three = nlp(text);
 
-  const dates: ExtractedDate[] = doc
-    .json()
-    // .filter((candidateEntity: any) => {
-    //   for (const i in candidateEntity.terms) {
-    //     if (
-    //       candidateEntity.terms[i].tags.includes('Date') ||
-    //       candidateEntity.terms[i].tags.includes('Time')
-    //     ) {
-    //       return true;
-    //     }
-    //   }
-    //   return false;
-    // })
-    .map((candidateEntity: any) => {
-      // only include terms with the date tag starting from first and ending with first not
+  const candidateEntities = doc.json();
 
-      console.log('candidda', candidateEntity);
+  const dates = [];
 
-      const dateTerms = candidateEntity.terms
-        .filter((el: any) => {
-          console.log(el.text, el.tags);
-          return (
-            el.text && !el.tags.includes('Time') && el.tags.includes('Date')
-          );
-        })
-        .map((el: any) => {
-          return el.text;
-        });
+  for (const i in candidateEntities) {
+    const candidateEntity = candidateEntities[i];
 
-      console.log('dt', dateTerms);
+    const terms = candidateEntity.terms;
 
-      const dateText = dateTerms.join(' ');
+    let isDate = false;
+    let j = 0;
 
-      return {
-        date: dateText,
-        matchIndex: candidateEntity.terms[0].index,
-      };
-    });
+    let singleDate: string[] = [];
+    let index = -1;
+
+    while (j < terms.length) {
+      let el = terms[j];
+      if (el.text && !el.tags.includes('Time') && el.tags.includes('Date')) {
+        if (index == -1) {
+          index = el.index[0];
+        }
+
+        isDate = true;
+        singleDate.push(el.text);
+        singleDate.push(el.post);
+      } else if (el.text) {
+        if (singleDate.length > 0) {
+          singleDate.pop();
+          dates.push({
+            date: singleDate.join(''),
+            matchIndex: index,
+          });
+          singleDate = [];
+        }
+        isDate = false;
+        index = -1;
+      }
+      j += 1;
+    }
+
+    singleDate.pop();
+    if (isDate) {
+      dates.push({
+        date: singleDate.join(''),
+        matchIndex: index,
+      });
+    }
+  }
 
   return dates;
 }
