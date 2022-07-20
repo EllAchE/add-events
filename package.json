@@ -7,7 +7,8 @@
     "build": "webpack --config webpack.prod.js",
     "dev": "webpack --watch --config webpack.dev.js",
     "sw_test": "node src/service-workers/calendar/google.js",
-    "test": "jest ./test/test.ts"
+    "test": "jest ./test/test.ts",
+    "nlp_test": "jest ./test/nlp.test.ts"
   },
   "keywords": [],
   "author": "",
@@ -20,6 +21,7 @@
     "assert": "^2.0.0",
     "buffer": "^6.0.3",
     "clean-webpack-plugin": "^4.0.0",
+    "compromise": "^14.4.0",
     "crypto": "^1.0.1",
     "fs": "^0.0.2",
     "glob": "^8.0.3",

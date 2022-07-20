@@ -95,7 +95,7 @@ chrome.storage.local.get('settings', ({ settings }) => {
   );
 });
 
-function Settings(): ReactElement {
+function Options(): ReactElement {
   return (
     <>
       <h1>Settings Page</h1>
@@ -168,4 +168,4 @@ function Settings(): ReactElement {
   );
 }
 
-render(<Settings />, document.getElementById('options_ce'));
+render(<Options />, document.getElementById('options_ce'));

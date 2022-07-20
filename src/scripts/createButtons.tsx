@@ -1,6 +1,8 @@
 import { regexes } from '../utils';
 import { replaceText } from './replaceText';
 import { CalendarEvent } from './types';
+import React from 'react';
+import { Alert } from '@mui/material';
 
 function createHyperlinkNode(
   // this button or some other item will eventually need to house all
@@ -25,7 +27,12 @@ function createHyperlinkNode(
   };
 
   button.addEventListener('click', (e) => {
-    chrome.runtime.sendMessage([eventDetails]);
+    const res = chrome.runtime.sendMessage([eventDetails], (response) => {
+      if (response.status == 200) {
+      
+      }
+    });
+    // TODO: add logic to display the success message on the page
     alert('Created Test Event');
   });
 

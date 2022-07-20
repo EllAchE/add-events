@@ -49,5 +49,7 @@ export type GoogleCalendarEventFields = {
   conferencingLink: string; // button to create a conferencing linkk
 };
 
+// TODO: add the typing for the nlp types from nlp compromise
+
 // editable within the UI: description, location, title, start/end,
 // extra: conference link, notification, visibility, recurrence

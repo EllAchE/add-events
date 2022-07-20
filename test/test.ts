@@ -1,4 +1,4 @@
-import { extractDates } from '../src/utils';
+import { extractDatesRegex } from '../src/utils';
 
 test('properly identifies dates', () => {
   const americanDates = [
@@ -42,20 +42,20 @@ test('properly identifies dates', () => {
     },
     {
       in: 'every, the first of, the second of, the third of,',
-      out: ['']
+      out: [''],
     },
     {
       in: 'tomorrow, the day after tomorrow, next week, two weeks from now',
-      out: ['']
+      out: [''],
     },
     {
-      in: 'the Friday after next, the following week. This upcoming monday, this monday'
-    }
+      in: 'the Friday after next, the following week. This upcoming monday, this monday',
+    },
   ];
 
   for (const i in americanDates) {
     expect(
-      extractDates(americanDates[i].in).map((el) => {
+      extractDatesRegex(americanDates[i].in).map((el) => {
         return el.date;
       })
     ).toEqual(americanDates[i].out);

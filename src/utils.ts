@@ -1,5 +1,6 @@
 // TODO - support dates at any time
-
+import nlp from 'compromise';
+import Three from 'compromise/types/view/three';
 import { ExtractedDate } from './scripts/types';
 
 // { ruleType: "time", pattern: /yyyy-?MM-?dd-?'T'HH(:?mm(:?ss([.,]S{1,3})?)?)?(Z)?/ }
@@ -40,7 +41,7 @@ export const regexes: RegExp[] = [
 ];
 
 // after a POC this should support a full date/information extractor from the webpage
-export function extractDates(text: string): ExtractedDate[] {
+export function extractDatesRegex(text: string): ExtractedDate[] {
   let allMatches = [];
   for (const i in regexes) {
     const matches: ExtractedDate[] = [];
@@ -62,6 +63,52 @@ export function extractDates(text: string): ExtractedDate[] {
 
   console.log(allMatches);
   return allMatches;
+}
+
+// after a POC this should support a full date/information extractor from the webpage
+export function extractDatesNLP(text: string): ExtractedDate[] {
+  let doc: Three = nlp(text);
+
+  const dates: ExtractedDate[] = doc
+    .json()
+    // .filter((candidateEntity: any) => {
+    //   for (const i in candidateEntity.terms) {
+    //     if (
+    //       candidateEntity.terms[i].tags.includes('Date') ||
+    //       candidateEntity.terms[i].tags.includes('Time')
+    //     ) {
+    //       return true;
+    //     }
+    //   }
+    //   return false;
+    // })
+    .map((candidateEntity: any) => {
+      // only include terms with the date tag starting from first and ending with first not
+
+      console.log('candidda', candidateEntity);
+
+      const dateTerms = candidateEntity.terms
+        .filter((el: any) => {
+          console.log(el.text, el.tags);
+          return (
+            el.text && !el.tags.includes('Time') && el.tags.includes('Date')
+          );
+        })
+        .map((el: any) => {
+          return el.text;
+        });
+
+      console.log('dt', dateTerms);
+
+      const dateText = dateTerms.join(' ');
+
+      return {
+        date: dateText,
+        matchIndex: candidateEntity.terms[0].index,
+      };
+    });
+
+  return dates;
 }
 
 export function getElements(): HTMLCollectionOf<Element> {

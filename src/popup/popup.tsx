@@ -60,6 +60,11 @@ function Popup(): ReactElement {
       </IconButton>
       <Grid container spacing={2} justifyContent="space-around">
         <Grid item xs={4}>
+          <Button variant="contained" onClick={() => alert('not implm')}>
+            Create All
+          </Button>
+        </Grid>
+        <Grid item xs={4}>
           <Button variant="contained" onClick={() => openTab()}>
             Open Calendar
           </Button>

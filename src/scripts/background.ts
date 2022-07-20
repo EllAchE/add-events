@@ -20,7 +20,8 @@ const events: CalendarEvent[] = [testEvent];
 // calls the insert API https://developers.google.com/calendar/api/v3/reference/events/insert
 export function createEvents(
   events: CalendarEvent[],
-  calendarId?: string
+  calendarId?: string,
+  callback?: any
 ): void {
   calendarId = calendarId ? calendarId : 'primary';
   // will need to create a new calendar and persist that id
@@ -30,6 +31,7 @@ export function createEvents(
   console.log(calendarId);
 
   if (!events) {
+    console.error('called create events without any events to create');
     return;
   }
 
@@ -64,6 +66,10 @@ chrome.runtime.onMessage.addListener((eventBodies: CalendarEvent[]) => {
   chrome.identity.getAuthToken({ interactive: true }, function (auth_token) {
     console.log(auth_token);
   });
+
+  // needs a callback that conditionally renders success/failure of the createEvents
+
+  // <Alert></Alert>;
   console.log(eventBodies);
   createEvents(eventBodies, 'primary');
 });
