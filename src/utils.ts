@@ -85,16 +85,20 @@ export function extractDatesNLP(text: string): ExtractedDate[] {
     let index = -1;
 
     while (j < terms.length) {
-      let el = terms[j];
-      if (el.text && !el.tags.includes('Time') && el.tags.includes('Date')) {
+      let term = terms[j];
+      console.log(term);
+      if (
+        term.text &&
+        (term.tags.includes('Date') || (isDate && term.tags.includes('Time'))) // only handles case of the date coming afterwards
+      ) {
         if (index == -1) {
-          index = el.index[0];
+          index = term.index[0];
         }
 
         isDate = true;
-        singleDate.push(el.text);
-        singleDate.push(el.post);
-      } else if (el.text) {
+        singleDate.push(term.text);
+        singleDate.push(term.post);
+      } else if (term.text) {
         if (singleDate.length > 0) {
           singleDate.pop();
           dates.push({

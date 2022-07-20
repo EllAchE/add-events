@@ -1,3 +1,6 @@
+import { extractDatesNLP } from '../utils';
+import { ExtractedDate } from './types';
+
 export function replaceText(
   node: HTMLElement,
   regex: RegExp,
@@ -11,21 +14,30 @@ export function replaceText(
   while (child) {
     if (child.nodeType == 3) {
       let breakpt = 0;
-      child.data.replace(regex, function (match: HTMLElement[]) {
-        let args = [].slice.call(arguments);
-        let offset = args[args.length - 2];
-        let newTextNode = child.splitText(offset + breakpt);
 
-        breakpt -= child.data.length + match.length;
+      const extractedDates: ExtractedDate[] = extractDatesNLP(child.data);
+      // TODO: might be redundant and should only run on the first match
 
-        newTextNode.data = newTextNode.data.substr(match.length);
-        let tag = callback.apply(window, [child].concat(args));
+      // this logic needs to match better
 
-        child.parentNode.insertBefore(tag, newTextNode);
-        child = newTextNode;
-      });
-      regex.lastIndex = 0;
-      break;
+      if (extractedDates.length > 0) {
+        child.data.replace(
+          extractedDates[0].date,
+          function (match: HTMLElement[]) {
+            let args = [].slice.call(arguments);
+            let offset = args[args.length - 2];
+            let newTextNode = child.splitText(offset + breakpt);
+
+            breakpt -= child.data.length + match.length;
+
+            newTextNode.data = newTextNode.data.substr(match.length);
+            let tag = callback.apply(window, [child].concat(args));
+
+            child.parentNode.insertBefore(tag, newTextNode);
+            child = newTextNode;
+          }
+        );
+      }
     }
     child = child.nextSibling;
   }

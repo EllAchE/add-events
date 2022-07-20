@@ -3,6 +3,8 @@ import { extractDatesNLP } from '../src/utils';
 
 test('nlp works', () => {
   const americanDates = [
+    { in: 'on January 9, 5pm', out: ['January 9, 5pm'] },
+    { in: 'on January 9, 5:00 PM', out: ['January 9, 5:00 PM'] },
     {
       in: 'AMEIC 11/11/2034 and another 11/11/2034 and more 09/17/2023',
       out: ['11/11/2034', '11/11/2034', '09/17/2023'],
@@ -35,7 +37,7 @@ test('nlp works', () => {
     // },
     {
       in: 'Fri, Aug 5, 3:00 PM',
-      out: ['Fri, Aug 5'],
+      out: ['Fri, Aug 5, 3:00 PM'],
     },
     {
       in: 'FoodieLand Night Market - Berkeley | August 5-7 at 5am',

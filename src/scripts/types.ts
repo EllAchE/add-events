@@ -10,9 +10,10 @@ export type ExtractedDate = {
 };
 
 export type CalendarEvent = {
-  end: { dateTime: string };
-  start: { dateTime: string };
-  time?: string;
+  end: { dateTime?: string; date?: string };
+  start: { dateTime?: string; date?: string };
+  startTime?: string;
+  endTime?: string;
   title?: string;
   description?: string;
   dateFormat?: string;
@@ -20,6 +21,7 @@ export type CalendarEvent = {
   recurrence?: EventRecurrence;
   attendees?: any[];
   summary?: string;
+  status?: "tentative" | "cancelled" | "confirmed"
 };
 
 type EventRecurrence = {

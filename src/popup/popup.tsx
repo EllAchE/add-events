@@ -5,7 +5,8 @@ import Grid from '@mui/material/Grid';
 import SettingsIcon from '@mui/icons-material/Settings';
 import HelpIcon from '@mui/icons-material/Help';
 import { openTab } from '../scripts/tab';
-import { IconButton } from '@mui/material';
+import { Badge, BadgeProps, IconButton, styled } from '@mui/material';
+import NotificationsIcon from '@mui/icons-material/Notifications';
 
 import { DateAccordion } from './DateAccordion';
 
@@ -24,6 +25,14 @@ function Popup(): ReactElement {
   // });
 
   // https://mui.com/material-ui/react-drawer/
+
+  const StyledBadge = styled(Badge)<BadgeProps>(({ theme }) => ({
+    '& .MuiBadge-badge': {
+      top: 7,
+      right: 7,
+      padding: '0 4px',
+    },
+  }));
 
   return (
     <>
@@ -58,6 +67,11 @@ function Popup(): ReactElement {
       <IconButton>
         <HelpIcon />
       </IconButton>
+      <StyledBadge badgeContent={4} color="error">
+        <IconButton>
+          <NotificationsIcon />
+        </IconButton>
+      </StyledBadge>
       <Grid container spacing={2} justifyContent="space-around">
         <Grid item xs={4}>
           <Button variant="contained" onClick={() => alert('not implm')}>
