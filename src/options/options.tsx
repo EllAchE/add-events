@@ -9,9 +9,11 @@ import {
   MenuItem,
   Select,
   TextField,
+  Typography,
 } from '@mui/material';
 import React, { ReactElement } from 'react';
 import { render } from 'react-dom';
+import GitHubIcon from '@mui/icons-material/GitHub';
 
 const defaultSettings = Object.freeze({
   border: false,
@@ -98,31 +100,34 @@ chrome.storage.local.get('settings', ({ settings }) => {
 function Options(): ReactElement {
   return (
     <>
-      <h1>Settings Page</h1>
-      <div>aaaaa</div>
+      <h1>Settings</h1>
       <FormGroup>
         <Grid container spacing={2}>
-          <Grid item xs={4}>
+          <Grid item xs={2}>
             <FormControlLabel
-              control={<Checkbox />}
+              control={<Checkbox disabled={true} />}
               label="Match European Times"
             />
           </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={2}>
             <FormControlLabel
-              control={<Checkbox />}
+              control={<Checkbox disabled={true} />}
               label="Match American times"
             />
           </Grid>
-          <Grid item xs={4}>
-            <FormControlLabel control={<Checkbox />} label="Include times" />
+          <Grid item xs={2}>
+            <FormControlLabel
+              control={<Checkbox disabled={true} />}
+              label="Include times"
+            />
           </Grid>
-        </Grid>
-        <Grid container spacing={2}>
-          <Grid item xs={4}>
-            <FormControlLabel control={<Checkbox />} label="Insert Button" />
+          <Grid item xs={2}>
+            <FormControlLabel
+              control={<Checkbox disabled={true} />}
+              label="Insert Button"
+            />
           </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={2}>
             <FormControlLabel
               control={<Checkbox />}
               label="Ask Before Adding Event"
@@ -151,18 +156,14 @@ function Options(): ReactElement {
               <InputLabel>Match Color</InputLabel>
               <Select value={'a'} label="Match Color" sx={{ width: 200 }}>
                 <MenuItem value={'red'}>Magenta</MenuItem>
+                <MenuItem value={'blue'}>Azure</MenuItem>
+                <MenuItem value={'green'}>Green</MenuItem>
               </Select>
             </FormControl>
-            {/* <FormControl>
-              <Select sx={{ width: 300 }} label="Match Color">
-                <InputLabel>Match Color</InputLabel>
-                <MenuItem value={'magenta'} defaultValue={'magenta'}>
-                  Magenta
-                </MenuItem>
-              </Select>
-            </FormControl> */}
           </Grid>
         </Grid>
+        <Typography>Have any questions? Want to contribute?</Typography>
+        <GitHubIcon />
       </FormGroup>
     </>
   );

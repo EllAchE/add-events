@@ -62,7 +62,9 @@ export function createEvents(
   });
 }
 
-chrome.runtime.onMessage.addListener((eventBodies: CalendarEvent[]) => {
+chrome.runtime.onMessage.addListener((message: any) => {
+  if (message.type != 'create_event') return;
+  const eventBodies = message.body;
   chrome.identity.getAuthToken({ interactive: true }, function (auth_token) {
     console.log(auth_token);
   });

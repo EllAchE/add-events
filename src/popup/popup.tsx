@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement, useState } from 'react';
 import { render } from 'react-dom';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
@@ -26,6 +26,17 @@ function Popup(): ReactElement {
 
   // https://mui.com/material-ui/react-drawer/
 
+  const [events, setEvents] = useState([]);
+
+  chrome.runtime.onMessage.addListener((msg, sender, callback) => {
+    const { type, body } = msg;
+    alert('received message from backend');
+
+    if (type == 'popup_init') {
+      setEvents(body);
+    }
+  });
+
   const StyledBadge = styled(Badge)<BadgeProps>(({ theme }) => ({
     '& .MuiBadge-badge': {
       top: 7,
@@ -45,33 +56,21 @@ function Popup(): ReactElement {
       >
         <h1 style={{ fontSize: 48 }}>Eventful</h1>
       </Grid>
-      <DateAccordion
-        eventPrefills={[
-          {
-            startDate: 'July 1, 2023',
-            endDate: 'July 1, 2023',
-            description: 'A is gonna be lit Time: 5pm-6pm',
-            title: 'Event Title',
-          },
-          {
-            startDate: 'July 4, 2023',
-            endDate: 'July 5, 2023',
-            description: 'A is gonna be lit Time: 5pm-6pm',
-          },
-        ]}
-      />
-      <IconButton onClick={() => chrome.runtime.openOptionsPage()}>
-        {/** TODO: callback to the openOptionsPage call */}
-        <SettingsIcon />
-      </IconButton>
-      <IconButton>
-        <HelpIcon />
-      </IconButton>
-      <StyledBadge badgeContent={4} color="error">
-        <IconButton>
-          <NotificationsIcon />
+      <DateAccordion eventPrefills={events} />
+      <Grid sx={{ position: 'fixed', top: 10, right: 10 }}>
+        <IconButton onClick={() => chrome.runtime.openOptionsPage()}>
+          {/** TODO: callback to the openOptionsPage call */}
+          <SettingsIcon />
         </IconButton>
-      </StyledBadge>
+        <IconButton>
+          <HelpIcon />
+        </IconButton>
+        <StyledBadge badgeContent={4} color="error">
+          <IconButton>
+            <NotificationsIcon />
+          </IconButton>
+        </StyledBadge>
+      </Grid>
       <Grid container spacing={2} justifyContent="space-around">
         <Grid item xs={4}>
           <Button variant="contained" onClick={() => alert('not implm')}>

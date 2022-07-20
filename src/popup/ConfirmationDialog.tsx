@@ -29,7 +29,7 @@ export default function AlertDialog({
           </DialogContentText>
           <FormControlLabel
             control={<Checkbox />}
-            label="Don't ask me next time"
+            label="Don't ask me next time. You can re-enable confirmations on the settings page."
           />
         </DialogContent>
         <DialogActions>

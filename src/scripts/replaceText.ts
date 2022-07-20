@@ -4,18 +4,23 @@ import { ExtractedDate } from './types';
 export function replaceText(
   node: HTMLElement,
   regex: RegExp,
-  callback: (node: any, params: string, other: any) => HTMLAnchorElement,
+  createButton: (node: any, params: string, other: any) => HTMLAnchorElement,
   excludeElements?: string[]
 ) {
   excludeElements ||
     (excludeElements = ['script', 'style', 'iframe', 'canvas']);
   var child: any = node.firstChild;
 
+  let dateSet = new Set();
+
   while (child) {
     if (child.nodeType == 3) {
       let breakpt = 0;
 
       const extractedDates: ExtractedDate[] = extractDatesNLP(child.data);
+      if (extractedDates.length > 0) {
+        dateSet.add(JSON.stringify(extractedDates[0]));
+      }
       // TODO: might be redundant and should only run on the first match
 
       // this logic needs to match better
@@ -31,7 +36,7 @@ export function replaceText(
             breakpt -= child.data.length + match.length;
 
             newTextNode.data = newTextNode.data.substr(match.length);
-            let tag = callback.apply(window, [child].concat(args));
+            let tag = createButton.apply(window, [child].concat(args));
 
             child.parentNode.insertBefore(tag, newTextNode);
             child = newTextNode;
@@ -41,6 +46,19 @@ export function replaceText(
     }
     child = child.nextSibling;
   }
+
+  // This is a hack that leaves the buttons disconnected from what populates the popups
+  const dates: any[] = Array.from(dateSet).map((el: string) => {
+    console.log(el);
+    JSON.parse(el);
+  });
+  chrome.runtime.sendMessage(
+    { type: 'popup_init', body: dates },
+    (response) => {
+      // if (response.status == 200) {
+      // }
+    }
+  );
 
   return node;
 }

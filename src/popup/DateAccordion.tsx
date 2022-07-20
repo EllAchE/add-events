@@ -183,7 +183,9 @@ function DateSubmissionForm({ eventPrefill }: { eventPrefill: any }) {
                 {
                   description,
                   end: {
-                    dateTime: endDate.toISOString(),
+                    dateTime: isSingleDay
+                      ? startDate.toISOString()
+                      : endDate.toISOString(),
                   },
                   start: {
                     dateTime: startDate.toISOString(),
@@ -215,24 +217,20 @@ export function DateAccordion({
       {eventPrefills.map((eventPrefill: any) => {
         const { startDate, endDate, description } = eventPrefill;
         return (
-          <>
-            <Accordion>
-              <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography>
-                  {startDate == endDate
-                    ? startDate
-                    : `${startDate} - ${endDate}`}
-                  <Tooltip title="See event details on webpage">
-                    <IconButton onClick={() => alert('not implemented')}>
-                      <FindInPageIcon />
-                    </IconButton>
-                  </Tooltip>
-                </Typography>
-              </AccordionSummary>
-              <DateSubmissionForm eventPrefill={eventPrefill} />
-              {/** There is a better way to pass the same name child prop I believe */}
-            </Accordion>
-          </>
+          <Accordion key={startDate + endDate + description}>
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+              <Typography>
+                {startDate == endDate ? startDate : `${startDate} - ${endDate}`}
+                <Tooltip title="See event details on webpage">
+                  <IconButton onClick={() => alert('not implemented')}>
+                    <FindInPageIcon />
+                  </IconButton>
+                </Tooltip>
+              </Typography>
+            </AccordionSummary>
+            <DateSubmissionForm eventPrefill={eventPrefill} />
+            {/** There is a better way to pass the same name child prop I believe */}
+          </Accordion>
         );
       })}
     </>

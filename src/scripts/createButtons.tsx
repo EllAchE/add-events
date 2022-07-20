@@ -27,11 +27,13 @@ function createHyperlinkNode(
   };
 
   button.addEventListener('click', (e) => {
-    const res = chrome.runtime.sendMessage([eventDetails], (response) => {
-      if (response.status == 200) {
-      
+    const res = chrome.runtime.sendMessage(
+      { type: 'create_event', body: [eventDetails] },
+      (response) => {
+        // if (response.status == 200) {
+        // }
       }
-    });
+    );
     // TODO: add logic to display the success message on the page
     alert('Created Test Event');
   });
