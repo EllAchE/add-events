@@ -68,7 +68,7 @@ function isInTheFuture(dateStr: string) {
   console.log('datestr', dateStr);
   const yearRegex = /\d{4}/g;
   // const futureYearRegex = /20([3-9][0-9]|2[3-9])/g;
-  const today = new Date();
+  const today = new Date(Date.now() - 3600 * 1000 * 24);
 
   const date = new Date(dateStr); // might break for some?
 

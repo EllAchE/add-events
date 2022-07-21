@@ -75,9 +75,6 @@ export function createEventButtons(
   console.dir(dates);
 
   if (dates.length > 0) {
-
-    console.dir(dates);
-    alert('setting local storage');
     // hack as the function is still being excuted on tab open for unknwon reason
     chrome.storage.local.set({ currentEvents: dates }, function () {
       console.log('Value is set to ' + dates);
