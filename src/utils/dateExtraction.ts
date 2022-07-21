@@ -1,9 +1,13 @@
 import nlp from 'compromise';
 import Three from 'compromise/types/view/three';
+import { run } from 'googleapis/build/src/apis/run';
 import { ExtractedDate } from '../scripts/types';
-import { isInTheFuture } from './utils';
+import {
+  checkIfSetsShareAnElement,
+  isInTheFuture,
+  setIntersection,
+} from './utils';
 
-// after a POC this should support a full date/information extractor from the webpage
 export function extractDatesNLP(text: string): ExtractedDate[] {
   let doc: Three = nlp(text);
 
@@ -63,6 +67,145 @@ export function extractDatesNLP(text: string): ExtractedDate[] {
   }
 
   return dates;
+}
+
+/* 
+  This function checks through the terms of entities and classifies them according to custom logic.
+  This "rechunks" nlp processed terms into groups we care about
+  A comprehensive list of nlp compromise terms is available at https://compromise.cool/#tags
+*/
+export function classifyTextNLP(text: string): any[] {
+  let doc: Three = nlp(text);
+
+  const entities = doc.json();
+  console.dir(entities);
+  const processedChunks = [];
+
+  for (const ent of entities) {
+    const checkTerms = new Set();
+    checkTerms.add('Place');
+    checkTerms.add('Person');
+    checkTerms.add('Organization');
+    checkTerms.add('Activity');
+    checkTerms.add('Date');
+    checkTerms.add('Time');
+    checkTerms.add('Money');
+    checkTerms.add('Currency');
+    checkTerms.add('Url');
+    checkTerms.add('AtMention');
+    checkTerms.add('Email');
+    //checkTerms.add('Acronym')
+    checkTerms.add('ProperNoun');
+
+    // These will be used to display a quick summary of data extracted
+    const personSet = new Set();
+    const placeSet = new Set();
+    const urlSet = new Set();
+    const emailSet = new Set();
+    const ProperNounSet = new Set();
+
+    const terms = ent.terms;
+    let runningChunk = [];
+    let currentTagMatches = new Set();
+    let previousTagMatches = new Set();
+    let index = -1;
+    let j = 0;
+
+    console.log('BEGIN');
+
+    while (j < terms.length) {
+      let term = terms[j];
+      j += 1;
+
+      if (!term.text) {
+        continue;
+      }
+
+      // track index at which this was encountered
+      if (index == -1) {
+        console.log(term.index);
+        index = term.index[0];
+      }
+
+      console.log('entering if', term.text);
+      console.log(currentTagMatches, currentTagMatches.size);
+      console.log(runningChunk);
+      //console.log(previousTagMatches);
+
+      if (runningChunk.length < 1) {
+        // initialization case
+        currentTagMatches = new Set(term.tags);
+      } else if (
+        currentTagMatches.size < 1 ||
+        !checkIfSetsShareAnElement(currentTagMatches, checkTerms)
+      ) {
+        // When we've reached the end of a chunk match, add it to the right category
+        runningChunk.pop();
+        const chunk = runningChunk.join('');
+
+        processedChunks.push({
+          chunk,
+          index,
+          categories: Array.from(previousTagMatches),
+        });
+
+        // reset chunk and tag matches
+        previousTagMatches = currentTagMatches = new Set(term.tags);
+        runningChunk = [];
+      }
+
+      runningChunk.push(term.text);
+      runningChunk.push(term.post);
+
+      previousTagMatches = currentTagMatches;
+      currentTagMatches = setIntersection(
+        currentTagMatches,
+        new Set(term.tags)
+      );
+
+      // // Many of these categories are not going to be mutually exclusive
+      // if (term.tags.includes('Person')) {
+      //   //personSet.add()
+      // }
+      // if (term.tags.includes('Place')) {
+      // }
+      // if (term.tags.includes('Organization')) {
+      // }
+      // if (term.tags.includes('Activity')) {
+      // }
+      // if (term.tags.includes('Date')) {
+      // }
+      // if (term.tags.includes('Time')) {
+      // }
+      // if (term.tags.includes('Money')) {
+      // }
+      // if (term.tags.includes('Currency')) {
+      // }
+      // if (term.tags.includes('Url')) {
+      //   urlSet.add(term.text);
+      // }
+      // if (term.tags.includes('AtMention')) {
+      // }
+      // if (term.tags.includes('Email')) {
+      //   emailSet.add(term.text);
+      // }
+      // // if (term.tags.includes('Acronym')) {
+      // // }
+      // if (term.tags.includes('ProperNoun')) {
+      // }
+    }
+    runningChunk.pop();
+    const chunk = runningChunk.join('');
+
+    processedChunks.push({
+      chunk,
+      index,
+      categories: Array.from(previousTagMatches),
+    });
+  }
+  console.log('printing pcs');
+  console.dir(processedChunks);
+  return processedChunks;
 }
 
 // after a POC this should support a full date/information extractor from the webpage

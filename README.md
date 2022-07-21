@@ -90,3 +90,6 @@ console.log(auth_token);
 console.log(eventBodies);
 //createEvents(eventBodies, 'primary');
 });
+
+
+for extraction https://compromise.cool/#tags

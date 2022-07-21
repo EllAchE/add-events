@@ -18,6 +18,27 @@ export function isInTheFuture(dateStr: string): boolean {
   }
 }
 
+export function checkIfSetsShareAnElement(a: Set<any>, b: Set<any>) {
+  for (const item of a) {
+    if (b.has(item)) {
+      return true;
+    }
+  }
+  return false;
+}
+
+export function setIntersection(a: Set<any>, b: Set<any>): Set<any> {
+  const s = new Set();
+
+  for (const item of a) {
+    if (b.has(item)) {
+      s.add(item);
+    }
+  }
+
+  return s;
+}
+
 export function getElements(): HTMLCollectionOf<Element> {
   return document.getElementsByTagName('*');
 }

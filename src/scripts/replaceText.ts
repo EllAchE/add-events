@@ -22,8 +22,6 @@ export function replaceText(
       if (extractedDates.length > 0) {
         dateSet.add(JSON.stringify(extractedDates[0]));
       }
-      // TODO: might be redundant and should only run on the first match
-
       // this logic needs to match better
 
       if (extractedDates.length > 0) {

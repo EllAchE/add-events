@@ -1,20 +1,18 @@
 import {
   Autocomplete,
   Checkbox,
-  FormControl,
   FormControlLabel,
   FormGroup,
   Grid,
   IconButton,
-  InputLabel,
-  MenuItem,
-  Select,
   TextField,
   Typography,
 } from '@mui/material';
 import React, { ReactElement } from 'react';
 import { render } from 'react-dom';
 import GitHubIcon from '@mui/icons-material/GitHub';
+import TwitterIcon from '@mui/icons-material/Twitter';
+import { DemoCard } from './DemoCard';
 
 /* 
   User controls their settings from here. Separate page from popup.
@@ -22,14 +20,18 @@ import GitHubIcon from '@mui/icons-material/GitHub';
 function Options(): ReactElement {
   return (
     <>
-      <h1>Settings</h1>
+      <Typography variant="h3">Settings</Typography>
+      <DemoCard />
       <FormGroup>
-        <CheckboxOptions />
-        <FreeformOptions />
         <Typography>Have any questions? Want to contribute?</Typography>
+        <IconButton>
+          <TwitterIcon />
+        </IconButton>
         <IconButton>
           <GitHubIcon />
         </IconButton>
+        <CheckboxOptions />
+        <FreeformOptions />
       </FormGroup>
     </>
   );
@@ -53,16 +55,6 @@ function FreeformOptions(): ReactElement {
           freeSolo
           multiple
         ></Autocomplete>
-      </Grid>
-      <Grid>
-        <FormControl fullWidth>
-          <InputLabel>Match Color</InputLabel>
-          <Select value={'a'} label="Match Color" sx={{ width: 200 }}>
-            <MenuItem value={'red'}>Magenta</MenuItem>
-            <MenuItem value={'blue'}>Azure</MenuItem>
-            <MenuItem value={'green'}>Green</MenuItem>
-          </Select>
-        </FormControl>
       </Grid>
     </Grid>
   );
