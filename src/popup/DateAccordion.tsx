@@ -10,6 +10,7 @@ import {
   Tooltip,
   Checkbox,
   FormControlLabel,
+  Alert,
 } from '@mui/material';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
@@ -209,7 +210,11 @@ export function DateAccordion({
   eventPrefills: any;
 }): ReactElement {
   if (eventPrefills.length < 1) {
-    return <>No events found on page!</>;
+    return (
+      <Alert severity="warning">
+        <Typography>No events found on page!</Typography>
+      </Alert>
+    );
   }
 
   return (

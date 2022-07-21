@@ -44,6 +44,8 @@ function createHyperlinkNode(
 export function createEventButtons(
   elements: HTMLCollectionOf<HTMLElement>
 ): void {
+  let allDates = new Set();
+
   for (const i in elements) {
     // Ignore tags that will not display text to shorten execution
     if (
@@ -54,7 +56,34 @@ export function createEventButtons(
       elements[i].tagName != 'META' &&
       elements[i].className != 'add_to_cal_button_ce'
     ) {
-      replaceText(elements[i], regexes[1], createHyperlinkNode);
+      const res = replaceText(elements[i], regexes[1], createHyperlinkNode);
+      if (res) {
+        for (const el of res) {
+          allDates.add(el);
+        }
+      }
     }
   }
+
+  // remove duplicates
+  const dates = Array.from(allDates).map((el: string) => {
+    return JSON.parse(el);
+  });
+
+  console.log('should be setting local storage key');
+
+  console.dir(dates);
+
+  alert('setting local storage');
+  chrome.storage.local.set(
+    { currentEvents: JSON.stringify(dates) },
+    function () {
+      console.log('Value is set to ' + dates);
+    }
+  );
+
+  chrome.storage.local.get('currentEvents', function (result) {
+    console.log('found in storage', result);
+    console.log('Value currently is ' + result.key);
+  });
 }

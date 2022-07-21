@@ -57,11 +57,11 @@ test('nlp works', () => {
     // },
   ];
 
-  for (const i in americanDates) {
-    const filteredDates = extractDatesNLP(americanDates[i].in).map((r) => {
+  for (const date of americanDates) {
+    const filteredDates = extractDatesNLP(date.in).map((r) => {
       return r.date;
     });
 
-    expect(filteredDates).toEqual(americanDates[i].out);
+    expect(filteredDates).toEqual(date.out);
   }
 });

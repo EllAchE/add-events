@@ -53,11 +53,11 @@ test('properly identifies dates', () => {
     },
   ];
 
-  for (const i in americanDates) {
+  for (const date of americanDates) {
     expect(
-      extractDatesRegex(americanDates[i].in).map((el) => {
+      extractDatesRegex(date.in).map((el) => {
         return el.date;
       })
-    ).toEqual(americanDates[i].out);
+    ).toEqual(date.out);
   }
 });

@@ -47,20 +47,17 @@ export function replaceText(
     child = child.nextSibling;
   }
 
+  console.log('date set', dateSet);
+  const dates = [];
   // This is a hack that leaves the buttons disconnected from what populates the popups
-  const dates: any[] = Array.from(dateSet).map((el: string) => {
-    console.log(el);
-    JSON.parse(el);
-  });
-  chrome.runtime.sendMessage(
-    { type: 'popup_init', body: dates },
-    (response) => {
-      // if (response.status == 200) {
-      // }
-    }
-  );
+  for (const date of dateSet) {
+    dates.push(date);
+  }
 
-  return node;
+  console.log('returning dates');
+  console.log(dates);
+
+  return dates;
 }
 
 // export function replaceText(

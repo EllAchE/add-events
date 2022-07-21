@@ -43,10 +43,10 @@ export const regexes: RegExp[] = [
 // after a POC this should support a full date/information extractor from the webpage
 export function extractDatesRegex(text: string): ExtractedDate[] {
   let allMatches = [];
-  for (const i in regexes) {
+  for (const reg of regexes) {
     const matches: ExtractedDate[] = [];
     let match: RegExpMatchArray;
-    while ((match = regexes[i].exec(text)) != null) {
+    while ((match = reg.exec(text)) != null) {
       if (match.length > 0) {
         matches.push({
           date: match[0],
@@ -55,13 +55,12 @@ export function extractDatesRegex(text: string): ExtractedDate[] {
       }
     }
     if (matches) {
-      for (const i in matches) {
-        allMatches.push(matches[i]);
+      for (const match of matches) {
+        allMatches.push(match);
       }
     }
   }
 
-  console.log(allMatches);
   return allMatches;
 }
 
@@ -73,10 +72,8 @@ export function extractDatesNLP(text: string): ExtractedDate[] {
 
   const dates = [];
 
-  for (const i in candidateEntities) {
-    const candidateEntity = candidateEntities[i];
-
-    const terms = candidateEntity.terms;
+  for (const candidate of candidateEntities) {
+    const terms = candidate.terms;
 
     let isDate = false;
     let j = 0;
@@ -86,7 +83,6 @@ export function extractDatesNLP(text: string): ExtractedDate[] {
 
     while (j < terms.length) {
       let term = terms[j];
-      console.log(term);
       if (
         term.text &&
         (term.tags.includes('Date') || (isDate && term.tags.includes('Time'))) // only handles case of the date coming afterwards
