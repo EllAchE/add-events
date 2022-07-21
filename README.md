@@ -59,3 +59,34 @@ allMatches.push(match);
 
 return allMatches;
 }
+
+const wordMonthRegex =
+'(January,?|February,?|March,?|April,?|May,?|June,?|July,?|August,?|September,?|October,?|November,?|December,?|Jan\\.?|Feb\\.?|Mar\\.?|Apr\\.?|May\\.?|Jun\\.?|Jul\\.?|Aug\\.?|Sep\\.?|Oct\\.?|Nov\\.?|Dec\\.?)';
+
+const dayRegex = '([1-2][0-9]|3[0-1]|0?[1-9])';
+const wordDayRegex = '([1-2][0-9]|3[0-1]|0?[1-9])((th)|(nd)|(rd)|(st))?';
+
+const monthRegex = '([1][0-2]|0?[1-9])'; // no leading zeroes, add timezones handle :times
+const yearRegex = '((20)?[2-9][0-9])';
+const dateSeparator = '(\\s+|\\.|-|/)';
+const endOfDate = '(?=\\s|\\.|;|$|\\n|\\"|,)';
+const startOfDate = '(?<=\\s|^|\\n|\\")';
+// TODO support recurring dates
+
+const usDate = `(${startOfDate}${monthRegex}${dateSeparator}${dayRegex}(${dateSeparator}${yearRegex})?${endOfDate})`; // set these up so that only one of the two matches for numbers below a certain date
+const usWordDate = `(${startOfDate}${wordMonthRegex}\\s+${wordDayRegex}((,\\s+?|\\s+)${yearRegex})?${endOfDate})`;
+// how to infer european vs. american? Set it up to only work for us rn
+
+chrome.runtime.onMessage.addListener((message: any) => {
+if (message.type != 'create_event') return;
+const eventBodies = message.body;
+chrome.identity.getAuthToken({ interactive: true }, function (auth_token) {
+console.log(auth_token);
+});
+
+// needs a callback that conditionally renders success/failure of the createEvents
+
+// <Alert></Alert>;
+console.log(eventBodies);
+//createEvents(eventBodies, 'primary');
+});

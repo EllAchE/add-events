@@ -11,6 +11,7 @@ import {
   Checkbox,
   FormControlLabel,
   Alert,
+  Snackbar,
 } from '@mui/material';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
@@ -118,6 +119,14 @@ function DateSubmissionForm({ eventPrefill }: { eventPrefill: any }) {
 
   // TODO: consolidate all of these variables to a single modifiable state (possibly)
 
+  const [showSnackbar, setShowSnackbar] = useState<boolean>(false);
+  const [snackbarIsSuccess, setSnackbarIsSuccess] = useState<boolean>(false);
+
+  const snackbarCallback = (success: boolean) => {
+    setShowSnackbar(true);
+    setSnackbarIsSuccess(success);
+  };
+
   const [title, setTitle] = useState<string>(iTitle);
   const [description, setDescription] = useState<string>(iDesc);
   const [startDate, setStartDate] = useState<Date | null>(new Date(iStartDate));
@@ -204,6 +213,22 @@ function DateSubmissionForm({ eventPrefill }: { eventPrefill: any }) {
         handleStartDateChange={handleStartDateChange}
         handleEndDateChange={handleEndDateChange}
       />
+      <Snackbar
+        open={showSnackbar}
+        autoHideDuration={4000}
+        message={
+          snackbarIsSuccess
+            ? 'Created new calendar event'
+            : 'Failed to create new calendar event'
+        }
+        onClose={() => setShowSnackbar(false)}
+      >
+        <Alert severity={snackbarIsSuccess ? 'success' : 'warning'}>
+          {snackbarIsSuccess
+            ? 'Created new calendar event'
+            : 'Failed to create new calendar event'}
+        </Alert>
+      </Snackbar>
       <Grid container spacing={2} justifyContent="space-around">
         <Grid item xs={4}>
           <Button
@@ -211,20 +236,23 @@ function DateSubmissionForm({ eventPrefill }: { eventPrefill: any }) {
             variant="contained"
             onClick={() => {
               openConfirmation();
-              createEvents([
-                {
-                  description,
-                  end: {
-                    dateTime: isSingleDay
-                      ? startDate.toISOString()
-                      : endDate.toISOString(),
+              createEvents(
+                [
+                  {
+                    description,
+                    end: {
+                      dateTime: isSingleDay
+                        ? startDate.toISOString()
+                        : endDate.toISOString(),
+                    },
+                    start: {
+                      dateTime: startDate.toISOString(),
+                    },
+                    summary: title,
                   },
-                  start: {
-                    dateTime: startDate.toISOString(),
-                  },
-                  summary: title,
-                },
-              ]);
+                ],
+                snackbarCallback
+              );
             }}
           >
             Create Event

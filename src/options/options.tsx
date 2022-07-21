@@ -5,6 +5,7 @@ import {
   FormControlLabel,
   FormGroup,
   Grid,
+  IconButton,
   InputLabel,
   MenuItem,
   Select,
@@ -26,7 +27,9 @@ function Options(): ReactElement {
         <CheckboxOptions />
         <FreeformOptions />
         <Typography>Have any questions? Want to contribute?</Typography>
-        <GitHubIcon />
+        <IconButton>
+          <GitHubIcon />
+        </IconButton>
       </FormGroup>
     </>
   );

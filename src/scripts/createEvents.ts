@@ -3,8 +3,8 @@ import { CalendarEvent } from './types';
 // calls the insert API https://developers.google.com/calendar/api/v3/reference/events/insert
 export function createEvents(
   events: CalendarEvent[],
-  calendarId?: string,
-  callback?: any
+  callback?: any,
+  calendarId?: string
 ): void {
   calendarId = calendarId ? calendarId : 'primary';
   // will need to create a new calendar and persist that id
@@ -14,7 +14,7 @@ export function createEvents(
   console.log(calendarId);
 
   if (!events) {
-    console.error('called create events without any events to create');
+    console.error('called creat events without any events to create');
     return;
   }
 
@@ -36,6 +36,8 @@ export function createEvents(
         config
       )
         .then((response) => {
+          console.log('should show snackbar');
+          callback(response.status == 200);
           return response.json();
         })
         .then(function (data) {

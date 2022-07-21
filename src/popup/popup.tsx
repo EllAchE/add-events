@@ -1,4 +1,4 @@
-import React, { ReactElement, useState } from 'react';
+import React, { ReactElement, useEffect, useState } from 'react';
 import { render } from 'react-dom';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
@@ -12,20 +12,23 @@ import { DateAccordion } from './DateAccordion';
 
 function Popup(): ReactElement {
   const [events, setEvents] = useState([]);
+  const [test, setTest] = useState();
 
-  chrome.storage.onChanged.addListener(function (changes, namespace) {
-    for (let [key, { oldValue, newValue }] of Object.entries(changes)) {
-      console.log(
-        `Storage key "${key}" in namespace "${namespace}" changed.`,
-        `Old value was "${oldValue}", new value is "${newValue}".`
-      );
-    }
-  });
+  // chrome.storage.onChanged.addListener(function (changes, namespace) {
+  //   for (let [key, { oldValue, newValue }] of Object.entries(changes)) {
+  //     console.log(
+  //       `Storage key "${key}" in namespace "${namespace}" changed.`,
+  //       `Old value was "${oldValue}", new value is "${newValue}".`
+  //     );
+  //   }
+  // });
 
-  chrome.storage.local.get('currentEvents', function (result) {
-    console.log('events in storage', result);
-    setEvents(result['currentEvents'] ? result['currentEvents'] : []);
-  });
+  useEffect(() => {
+    chrome.storage.local.get('currentEvents', function (result) {
+      console.log('events in storage', result);
+      setEvents(result['currentEvents'] ? result['currentEvents'] : []);
+    });
+  }, []);
 
   const StyledBadge = styled(Badge)<BadgeProps>(({ theme }) => ({
     '& .MuiBadge-badge': {
