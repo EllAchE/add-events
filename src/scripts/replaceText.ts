@@ -1,6 +1,7 @@
-import { extractDatesNLP } from '../utils/utils';
+import { extractDatesNLP } from '../utils/dateExtraction';
 import { ExtractedDate } from './types';
 
+// TODO: should adjust the method signature to not take in regex
 export function replaceText(
   node: HTMLElement,
   regex: RegExp,

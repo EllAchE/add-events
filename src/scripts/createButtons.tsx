@@ -1,8 +1,5 @@
-import { regexes } from '../utils/utils';
 import { replaceText } from './replaceText';
 import { CalendarEvent } from './types';
-import React from 'react';
-import { Alert } from '@mui/material';
 
 function createHyperlinkNode(
   // this button or some other item will eventually need to house all
@@ -56,7 +53,7 @@ export function createEventButtons(
       elements[i].tagName != 'META' &&
       elements[i].className != 'add_to_cal_button_ce'
     ) {
-      const res = replaceText(elements[i], regexes[1], createHyperlinkNode);
+      const res = replaceText(elements[i], undefined, createHyperlinkNode);
       if (res) {
         for (const el of res) {
           allDates.add(el);
