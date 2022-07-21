@@ -37,6 +37,11 @@ function Popup(): ReactElement {
     }
   });
 
+  chrome.storage.local.get('currentEvents', function (result) {
+    console.log('events in storage', result);
+    setEvents(result['currentEvents'] ? result['currentEvents'] : []);
+  });
+
   const StyledBadge = styled(Badge)<BadgeProps>(({ theme }) => ({
     '& .MuiBadge-badge': {
       top: 7,

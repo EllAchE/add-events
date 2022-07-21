@@ -1,8 +1,8 @@
-import nlp from 'compromise';
 import { extractDatesNLP } from '../src/utils';
 
 test('nlp works', () => {
   const americanDates = [
+    { in: 'on January 9, 2000', out: [] },
     { in: 'on January 9, 5pm', out: ['January 9, 5pm'] },
     { in: 'on January 9, 5:00 PM', out: ['January 9, 5:00 PM'] },
     {

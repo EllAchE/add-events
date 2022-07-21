@@ -20,10 +20,12 @@ import HelpIcon from '@mui/icons-material/Help';
 import FindInPageIcon from '@mui/icons-material/FindInPage';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { LocalizationProvider } from '@mui/x-date-pickers';
-import { createEvents } from '../scripts/background';
 import AlertDialog from './ConfirmationDialog';
+import { createEvents } from '../scripts/createEvents';
 
 function DateSubmissionForm({ eventPrefill }: { eventPrefill: any }) {
+  console.log('date sub form');
+  console.log(eventPrefill);
   const {
     startDate: initialStartDate,
     endDate: initialEndDate,
@@ -39,7 +41,7 @@ function DateSubmissionForm({ eventPrefill }: { eventPrefill: any }) {
   const [confirmationOpen, setConfirmationOpen] = useState(false);
   const [endDate, setEndDate] = useState<Date | null>(new Date(initialEndDate));
   const [isAllDay, setIsAllDay] = useState<boolean>(
-    initialStartTime || initialEndTime
+    !initialStartTime && !initialEndTime
   );
   const [isSingleDay, setIsSingleDay] = useState<boolean>(
     !(initialStartDate && initialEndDate)
@@ -220,12 +222,18 @@ export function DateAccordion({
   return (
     <>
       {eventPrefills.map((eventPrefill: any) => {
-        const { startDate, endDate, description } = eventPrefill;
+        if (!eventPrefill.startDate && eventPrefill.date) {
+          eventPrefill.startDate = eventPrefill.date;
+        }
+        const { startDate, endDate, description, date } = eventPrefill;
+
         return (
           <Accordion key={startDate + endDate + description}>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
               <Typography>
-                {startDate == endDate ? startDate : `${startDate} - ${endDate}`}
+                {!endDate || startDate == endDate
+                  ? startDate
+                  : `${startDate} - ${endDate}`}
                 <Tooltip title="See event details on webpage">
                   <IconButton onClick={() => alert('not implemented')}>
                     <FindInPageIcon />

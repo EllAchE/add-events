@@ -8,5 +8,6 @@ const run = () => {
 
 chrome.runtime.onMessage.addListener((msg, sender, callback) => {
   console.log('received from sender', sender.id, msg);
-  run();
 });
+
+run();

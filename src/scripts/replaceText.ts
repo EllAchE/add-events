@@ -47,15 +47,11 @@ export function replaceText(
     child = child.nextSibling;
   }
 
-  console.log('date set', dateSet);
   const dates = [];
   // This is a hack that leaves the buttons disconnected from what populates the popups
   for (const date of dateSet) {
     dates.push(date);
   }
-
-  console.log('returning dates');
-  console.log(dates);
 
   return dates;
 }

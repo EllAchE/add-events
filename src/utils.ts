@@ -64,6 +64,13 @@ export function extractDatesRegex(text: string): ExtractedDate[] {
   return allMatches;
 }
 
+function isInTheFuture(dateStr: string) {
+  const date = new Date(dateStr); // might break for some?
+  const today = new Date();
+
+  return date > today;
+}
+
 // after a POC this should support a full date/information extractor from the webpage
 export function extractDatesNLP(text: string): ExtractedDate[] {
   let doc: Three = nlp(text);
@@ -97,10 +104,14 @@ export function extractDatesNLP(text: string): ExtractedDate[] {
       } else if (term.text) {
         if (singleDate.length > 0) {
           singleDate.pop();
-          dates.push({
-            date: singleDate.join(''),
-            matchIndex: index,
-          });
+          const fullDate = singleDate.join('');
+
+          if (isInTheFuture(fullDate)) {
+            dates.push({
+              date: fullDate,
+              matchIndex: index,
+            });
+          }
           singleDate = [];
         }
         isDate = false;
