@@ -65,15 +65,28 @@ export function extractDatesRegex(text: string): ExtractedDate[] {
 }
 
 function isInTheFuture(dateStr: string) {
-  const date = new Date(dateStr); // might break for some?
+  console.log('datestr', dateStr);
+  const yearRegex = /\d{4}/g;
+  // const futureYearRegex = /20([3-9][0-9]|2[3-9])/g;
   const today = new Date();
 
-  return date > today;
+  const date = new Date(dateStr); // might break for some?
+
+  console.log(today, date);
+
+  if (dateStr.match(yearRegex)) {
+    return date > today;
+  } else {
+    console.log('just ret true');
+    // a more intellignet check desired, i.e. check distance if the event were in the next year, or if it were in the past
+    return true;
+  }
 }
 
 // after a POC this should support a full date/information extractor from the webpage
 export function extractDatesNLP(text: string): ExtractedDate[] {
   let doc: Three = nlp(text);
+  console.log('called');
 
   const candidateEntities = doc.json();
 
@@ -121,9 +134,10 @@ export function extractDatesNLP(text: string): ExtractedDate[] {
     }
 
     singleDate.pop();
-    if (isDate) {
+    const d = singleDate.join('');
+    if (isDate && isInTheFuture(d)) {
       dates.push({
-        date: singleDate.join(''),
+        date: d,
         matchIndex: index,
       });
     }
