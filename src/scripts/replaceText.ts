@@ -1,4 +1,4 @@
-import { extractDatesNLP } from '../utils';
+import { extractDatesNLP } from '../utils/utils';
 import { ExtractedDate } from './types';
 
 export function replaceText(

@@ -10,22 +10,7 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 
 import { DateAccordion } from './DateAccordion';
 
-// potentially use a drawer https://mui.com/material-ui/react-drawer/
-
 function Popup(): ReactElement {
-  // TODO add usestate etc. here to display retrieved events in the popup
-
-  // useEffect(() => {
-  //   chrome.tabs.query({ currentWindow: true, active: true }, (tabs) => {
-  //     const activeTabId = tabs.length === 0 ? 0 : tabs[0].id;
-  //     chrome.tabs.sendMessage(activeTabId, '', (response) => {
-  //       console.log('receieved res', response);
-  //     });
-  //   });
-  // });
-
-  // https://mui.com/material-ui/react-drawer/
-
   const [events, setEvents] = useState([]);
 
   chrome.storage.onChanged.addListener(function (changes, namespace) {

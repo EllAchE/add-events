@@ -1,4 +1,4 @@
-import { extractDatesRegex } from '../src/utils';
+import { extractDatesRegex } from '../src/utils/utils';
 
 test('properly identifies dates', () => {
   const americanDates = [

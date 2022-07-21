@@ -1,4 +1,4 @@
-import { regexes } from '../utils';
+import { regexes } from '../utils/utils';
 import { replaceText } from './replaceText';
 import { CalendarEvent } from './types';
 import React from 'react';

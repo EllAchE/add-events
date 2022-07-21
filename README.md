@@ -24,3 +24,38 @@ doesn't work if text for dates is across child nodes
 
 https://mui.com/material-ui/react-alert/
 For success messaging, make it fixed and have it fade after x period
+
+// potentially use a drawer https://mui.com/material-ui/react-drawer/
+
+// useEffect(() => {
+// chrome.tabs.query({ currentWindow: true, active: true }, (tabs) => {
+// const activeTabId = tabs.length === 0 ? 0 : tabs[0].id;
+// chrome.tabs.sendMessage(activeTabId, '', (response) => {
+// console.log('receieved res', response);
+// });
+// });
+// });
+
+// after a POC this should support a full date/information extractor from the webpage
+export function extractDatesRegex(text: string): ExtractedDate[] {
+let allMatches = [];
+for (const reg of regexes) {
+const matches: ExtractedDate[] = [];
+let match: RegExpMatchArray;
+while ((match = reg.exec(text)) != null) {
+if (match.length > 0) {
+matches.push({
+date: match[0],
+matchIndex: match.index,
+});
+}
+}
+if (matches) {
+for (const match of matches) {
+allMatches.push(match);
+}
+}
+}
+
+return allMatches;
+}

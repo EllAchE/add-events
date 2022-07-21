@@ -7,7 +7,11 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { Checkbox, FormControlLabel } from '@mui/material';
 
-export default function AlertDialog({
+/*
+  Popup that appears when user is creating an event. 
+  This behavior can be disabled by the user.
+*/
+export default function ConfirmationDialog({
   open,
   handleClose,
 }: {

@@ -1,4 +1,4 @@
-import { extractDatesNLP } from '../src/utils';
+import { extractDatesNLP } from '../src/utils/dateExtraction';
 
 test('nlp works', () => {
   const americanDates = [

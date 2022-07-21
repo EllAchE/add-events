@@ -16,38 +16,117 @@ import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import React, { useState, ReactElement } from 'react';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import HelpIcon from '@mui/icons-material/Help';
 import FindInPageIcon from '@mui/icons-material/FindInPage';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { LocalizationProvider } from '@mui/x-date-pickers';
-import AlertDialog from './ConfirmationDialog';
+import ConfirmationDialog from './ConfirmationDialog';
 import { createEvents } from '../scripts/createEvents';
 
+/* 
+  Time wheel and datetime selectors
+*/
+function DatetimePickers({
+  isSingleDay,
+  isAllDay,
+  startDate,
+  endDate,
+  handleStartDateChange,
+  handleEndDateChange,
+}: {
+  isSingleDay: boolean;
+  isAllDay: boolean;
+  startDate: Date;
+  endDate: Date;
+  handleStartDateChange: any;
+  handleEndDateChange: any;
+}) {
+  return (
+    <LocalizationProvider dateAdapter={AdapterMoment}>
+      <Grid
+        container
+        spacing={1}
+        justifyContent="flex-start"
+        sx={{ paddingBottom: 2 }}
+      >
+        <Grid item xs={6}>
+          <DesktopDatePicker
+            label={isSingleDay ? 'Date' : 'Start Date'}
+            value={startDate}
+            onChange={handleStartDateChange}
+            renderInput={(params) => (
+              <TextField {...params} sx={{ width: '100%' }} />
+            )}
+          ></DesktopDatePicker>
+        </Grid>
+        {!isSingleDay && (
+          <Grid item xs={6}>
+            <DesktopDatePicker
+              label="End Date"
+              value={endDate}
+              onChange={handleEndDateChange}
+              renderInput={(params) => (
+                <TextField {...params} sx={{ width: '100%' }} />
+              )}
+            ></DesktopDatePicker>
+          </Grid>
+        )}
+      </Grid>
+      {!isAllDay && (
+        <Grid
+          container
+          spacing={1}
+          justifyContent="flex-start"
+          sx={{ paddingBottom: 2 }}
+        >
+          <Grid item xs={6}>
+            <TimePicker
+              label="Start Time"
+              value={startDate}
+              onChange={handleStartDateChange}
+              renderInput={(params) => (
+                <TextField {...params} sx={{ width: '100%' }} />
+              )}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <TimePicker
+              label="End Time"
+              value={endDate}
+              onChange={handleEndDateChange}
+              renderInput={(params) => (
+                <TextField {...params} sx={{ width: '100%' }} />
+              )}
+            />
+          </Grid>
+        </Grid>
+      )}
+    </LocalizationProvider>
+  );
+}
+
+/*
+  Form that appears in the accordion dropdown for each extracted date
+*/
 function DateSubmissionForm({ eventPrefill }: { eventPrefill: any }) {
-  console.log('date sub form');
-  console.log(eventPrefill);
   const {
-    startDate: initialStartDate,
-    endDate: initialEndDate,
-    startTime: initialStartTime,
-    endTime: initialEndTime,
-    description: initialDescription,
-    title: initialTitle,
+    startDate: iStartDate,
+    endDate: iEndDate,
+    startTime: iStart,
+    description: iDesc,
+    title: iTitle,
   } = eventPrefill;
 
-  const [startDate, setStartDate] = useState<Date | null>(
-    new Date(initialStartDate)
-  );
+  // TODO: consolidate all of these variables to a single modifiable state (possibly)
+
+  const [title, setTitle] = useState<string>(iTitle);
+  const [description, setDescription] = useState<string>(iDesc);
+  const [startDate, setStartDate] = useState<Date | null>(new Date(iStartDate));
   const [confirmationOpen, setConfirmationOpen] = useState(false);
-  const [endDate, setEndDate] = useState<Date | null>(new Date(initialEndDate));
-  const [isAllDay, setIsAllDay] = useState<boolean>(
-    !initialStartTime && !initialEndTime
-  );
+  const [endDate, setEndDate] = useState<Date | null>(new Date(iEndDate));
+  const [isAllDay, setIsAllDay] = useState<boolean>(!iStart && !iEndDate);
   const [isSingleDay, setIsSingleDay] = useState<boolean>(
-    !(initialStartDate && initialEndDate)
+    !(iStartDate && iEndDate)
   );
-  const [title, setTitle] = useState<string>(initialTitle);
-  const [description, setDescription] = useState<string>(initialDescription);
 
   const handleStartDateChange = (newValue: Date | null) => {
     setStartDate(newValue);
@@ -67,7 +146,10 @@ function DateSubmissionForm({ eventPrefill }: { eventPrefill: any }) {
 
   return (
     <AccordionDetails>
-      <AlertDialog open={confirmationOpen} handleClose={closeConfirmation} />
+      <ConfirmationDialog
+        open={confirmationOpen}
+        handleClose={closeConfirmation}
+      />
       <Grid sx={{ paddingBottom: 1 }}>
         <FormControlLabel
           control={
@@ -114,67 +196,14 @@ function DateSubmissionForm({ eventPrefill }: { eventPrefill: any }) {
           ></TextField>
         </Grid>
       </Grid>
-
-      <LocalizationProvider dateAdapter={AdapterMoment}>
-        <Grid
-          container
-          spacing={1}
-          justifyContent="flex-start"
-          sx={{ paddingBottom: 2 }}
-        >
-          <Grid item xs={6}>
-            <DesktopDatePicker
-              label={isSingleDay ? 'Date' : 'Start Date'}
-              value={startDate}
-              onChange={handleStartDateChange}
-              renderInput={(params) => (
-                <TextField {...params} sx={{ width: '100%' }} />
-              )}
-            ></DesktopDatePicker>
-          </Grid>
-          {!isSingleDay && (
-            <Grid item xs={6}>
-              <DesktopDatePicker
-                label="End Date"
-                value={endDate}
-                onChange={handleEndDateChange}
-                renderInput={(params) => (
-                  <TextField {...params} sx={{ width: '100%' }} />
-                )}
-              ></DesktopDatePicker>
-            </Grid>
-          )}
-        </Grid>
-        {!isAllDay && (
-          <Grid
-            container
-            spacing={1}
-            justifyContent="flex-start"
-            sx={{ paddingBottom: 2 }}
-          >
-            <Grid item xs={6}>
-              <TimePicker
-                label="Start Time"
-                value={startDate}
-                onChange={handleStartDateChange}
-                renderInput={(params) => (
-                  <TextField {...params} sx={{ width: '100%' }} />
-                )}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <TimePicker
-                label="End Time"
-                value={endDate}
-                onChange={handleEndDateChange}
-                renderInput={(params) => (
-                  <TextField {...params} sx={{ width: '100%' }} />
-                )}
-              />
-            </Grid>
-          </Grid>
-        )}
-      </LocalizationProvider>
+      <DatetimePickers
+        isSingleDay={isSingleDay}
+        isAllDay={isAllDay}
+        startDate={startDate}
+        endDate={endDate}
+        handleStartDateChange={handleStartDateChange}
+        handleEndDateChange={handleEndDateChange}
+      />
       <Grid container spacing={2} justifyContent="space-around">
         <Grid item xs={4}>
           <Button
@@ -206,6 +235,9 @@ function DateSubmissionForm({ eventPrefill }: { eventPrefill: any }) {
   );
 }
 
+/*
+  Rendered dropdown of dates extracted from site
+*/
 export function DateAccordion({
   eventPrefills,
 }: {
