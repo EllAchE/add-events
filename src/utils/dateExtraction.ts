@@ -1,6 +1,6 @@
 import nlp from 'compromise';
 import Three from 'compromise/types/view/three';
-import { ExtractedDate } from '../scripts/types';
+import { ExtractedDate, NLPChunk } from '../scripts/types';
 import {
   checkIfSetsShareAnElement,
   isInTheFuture,
@@ -71,20 +71,17 @@ export function extractDatesNLP(text: string): ExtractedDate[] {
 
 /* 
   This function checks through the terms of entities and classifies them according to custom logic.
-  This "rechunks" nlp processed terms into groups we care about
+  This "rechunks" nlp processed terms into groups we care about. It also stores the index at which a chunk begins.
   A comprehensive list of nlp compromise terms is available at https://compromise.cool/#tags
 */
-export function classifyTextNLP(text: string): any[] {
+export function classifyTextNLP(text: string): NLPChunk[] {
   let doc: Three = nlp(text);
 
   const entities = doc.json();
-  console.dir(entities);
-  const processedChunks = [];
+  const processedChunks: NLPChunk[] = [];
   let index = 0;
 
   for (const ent of entities) {
-    console.dir(ent);
-    console.dir(ent.terms[0].index);
     const checkTerms = new Set();
     checkTerms.add('Place');
     checkTerms.add('Person');
@@ -100,32 +97,28 @@ export function classifyTextNLP(text: string): any[] {
     //checkTerms.add('Acronym')
     checkTerms.add('ProperNoun');
 
-    // These will be used to display a quick summary of data extracted
-    const personSet = new Set();
-    const placeSet = new Set();
-    const urlSet = new Set();
-    const emailSet = new Set();
-    const ProperNounSet = new Set();
-
     const terms = ent.terms;
     let runningChunk = [];
-    let currentTagMatches = new Set();
-    let previousTagMatches = new Set();
+    let currentTagMatches: Set<string> = new Set(terms[0].tags);
+    let previousTagMatches: Set<string> = new Set(terms[0].tags);
     let j = 0;
 
     let term;
     while (j < terms.length) {
       term = terms[j];
+      console.log(term);
+      console.log(term.tags);
       j += 1;
+
+      currentTagMatches = setIntersection(
+        currentTagMatches,
+        new Set(term.tags)
+      );
+      index += term.text.length + term.post.length;
 
       if (!term.text) {
         continue;
       }
-      console.log('index', index);
-
-      console.log('entering if', term.text);
-      console.log(currentTagMatches, currentTagMatches.size);
-      console.log(runningChunk);
       //console.log(previousTagMatches);
 
       if (runningChunk.length < 1) {
@@ -139,11 +132,13 @@ export function classifyTextNLP(text: string): any[] {
         runningChunk.pop();
         const chunk = runningChunk.join('');
 
-        processedChunks.push({
-          chunk,
-          index: index - chunk.length - term.post.length,
-          categories: Array.from(previousTagMatches),
-        });
+        if (checkIfSetsShareAnElement(previousTagMatches, checkTerms)) {
+          processedChunks.push({
+            text: chunk,
+            index: index - chunk.length - term.post.length,
+            categories: Array.from(previousTagMatches),
+          });
+        }
 
         // reset chunk and tag matches
         previousTagMatches = currentTagMatches = new Set(term.tags);
@@ -154,11 +149,6 @@ export function classifyTextNLP(text: string): any[] {
       runningChunk.push(term.post);
 
       previousTagMatches = currentTagMatches;
-      currentTagMatches = setIntersection(
-        currentTagMatches,
-        new Set(term.tags)
-      );
-      index += term.text.length + term.post.length;
 
       // // Many of these categories are not going to be mutually exclusive
       // if (term.tags.includes('Person')) {
@@ -194,16 +184,18 @@ export function classifyTextNLP(text: string): any[] {
     runningChunk.pop();
     const chunk = runningChunk.join('');
 
-    console.log('before final add', index);
-
-    processedChunks.push({
-      chunk,
-      index: index - chunk.length - term.post.length,
-      categories: Array.from(previousTagMatches),
-    });
+    if (checkIfSetsShareAnElement(previousTagMatches, checkTerms)) {
+      processedChunks.push({
+        text: chunk,
+        index: index - chunk.length - term.post.length,
+        categories: Array.from(previousTagMatches),
+      });
+    }
   }
-  console.log('printing pcs');
+
+  console.dir('processed Chunks');
   console.dir(processedChunks);
+
   return processedChunks;
 }
 

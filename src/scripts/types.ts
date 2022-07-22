@@ -21,7 +21,7 @@ export type CalendarEvent = {
   recurrence?: EventRecurrence;
   attendees?: any[];
   summary?: string;
-  status?: "tentative" | "cancelled" | "confirmed"
+  status?: 'tentative' | 'cancelled' | 'confirmed';
 };
 
 type EventRecurrence = {
@@ -49,6 +49,12 @@ export type GoogleCalendarEventFields = {
   guestPermissions: boolean[]; // three options
   visibility: any; // Free/Busy and default visibility
   conferencingLink: string; // button to create a conferencing linkk
+};
+
+export type NLPChunk = {
+  text: string;
+  index: number;
+  categories: string[];
 };
 
 // TODO: add the typing for the nlp types from nlp compromise

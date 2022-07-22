@@ -5,9 +5,8 @@ function createHyperlinkNode(
   // this button or some other item will eventually need to house all
   // of the information needed to create an event once one has been identified
   // then send that information to the service worker to add event to calendar
-  node: HTMLElement,
   match: string,
-  offset: number
+  categories: string[]
 ): HTMLAnchorElement {
   let button = document.createElement('a');
   button.className = 'add_to_cal_button_ce';
@@ -43,9 +42,6 @@ export function createEventButtons(
 ): void {
   let allDates = new Set();
 
-  console.log('inti');
-  console.log(elements);
-
   for (const i in elements) {
     // Ignore tags that will not display text to shorten execution
     if (
@@ -77,12 +73,7 @@ export function createEventButtons(
   if (dates.length > 0) {
     // hack as the function is still being excuted on tab open for unknwon reason
     chrome.storage.local.set({ currentEvents: dates }, function () {
-      console.log('Value is set to ' + dates);
+      console.log('local storage set to ' + dates);
     });
   }
-
-  chrome.storage.local.get('currentEvents', function (result) {
-    console.log('found in storage', result);
-    console.log('Value currently is ' + result.key);
-  });
 }

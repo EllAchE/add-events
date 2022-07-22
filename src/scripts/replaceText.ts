@@ -1,46 +1,50 @@
-import { extractDatesNLP } from '../utils/dateExtraction';
-import { ExtractedDate } from './types';
+import { classifyTextNLP, extractDatesNLP } from '../utils/dateExtraction';
+import { ExtractedDate, NLPChunk } from './types';
 
 // TODO: should adjust the method signature to not take in regex
 export function replaceText(
   node: HTMLElement,
   regex: RegExp,
-  createButton: (node: any, params: string, other: any) => HTMLAnchorElement,
+  createButton: (text: any, categories: string[]) => HTMLAnchorElement,
   excludeElements?: string[]
 ) {
   excludeElements ||
     (excludeElements = ['script', 'style', 'iframe', 'canvas']);
   var child: any = node.firstChild;
 
-  let dateSet = new Set();
+  // These will be used to display a quick summary of data extracted
+  const personSet = new Set();
+  const placeSet = new Set();
+  const urlSet = new Set();
+  const emailSet = new Set();
+  const ProperNounSet = new Set();
+  const dateSet = new Set();
 
   while (child) {
     if (child.nodeType == 3) {
-      let breakpt = 0;
+      const classifiedChunks: NLPChunk[] = classifyTextNLP(child.data);
+      let createdButtonsLength = 0;
 
-      const extractedDates: ExtractedDate[] = extractDatesNLP(child.data);
-      if (extractedDates.length > 0) {
-        dateSet.add(JSON.stringify(extractedDates[0]));
-      }
+      // if (extractedDates.length > 0) {
+      //   dateSet.add(JSON.stringify(extractedDates[0]));
+      // }
       // this logic needs to match better
 
-      if (extractedDates.length > 0) {
-        child.data.replace(
-          extractedDates[0].date,
-          function (match: HTMLElement[]) {
-            let args = [].slice.call(arguments);
-            let offset = args[args.length - 2];
-            let newTextNode = child.splitText(offset + breakpt);
+      while (classifiedChunks.length > 0) {
+        const chunk = classifiedChunks.shift();
+        console.log('running for new chunk');
+        console.log('chunk', chunk);
+        console.log('child data', child.data);
+        child.data.replace(chunk.text, function (buttonText: HTMLElement[]) {
+          console.log('replacing', chunk.text);
+          let newTextNode = child.splitText(child.data.indexOf(chunk.text));
 
-            breakpt -= child.data.length + match.length;
+          newTextNode.data = newTextNode.data.substr(buttonText.length);
+          let tag = createButton.apply(window, [chunk.text, chunk.categories]);
 
-            newTextNode.data = newTextNode.data.substr(match.length);
-            let tag = createButton.apply(window, [child].concat(args));
-
-            child.parentNode.insertBefore(tag, newTextNode);
-            child = newTextNode;
-          }
-        );
+          child.parentNode.insertBefore(tag, newTextNode);
+          child = newTextNode;
+        });
       }
     }
     child = child.nextSibling;
