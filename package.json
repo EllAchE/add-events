@@ -39,6 +39,7 @@
     "@mui/material": "^5.9.0",
     "@types/chrome": "^0.0.193",
     "@types/jest": "^27.5.2",
+    "@types/jquery": "^3.5.14",
     "@types/react-dom": "^18.0.6",
     "babel-loader": "^8.2.2",
     "copy-webpack-plugin": "^11.0.0",

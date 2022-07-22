@@ -1,6 +1,5 @@
 import nlp from 'compromise';
 import Three from 'compromise/types/view/three';
-import { run } from 'googleapis/build/src/apis/run';
 import { ExtractedDate } from '../scripts/types';
 import {
   checkIfSetsShareAnElement,
@@ -9,6 +8,7 @@ import {
 } from './utils';
 
 export function extractDatesNLP(text: string): ExtractedDate[] {
+  console.log('checking text chunk', text);
   let doc: Three = nlp(text);
 
   const candidateEntities = doc.json();
@@ -80,8 +80,11 @@ export function classifyTextNLP(text: string): any[] {
   const entities = doc.json();
   console.dir(entities);
   const processedChunks = [];
+  let index = 0;
 
   for (const ent of entities) {
+    console.dir(ent);
+    console.dir(ent.terms[0].index);
     const checkTerms = new Set();
     checkTerms.add('Place');
     checkTerms.add('Person');
@@ -108,24 +111,17 @@ export function classifyTextNLP(text: string): any[] {
     let runningChunk = [];
     let currentTagMatches = new Set();
     let previousTagMatches = new Set();
-    let index = -1;
     let j = 0;
 
-    console.log('BEGIN');
-
+    let term;
     while (j < terms.length) {
-      let term = terms[j];
+      term = terms[j];
       j += 1;
 
       if (!term.text) {
         continue;
       }
-
-      // track index at which this was encountered
-      if (index == -1) {
-        console.log(term.index);
-        index = term.index[0];
-      }
+      console.log('index', index);
 
       console.log('entering if', term.text);
       console.log(currentTagMatches, currentTagMatches.size);
@@ -145,7 +141,7 @@ export function classifyTextNLP(text: string): any[] {
 
         processedChunks.push({
           chunk,
-          index,
+          index: index - chunk.length - term.post.length,
           categories: Array.from(previousTagMatches),
         });
 
@@ -162,6 +158,7 @@ export function classifyTextNLP(text: string): any[] {
         currentTagMatches,
         new Set(term.tags)
       );
+      index += term.text.length + term.post.length;
 
       // // Many of these categories are not going to be mutually exclusive
       // if (term.tags.includes('Person')) {
@@ -197,9 +194,11 @@ export function classifyTextNLP(text: string): any[] {
     runningChunk.pop();
     const chunk = runningChunk.join('');
 
+    console.log('before final add', index);
+
     processedChunks.push({
       chunk,
-      index,
+      index: index - chunk.length - term.post.length,
       categories: Array.from(previousTagMatches),
     });
   }

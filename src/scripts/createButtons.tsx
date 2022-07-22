@@ -43,6 +43,9 @@ export function createEventButtons(
 ): void {
   let allDates = new Set();
 
+  console.log('inti');
+  console.log(elements);
+
   for (const i in elements) {
     // Ignore tags that will not display text to shorten execution
     if (

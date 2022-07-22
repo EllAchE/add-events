@@ -2,11 +2,11 @@ import { classifyTextNLP, extractDatesNLP } from '../src/utils/dateExtraction';
 
 test('nlp works', () => {
   const americanDates = [
-    { in: 'on January 9, 2000', out: [] },
     {
       in: 'THE PITCH\nRavyn Lenae Is Making Timeless R&B at Her Own Pace\nJuly 6, 2022\nOVERTONES\nThe Rise of Dissociation Music\n \nBy Jayson Greene\n \nJune 22, 2022\nRISING\nGrace Ives’ Hot Mess Anthems\n \nBy Cat Zhang\n \nJune 16, 2022\n5-10-15-20\nThe Neptunes’ Chad Hugo on the Music That Made Him\n \nBy Alphonse Pierre\n \nJune 14, 2022',
       out: ['July 6, 2022', 'June 22, 2022', 'June 16, 2022', 'June 14, 2022'],
     },
+    { in: 'on January 9, 2000', out: [] },
     //{ in: 'on January 9, 5pm', out: ['January 9, 5pm'] },
     //{ in: 'on January 9, 5:00 PM', out: ['January 9, 5:00 PM'] },
     {
