@@ -5,7 +5,7 @@ import { ExtractedDate, NLPChunk } from './types';
 export function replaceText(
   node: HTMLElement,
   regex: RegExp,
-  createButton: (text: any, categories: string[]) => HTMLAnchorElement,
+  createButton: (text: any, categories: string[]) => HTMLElement,
   excludeElements?: string[]
 ) {
   excludeElements ||
@@ -23,7 +23,6 @@ export function replaceText(
   while (child) {
     if (child.nodeType == 3) {
       const classifiedChunks: NLPChunk[] = classifyTextNLP(child.data);
-      let createdButtonsLength = 0;
 
       // if (extractedDates.length > 0) {
       //   dateSet.add(JSON.stringify(extractedDates[0]));
@@ -32,11 +31,7 @@ export function replaceText(
 
       while (classifiedChunks.length > 0) {
         const chunk = classifiedChunks.shift();
-        console.log('running for new chunk');
-        console.log('chunk', chunk);
-        console.log('child data', child.data);
         child.data.replace(chunk.text, function (buttonText: HTMLElement[]) {
-          console.log('replacing', chunk.text);
           let newTextNode = child.splitText(child.data.indexOf(chunk.text));
 
           newTextNode.data = newTextNode.data.substr(buttonText.length);

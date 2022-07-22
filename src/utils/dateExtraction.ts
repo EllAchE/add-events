@@ -1,4 +1,6 @@
 import nlp from 'compromise';
+const datePlugin = require('compromise-dates');
+nlp.plugin(datePlugin);
 import Three from 'compromise/types/view/three';
 import { ExtractedDate, NLPChunk } from '../scripts/types';
 import {

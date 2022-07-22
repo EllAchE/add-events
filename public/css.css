@@ -1,4 +1,23 @@
-.add_to_cal_button_ce {
+.add_to_cal_button_person {
+    background-color: lightpink;
+    text-decoration: underline;
+}
+
+.add_to_cal_button_url {
     background-color: aliceblue;
     text-decoration: underline;
+}
+
+.add_to_cal_button_date {
+    background-color: lightblue;
+    text-decoration: underline;
+}
+
+.add_to_cal_button_time {
+    background-color: lightgreen;
+    text-decoration: underline;
+}
+
+.add_to_cal_button {
+    cursor: pointer;
 }

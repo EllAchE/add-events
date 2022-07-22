@@ -7,9 +7,12 @@ function createHyperlinkNode(
   // then send that information to the service worker to add event to calendar
   match: string,
   categories: string[]
-): HTMLAnchorElement {
-  let button = document.createElement('a');
-  button.className = 'add_to_cal_button_ce';
+): HTMLElement {
+  let button = document.createElement('span');
+  button.classList.add(`add_to_cal_button`);
+  for (const cat of categories) {
+    button.classList.add(`add_to_cal_button_${cat.toLowerCase()}`);
+  }
   button.textContent = match;
 
   const eventDetails: CalendarEvent = {
@@ -21,6 +24,10 @@ function createHyperlinkNode(
       dateTime: '2022-07-29T09:00:00-07:00',
     },
   };
+
+  // sequence we want -> start date, title, end date, start time, end time, location, title
+
+  // ideal ux would let you type it in focused window if not found, or skip
 
   button.addEventListener('click', (e) => {
     const res = chrome.runtime.sendMessage(
@@ -42,6 +49,8 @@ export function createEventButtons(
 ): void {
   let allDates = new Set();
 
+  const customClassRegex = /add_to_cal_button/;
+
   for (const i in elements) {
     // Ignore tags that will not display text to shorten execution
     if (
@@ -50,8 +59,9 @@ export function createEventButtons(
       elements[i].tagName != 'NOSCRIPT' && // TODO: need to check if these are valid to ignore
       elements[i].tagName != 'FIGURE' &&
       elements[i].tagName != 'META' &&
-      elements[i].className != 'add_to_cal_button_ce'
+      !customClassRegex.test(elements[i].className)
     ) {
+      console.log('calling replace t$ext');
       const res = replaceText(elements[i], undefined, createHyperlinkNode);
       if (res) {
         for (const el of res) {
