@@ -1,16 +1,26 @@
-import { classifyTextNLP, extractDatesNLP } from '../utils/dateExtraction';
-import { ExtractedDate, NLPChunk } from './types';
+import { classifyTextNLP } from '../utils/dateExtraction';
+import { NLPChunk } from './types';
 
 // TODO: should adjust the method signature to not take in regex
 export function replaceText(
   node: HTMLElement,
-  regex: RegExp,
   createButton: (text: any, categories: string[]) => HTMLElement,
-  excludeElements?: string[]
+  excludeElements?: string[],
+  ...params: any
 ) {
   excludeElements ||
     (excludeElements = ['script', 'style', 'iframe', 'canvas']);
-  var child: any = node.firstChild;
+  let child: any = node.firstChild;
+
+  const {
+    setStartDate,
+    setEndDate,
+    setStartTime,
+    setEndTime,
+    setTitle,
+    setDescription,
+    setLocation,
+  } = params;
 
   // These will be used to display a quick summary of data extracted
   const personSet = new Set();

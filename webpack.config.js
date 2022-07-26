@@ -6,7 +6,7 @@ module.exports = {
   entry: {
       popup: './src/popup/Popup.tsx',
       options: './src/options/options.tsx',
-      main: './src/scripts/main.ts',
+      main: './src/scripts/main.tsx',
       background: './src/scripts/background.ts',
   },
   resolve: {

@@ -53,6 +53,8 @@ function DatetimePickers({
           <DesktopDatePicker
             label={isSingleDay ? 'Date' : 'Start Date'}
             value={startDate}
+            //maxDate={endDate}
+            //onError={() => alert('start date must be after end date')}
             onChange={handleStartDateChange}
             renderInput={(params) => (
               <TextField {...params} sx={{ width: '100%' }} />
@@ -64,6 +66,7 @@ function DatetimePickers({
             <DesktopDatePicker
               label="End Date"
               value={endDate}
+              //minDate={startDate}
               onChange={handleEndDateChange}
               renderInput={(params) => (
                 <TextField {...params} sx={{ width: '100%' }} />
@@ -83,7 +86,9 @@ function DatetimePickers({
             <TimePicker
               label="Start Time"
               value={startDate}
+              //maxTime={endDate}
               onChange={handleStartDateChange}
+              ampm={false}
               renderInput={(params) => (
                 <TextField {...params} sx={{ width: '100%' }} />
               )}
@@ -93,6 +98,8 @@ function DatetimePickers({
             <TimePicker
               label="End Time"
               value={endDate}
+              ampm={false}
+              //minTime={startDate}
               onChange={handleEndDateChange}
               renderInput={(params) => (
                 <TextField {...params} sx={{ width: '100%' }} />

@@ -4,6 +4,10 @@ test('nlp works', () => {
   const americanDates = [
     { in: 'Fri, Aug 5, 3:00 PM', out: ['Fri, Aug 5, 3:00'] },
     { in: 'on January 9, 2000', out: [] },
+    {
+      in: 'world was expected to come to an end on December 31, 2000',
+      out: [],
+    },
     //{ in: 'on January 9, 5pm', out: ['January 9, 5pm'] },
     //{ in: 'on January 9, 5:00 PM', out: ['January 9, 5:00 PM'] },
     {

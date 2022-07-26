@@ -1,51 +1,62 @@
 import { replaceText } from './replaceText';
 import { CalendarEvent } from './types';
 
-function createHyperlinkNode(
-  // this button or some other item will eventually need to house all
-  // of the information needed to create an event once one has been identified
-  // then send that information to the service worker to add event to calendar
-  match: string,
+function createWordButton(
+  buttonText: string,
   categories: string[]
 ): HTMLElement {
   let button = document.createElement('span');
   button.classList.add(`add_to_cal_button`);
+
+  // business logic to resolve type conflicts (date and time)
   for (const cat of categories) {
     button.classList.add(`add_to_cal_button_${cat.toLowerCase()}`);
   }
-  button.textContent = match;
+  button.textContent = buttonText;
 
-  const eventDetails: CalendarEvent = {
-    summary: 'testTitle',
-    end: {
-      dateTime: '2022-07-29T09:00:00-07:00',
-    },
-    start: {
-      dateTime: '2022-07-29T09:00:00-07:00',
-    },
-  };
+  let leadCat = categories[0];
 
-  // sequence we want -> start date, title, end date, start time, end time, location, title
+  // business logic needed for all of these
+  if (categories.includes('Date')) {
+    leadCat = 'Date';
+  }
+  if (categories.includes('Place')) {
+    leadCat = 'Place';
+  }
+  if (categories.includes('Time')) {
+    leadCat = 'Time';
+  }
+
+  // sequence we want -> start date, -> title, end date, start time, end time, location
+  // Finish with ctrl somehting, switch to title with ctrl t, endt with ctorl...
 
   // ideal ux would let you type it in focused window if not found, or skip
 
   button.addEventListener('click', (e) => {
-    const res = chrome.runtime.sendMessage(
-      { type: 'create_event', body: [eventDetails] },
-      (response) => {
-        // if (response.status == 200) {
-        // }
-      }
-    );
-    // TODO: add logic to display the success message on the page
-    alert('Created Test Event');
+    // rather than local storage, message sending could do the job?
+    const obj: any = {};
+    obj[leadCat] = buttonText;
+    chrome.storage.local.set(obj, function () {
+      console.log('set temp storage to', obj);
+    });
+
+    // const res = chrome.runtime.sendMessage(
+    //   { type: 'create_event', body: [eventDetails] },
+    //   (response) => {
+    //     // if (response.status == 200) {
+    //     // }
+    //   }
+    // );
+    // // TODO: add logic to display the success message on the page
+    // alert('Created Test Event');
   });
 
   return button;
 }
 
 export function createEventButtons(
-  elements: HTMLCollectionOf<HTMLElement>
+  elements: HTMLCollectionOf<HTMLElement>,
+  ...params: any
 ): void {
   let allDates = new Set();
 
@@ -62,7 +73,12 @@ export function createEventButtons(
       !customClassRegex.test(elements[i].className)
     ) {
       console.log('calling replace t$ext');
-      const res = replaceText(elements[i], undefined, createHyperlinkNode);
+      const res = replaceText(
+        elements[i],
+        createWordButton,
+        undefined,
+        ...params
+      );
       if (res) {
         for (const el of res) {
           allDates.add(el);

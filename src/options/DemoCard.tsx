@@ -1,4 +1,5 @@
 import {
+  Box,
   Card,
   FormControl,
   FormControlLabel,
@@ -18,12 +19,39 @@ export function DemoCard(): ReactElement {
     <>
       <Typography variant="h5">Configure how events are identified!</Typography>
       <Card>
-        <Typography sx={{ padding: 3 }}>
-          ...world was expected to come to an end on December 31, 2000. And
-          again on December 31, 2012. But we're here today. We'll be here
-          tomorrow. And we'll be here till December 31, 3000 (I hope. December
-          31, 2023, at the least)...
-        </Typography>
+        <Grid container>
+          <Grid item xs={8}>
+            <Typography sx={{ padding: 3 }}>
+              ...world was expected to come to an end on December 31, 2000. And
+              again on December 31, 2012. But we're here today. We'll be here
+              tomorrow. And we'll be here till{' '}
+              <span className="add_to_cal_button add_to_cal_button_date">
+                December 31, 3000
+              </span>{' '}
+              (I hope.{' '}
+              <span className="add_to_cal_button add_to_cal_button_date">
+                December 31, 2023{' '}
+              </span>
+              , at the least)...
+            </Typography>
+          </Grid>
+          <Grid item xs={2}>
+            <figure>
+              <img
+                width={200}
+                height={120}
+                src="https://www.pngkey.com/png/full/834-8345759_a-publicly-available-server-is-hosted-at-book.png"
+              ></img>
+              <figcaption>
+                A real human,{' '}
+                <span className="add_to_cal_button add_to_cal_button_date">
+                  19/11/2025
+                </span>
+              </figcaption>
+            </figure>
+          </Grid>
+        </Grid>
+
         <Grid container sx={{ padding: 2 }} spacing={1}>
           <Grid item xs={3}>
             <FormControl fullWidth>

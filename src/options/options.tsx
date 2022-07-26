@@ -13,13 +13,14 @@ import { render } from 'react-dom';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import { DemoCard } from './DemoCard';
+import { App } from '../app/App';
 
 /* 
   User controls their settings from here. Separate page from popup.
  */
 function Options(): ReactElement {
   return (
-    <>
+    <App>
       <Typography variant="h3">Settings</Typography>
       <DemoCard />
       <FormGroup>
@@ -33,7 +34,7 @@ function Options(): ReactElement {
         <CheckboxOptions />
         <FreeformOptions />
       </FormGroup>
-    </>
+    </App>
   );
 }
 

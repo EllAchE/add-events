@@ -42,3 +42,4 @@ export function setIntersection(a: Set<any>, b: Set<any>): Set<any> {
 export function getElements(): HTMLCollectionOf<Element> {
   return document.getElementsByTagName('*');
 }
+
