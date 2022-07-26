@@ -1,10 +1,14 @@
+import React from 'react';
+import { ReactElement } from 'react';
+import { render } from 'react-dom';
+import { ChunkButton } from '../page/ChunkButton';
 import { classifyTextNLP } from '../utils/dateExtraction';
 import { NLPChunk } from './types';
 
 // TODO: should adjust the method signature to not take in regex
 export function replaceText(
   node: HTMLElement,
-  createButton: (text: any, categories: string[]) => HTMLElement,
+  createButton: (text: string, categories: string[]) => ReactElement,
   excludeElements?: string[],
   ...params: any
 ) {
@@ -41,14 +45,32 @@ export function replaceText(
 
       while (classifiedChunks.length > 0) {
         const chunk = classifiedChunks.shift();
-        child.data.replace(chunk.text, function (buttonText: HTMLElement[]) {
+        child.data.replace(chunk.text, function (buttonText: string) {
           let newTextNode = child.splitText(child.data.indexOf(chunk.text));
 
           newTextNode.data = newTextNode.data.substr(buttonText.length);
-          let tag = createButton.apply(window, [chunk.text, chunk.categories]);
 
-          child.parentNode.insertBefore(tag, newTextNode);
+          const createTempNode = (): Node => {
+            let newNode = document.createElement('span');
+            newNode.setAttribute('id', 'temp-button-node-class');
+            newNode.textContent = buttonText;
+            document.body.appendChild(newNode);
+
+            return newNode;
+          };
+
+          let tag: Node = createTempNode.apply(window, []);
+
+          child.parentNode.insertBefore(tag as Node, newTextNode as Node);
           child = newTextNode;
+
+          render(
+            <ChunkButton
+              buttonText={chunk.text}
+              categories={chunk.categories}
+            />,
+            tag as HTMLElement
+          );
         });
       }
     }

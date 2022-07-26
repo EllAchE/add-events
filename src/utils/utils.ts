@@ -1,6 +1,8 @@
 //const euDate = `(${dayRegex}${dateSeparator}${monthRegex}(${dateSeparator}${yearRegex})?${endOfDate})`; // deal with double matching
 //const euWordDate = `(${wordDayRegex}(,\s?|\s)${wordMonthRegexes}(,\s?|\s)${yearRegex}?${endOfDate})`;
 
+import { CalendarEvent } from '../scripts/types';
+
 export function isInTheFuture(dateStr: string): boolean {
   const yearRegex = /\d{4}/g;
   // const futureYearRegex = /20([3-9][0-9]|2[3-9])/g;
@@ -43,3 +45,24 @@ export function getElements(): HTMLCollectionOf<Element> {
   return document.getElementsByTagName('*');
 }
 
+export function reducerReuseAddValue(state: any, action: any, key: string) {
+  if (state[key]?.length > 0 && state[key].charAt(-1) != '\\s') {
+    // TODO: make sure the \\s works to not add space when there is a whitespace ending
+    state[key] += ' ';
+    state[key] += action.payload;
+  } else {
+    state[key] = action.payload;
+  }
+}
+
+export function mapModalState(modalState: any): CalendarEvent {
+  const { title, description } = modalState;
+  return {
+    start: { dateTime: modalState.startDate },
+    end: {
+      dateTime: modalState.endDate ? modalState.endDate : modalState.startDate,
+    },
+    title,
+    description,
+  };
+}

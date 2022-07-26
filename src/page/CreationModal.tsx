@@ -1,4 +1,4 @@
-import { Box, Paper, TextField } from '@mui/material';
+import { Box, Button, Grid, Paper, TextField } from '@mui/material';
 import {
   DesktopDatePicker,
   LocalizationProvider,
@@ -8,8 +8,31 @@ import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import React from 'react';
 import { ReactElement } from 'react';
 import Draggable from 'react-draggable';
+import { Provider, useDispatch, useSelector } from 'react-redux';
+import { createEvents } from '../scripts/createEvents';
+import { mapModalState } from '../utils/utils';
+import {
+  setStartDate,
+  setTitle,
+  setLocation,
+  setDescription,
+  setEndDate,
+  setStartTime,
+  setEndTime,
+} from './modalSlice';
+import store from './store';
 
-export function CreationModal(props: any): ReactElement {
+export function CreationModal(): ReactElement {
+  return (
+    <Provider store={store}>
+      <StatelessCreationModal />
+    </Provider>
+  );
+}
+
+function StatelessCreationModal(): ReactElement {
+  const modalState = useSelector((state: any) => state.modal);
+  const dispatch = useDispatch();
   const {
     visible,
     startDate,
@@ -19,14 +42,7 @@ export function CreationModal(props: any): ReactElement {
     title,
     description,
     location,
-    setStartDate,
-    setEndDate,
-    setStartTime,
-    setEndTime,
-    setTitle,
-    setDescription,
-    setLocation,
-  } = props;
+  } = modalState;
   return visible ? (
     <Draggable>
       <Box
@@ -35,8 +51,8 @@ export function CreationModal(props: any): ReactElement {
           height: 400,
           position: 'fixed',
           right: 16,
-          bottom: -6,
-          zIndex: 50,
+          bottom: 2,
+          zIndex: 2147483647,
         }}
       >
         <Paper elevation={8}>
@@ -46,37 +62,60 @@ export function CreationModal(props: any): ReactElement {
               renderInput={(params) => (
                 <TextField {...params} sx={{ width: '100%' }} />
               )}
-              onChange={(value) => setStartDate(value)}
+              onChange={(event) => dispatch(setStartDate(event.target.value))}
               value={startDate}
             ></DesktopDatePicker>
             <TextField
               value={title}
-              onChange={setTitle}
+              onChange={(event) => dispatch(setTitle(event.target.value))}
               variant="filled"
               label="Title"
               sx={{ width: '100%' }}
             />
-            <TextField
-              variant="filled"
-              label="Location"
-              value={location}
-              onChange={(value) => setLocation(value)}
-              sx={{ width: '100%' }}
-            />
-            <TextField
+            <Grid container>
+              <Grid item xs={9}>
+                <TextField
+                  variant="filled"
+                  label="Location"
+                  value={location}
+                  onChange={(event) =>
+                    dispatch(setLocation(event.target.value))
+                  }
+                  sx={{ width: '100%' }}
+                />
+              </Grid>
+              <Grid item xs={3}>
+                <Button
+                  variant="contained"
+                  sx={{
+                    width: '100%',
+                    paddingTop: 1,
+                    paddingBottom: 1,
+                  }}
+                  onClick={() => {
+                    const event = mapModalState(modalState);
+                    createEvents([event]);
+                  }}
+                >
+                  Submit
+                </Button>
+              </Grid>
+            </Grid>
+
+            {/* <TextField
               variant="filled"
               label="Description"
               value={description}
-              onChange={(value) => setDescription(value)}
+              onChange={(event) => dispatch(setDescription(event.target.value))}
               sx={{ width: '100%' }}
-            />
-            <DesktopDatePicker
+            /> */}
+            {/* <DesktopDatePicker
               label="End Date"
               disabled={true}
               renderInput={(params) => (
                 <TextField {...params} sx={{ width: '100%' }} />
               )}
-              onChange={(newValue) => setEndDate(newValue)}
+              onChange={(event) => dispatch(setEndDate(event.target.value))}
               value={endDate}
             ></DesktopDatePicker>
             <TimePicker
@@ -84,7 +123,7 @@ export function CreationModal(props: any): ReactElement {
               value={startTime}
               ampm={false}
               //minTime={startDate}
-              onChange={(val) => setStartTime(val)}
+              onChange={(event) => dispatch(setStartTime(event.target.value))}
               renderInput={(params) => (
                 <TextField {...params} sx={{ width: '100%' }} />
               )}
@@ -94,11 +133,11 @@ export function CreationModal(props: any): ReactElement {
               value={endTime}
               ampm={false}
               //minTime={startDate}
-              onChange={(val) => setEndTime(val)}
+              onChange={(event) => dispatch(setEndTime(event.target.value))}
               renderInput={(params) => (
                 <TextField {...params} sx={{ width: '100%' }} />
               )}
-            />
+            /> */}
           </LocalizationProvider>
         </Paper>
       </Box>

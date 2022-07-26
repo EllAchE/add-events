@@ -1,5 +1,20 @@
+/* .add_to_cal_button_propernoun {
+    background-color: lightseagreen;
+    text-decoration: underline; 
+} */
+
 .add_to_cal_button_person {
     background-color: lightpink;
+    text-decoration: underline;
+}
+
+.add_to_cal_button_organization {
+    background-color: red;
+    text-decoration: underline;
+}
+
+.add_to_cal_button_atmention {
+    background-color: burlywood;
     text-decoration: underline;
 }
 
@@ -16,6 +31,16 @@
 .add_to_cal_button_time {
     background-color: lightgreen;
     text-decoration: underline;
+}
+
+.add_to_cal_button_place {
+    background-color: lightsalmon;
+    text-decoration: underline;
+}
+
+.add_to_cal_button_activity {
+    background-color: lightyellow;
+    text-decoration: underline; 
 }
 
 .add_to_cal_button {
