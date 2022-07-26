@@ -122,9 +122,7 @@ function StatelessCreationModal(): ReactElement {
         </Paper>
       </Box>
     </Draggable>
-  ) : (
-    <></>
-  );
+  ) : null;
 }
 
 export default function CreationModal(): ReactElement {

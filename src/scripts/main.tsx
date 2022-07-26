@@ -24,7 +24,7 @@ chrome.runtime.onMessage.addListener((msg, sender, callback) => {
   console.log('received from sender', sender.id, msg);
 });
 
-const observer = new MutationObserver(run);
+// const observer = new MutationObserver(run);
 // todo: should just run when doc is loaded, but that's broken for some reasona
 
 // observer.observe(document, {

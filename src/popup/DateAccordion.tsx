@@ -142,7 +142,7 @@ function DateSubmissionForm({ eventPrefill }: { eventPrefill: any }) {
   const [endDate, setEndDate] = useState<Date | null>(new Date(iEndDate));
   const [isAllDay, setIsAllDay] = useState<boolean>(!iStart && !iEndDate);
   const [isSingleDay, setIsSingleDay] = useState<boolean>(
-    !(iStartDate && iEndDate),
+    !(iStartDate && iEndDate)
   );
 
   const handleStartDateChange = (newValue: Date | null) => {
@@ -169,21 +169,21 @@ function DateSubmissionForm({ eventPrefill }: { eventPrefill: any }) {
       />
       <Grid sx={{ paddingBottom: 1 }}>
         <FormControlLabel
-          control={(
+          control={
             <Checkbox
               checked={isAllDay}
               onChange={(e) => setIsAllDay(e.target.checked)}
             />
-          )}
+          }
           label="All Day"
         />
         <FormControlLabel
-          control={(
+          control={
             <Checkbox
               checked={isSingleDay}
               onChange={(e) => setIsSingleDay(e.target.checked)}
             />
-          )}
+          }
           label="Single Day"
         />
       </Grid>
@@ -259,7 +259,7 @@ function DateSubmissionForm({ eventPrefill }: { eventPrefill: any }) {
                     summary: title,
                   },
                 ],
-                snackbarCallback,
+                snackbarCallback
               );
             }}
           >
@@ -293,15 +293,13 @@ export function DateAccordion({
         if (!eventPrefill.startDate && eventPrefill.date) {
           eventPrefill.startDate = eventPrefill.date;
         }
-        const {
-          startDate, endDate, description, date,
-        } = eventPrefill;
+        const { startDate, endDate, description, date } = eventPrefill;
 
         return (
           <Accordion key={startDate + endDate + description}>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
               <Typography>
-                {!endDate || startDate == endDate
+                {!endDate || startDate === endDate
                   ? startDate
                   : `${startDate} - ${endDate}`}
                 <Tooltip title="See event details on webpage">
