@@ -3,7 +3,7 @@ console.log('service worker triggered');
 chrome.commands.onCommand.addListener((command) => {
   switch (command) {
     case 'save-event':
-      //saveEvent();
+      // saveEvent();
       break;
     case 'add-title':
       break;

@@ -1,12 +1,14 @@
-enum DateFormat {
-  US,
-  EU,
-}
-
 export type ExtractedDate = {
   date: string;
   matchIndex: number;
-  format?: DateFormat;
+};
+
+type EventRecurrence = {
+  interval: number;
+  type: string;
+  dayOfWeek: string;
+  dayOfMonth: string;
+  dayOfYear: string;
 };
 
 export type CalendarEvent = {
@@ -22,14 +24,6 @@ export type CalendarEvent = {
   attendees?: any[];
   summary?: string;
   status?: 'tentative' | 'cancelled' | 'confirmed';
-};
-
-type EventRecurrence = {
-  interval: number;
-  type: string;
-  dayOfWeek: string;
-  dayOfMonth: string;
-  dayOfYear: string;
 };
 
 export type GoogleCalendarEventFields = {

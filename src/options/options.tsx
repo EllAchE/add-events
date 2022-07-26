@@ -1,3 +1,5 @@
+import GitHubIcon from '@mui/icons-material/GitHub';
+import TwitterIcon from '@mui/icons-material/Twitter';
 import {
   Autocomplete,
   Checkbox,
@@ -10,12 +12,11 @@ import {
 } from '@mui/material';
 import React, { ReactElement } from 'react';
 import { render } from 'react-dom';
-import GitHubIcon from '@mui/icons-material/GitHub';
-import TwitterIcon from '@mui/icons-material/Twitter';
-import { DemoCard } from './DemoCard';
-import { App } from '../app/App';
 
-/* 
+import { App } from '../app/App';
+import { DemoCard } from './DemoCard';
+
+/*
   User controls their settings from here. Separate page from popup.
  */
 function Options(): ReactElement {
@@ -55,7 +56,7 @@ function FreeformOptions(): ReactElement {
           options={[]}
           freeSolo
           multiple
-        ></Autocomplete>
+        />
       </Grid>
     </Grid>
   );
@@ -66,25 +67,25 @@ function CheckboxOptions(): ReactElement {
     <Grid container spacing={2}>
       <Grid item xs={2}>
         <FormControlLabel
-          control={<Checkbox disabled={true} />}
+          control={<Checkbox disabled />}
           label="Match European Times"
         />
       </Grid>
       <Grid item xs={2}>
         <FormControlLabel
-          control={<Checkbox disabled={true} />}
+          control={<Checkbox disabled />}
           label="Match American times"
         />
       </Grid>
       <Grid item xs={2}>
         <FormControlLabel
-          control={<Checkbox disabled={true} />}
+          control={<Checkbox disabled />}
           label="Include times"
         />
       </Grid>
       <Grid item xs={2}>
         <FormControlLabel
-          control={<Checkbox disabled={true} />}
+          control={<Checkbox disabled />}
           label="Insert Button"
         />
       </Grid>

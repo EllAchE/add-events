@@ -1,8 +1,9 @@
-import { createEventButtons } from './createButtons';
-import { getElements } from '../utils/utils';
-import { CreationModal } from '../page/CreationModal';
-import { render } from 'react-dom';
 import React from 'react';
+import { render } from 'react-dom';
+
+import { CreationModal } from '../page/CreationModal';
+import { getElements } from '../utils/utils';
+import { createEventButtons } from './createButtons';
 
 const run = () => {
   console.log('run triggered');
@@ -23,7 +24,8 @@ chrome.runtime.onMessage.addListener((msg, sender, callback) => {
   console.log('received from sender', sender.id, msg);
 });
 
-const observer = new MutationObserver(run); // todo: should just run when doc is loaded, buttha's broken for some reasona
+const observer = new MutationObserver(run);
+// todo: should just run when doc is loaded, but that's broken for some reasona
 
 // observer.observe(document, {
 //   childList: true,

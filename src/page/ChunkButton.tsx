@@ -1,5 +1,6 @@
 import React, { ReactElement } from 'react';
 import { Provider, useDispatch, useSelector } from 'react-redux';
+
 import {
   addLocation,
   addStartDate,
@@ -11,7 +12,7 @@ import store from './store';
 
 export function creaateWordButton(
   buttonText: string,
-  categories: string[]
+  categories: string[],
 ): HTMLElement {
   // const newNode = document.createElement('div');
   // newNode.setAttribute('id', 'event-create-modal');
@@ -20,8 +21,8 @@ export function creaateWordButton(
 
   // render(<ChunkButton/>, document.getElementById('event-create-modal'));
 
-  let button = document.createElement('span');
-  button.classList.add(`add_to_cal_button`);
+  const button = document.createElement('span');
+  button.classList.add('add_to_cal_button');
 
   // business logic to resolve type conflicts (date and time)
   for (const cat of categories) {

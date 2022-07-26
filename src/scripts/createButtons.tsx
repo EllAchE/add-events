@@ -1,5 +1,4 @@
-import { ChunkButton } from '../page/ChunkButton';
-import { replaceText } from './replaceText';
+import replaceText from './replaceText';
 
 // function createWordButton(
 //   buttonText: string,
@@ -64,7 +63,7 @@ export function createEventButtons(
   elements: HTMLCollectionOf<HTMLElement>,
   ...params: any
 ): void {
-  let allDates = new Set();
+  const allDates = new Set();
 
   const customClassRegex = /add_to_cal_button/;
 
@@ -78,8 +77,7 @@ export function createEventButtons(
       elements[i].tagName != 'META' &&
       !customClassRegex.test(elements[i].className)
     ) {
-      console.log('calling replace text');
-      const res = replaceText(elements[i], undefined, undefined, ...params);
+      const res = replaceText(elements[i], undefined, ...params);
       if (res) {
         for (const el of res) {
           allDates.add(el);
@@ -89,9 +87,7 @@ export function createEventButtons(
   }
 
   // remove duplicates
-  const dates = Array.from(allDates).map((el: string) => {
-    return JSON.parse(el);
-  });
+  const dates = Array.from(allDates).map((el: string) => JSON.parse(el));
 
   console.log('should be setting local storage key');
 
@@ -99,8 +95,8 @@ export function createEventButtons(
 
   if (dates.length > 0) {
     // hack as the function is still being excuted on tab open for unknwon reason
-    chrome.storage.local.set({ currentEvents: dates }, function () {
-      console.log('local storage set to ' + dates);
+    chrome.storage.local.set({ currentEvents: dates }, () => {
+      console.log(`local storage set to ${dates}`);
     });
   }
 }

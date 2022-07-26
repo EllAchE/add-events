@@ -1,18 +1,21 @@
 import nlp from 'compromise';
 import Three from 'compromise/types/view/three';
+
 import { NLPChunk } from '../scripts/types';
 import { checkIfSetsShareAnElement, setIntersection } from './utils';
 
 const datePlugin = require('compromise-dates');
+
 nlp.plugin(datePlugin);
 
-/* 
+/*
   This function checks through the terms of entities and classifies them according to custom logic.
-  This "rechunks" nlp processed terms into groups we care about. It also stores the index at which a chunk begins.
+  This "rechunks" nlp processed terms into groups we care about.
+  It also stores the index at which a chunk begins.
   A comprehensive list of nlp compromise terms is available at https://compromise.cool/#tags
 */
-export function classifyTextNLP(text: string): NLPChunk[] {
-  let doc: Three = nlp(text);
+export default function classifyTextNLP(text: string): NLPChunk[] {
+  const doc: Three = nlp(text);
 
   const entities = doc.json();
   const processedChunks: NLPChunk[] = [];
@@ -31,10 +34,12 @@ export function classifyTextNLP(text: string): NLPChunk[] {
     checkTerms.add('Url');
     checkTerms.add('AtMention');
     checkTerms.add('Email');
-    //checkTerms.add('Acronym')
+    // checkTerms.add('Acronym')
     checkTerms.add('ProperNoun');
 
-    const terms = ent.terms;
+    const { terms } = ent;
+    console.log(ent);
+    console.log(terms);
     let runningChunk = [];
     let currentTagMatches: Set<string> = new Set(terms[0].tags);
     let previousTagMatches: Set<string> = new Set(terms[0].tags);
@@ -42,9 +47,10 @@ export function classifyTextNLP(text: string): NLPChunk[] {
 
     let term;
     while (j < terms.length) {
+      console.log('tags');
+      console.log(previousTagMatches);
+      console.log(currentTagMatches);
       term = terms[j];
-      console.log(term);
-      console.log(term.tags);
       j += 1;
 
       currentTagMatches = setIntersection(
@@ -119,6 +125,10 @@ export function classifyTextNLP(text: string): NLPChunk[] {
     runningChunk.pop();
     const chunk = runningChunk.join('');
 
+    console.log('tags outside');
+    console.log(previousTagMatches);
+    console.log(checkTerms);
+
     if (checkIfSetsShareAnElement(previousTagMatches, checkTerms)) {
       processedChunks.push({
         text: chunk,
@@ -128,5 +138,9 @@ export function classifyTextNLP(text: string): NLPChunk[] {
     }
   }
 
+  if (processedChunks.length > 0) {
+    console.log('proc chu');
+    console.log(processedChunks);
+  }
   return processedChunks;
 }

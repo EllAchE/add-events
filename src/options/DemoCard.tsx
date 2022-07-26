@@ -1,3 +1,4 @@
+import HelpIcon from '@mui/icons-material/Help';
 import {
   Card,
   FormControl,
@@ -11,7 +12,6 @@ import {
   Typography,
 } from '@mui/material';
 import React, { ReactElement } from 'react';
-import HelpIcon from '@mui/icons-material/Help';
 
 export function DemoCard(): ReactElement {
   return (
@@ -23,13 +23,17 @@ export function DemoCard(): ReactElement {
             <Typography sx={{ padding: 3 }}>
               ...world was expected to come to an end on December 31, 2000. And
               again on December 31, 2012. But we're here today. We'll be here
-              tomorrow. And we'll be here till{' '}
+              tomorrow. And we'll be here till
+              {' '}
               <span className="add_to_cal_button add_to_cal_button_date">
                 December 31, 3000
-              </span>{' '}
-              (I hope.{' '}
+              </span>
+              {' '}
+              (I hope.
+              {' '}
               <span className="add_to_cal_button add_to_cal_button_date">
-                December 31, 2023{' '}
+                December 31, 2023
+                {' '}
               </span>
               , at the least)...
             </Typography>
@@ -40,9 +44,10 @@ export function DemoCard(): ReactElement {
                 width={200}
                 height={120}
                 src="https://www.pngkey.com/png/full/834-8345759_a-publicly-available-server-is-hosted-at-book.png"
-              ></img>
+              />
               <figcaption>
-                A real human,{' '}
+                A real human,
+                {' '}
                 <span className="add_to_cal_button add_to_cal_button_date">
                   19/11/2025
                 </span>
@@ -55,19 +60,19 @@ export function DemoCard(): ReactElement {
           <Grid item xs={3}>
             <FormControl fullWidth>
               <InputLabel>Match Color</InputLabel>
-              <Select value={'na'} label="Match Color" sx={{ width: 200 }}>
-                <MenuItem value={'na'}>No Color</MenuItem>
-                <MenuItem value={'red'}>Magenta</MenuItem>
-                <MenuItem value={'blue'}>Azure</MenuItem>
-                <MenuItem value={'green'}>Green</MenuItem>
+              <Select value="na" label="Match Color" sx={{ width: 200 }}>
+                <MenuItem value="na">No Color</MenuItem>
+                <MenuItem value="red">Magenta</MenuItem>
+                <MenuItem value="blue">Azure</MenuItem>
+                <MenuItem value="green">Green</MenuItem>
               </Select>
             </FormControl>
           </Grid>
           <Grid item xs={3}>
             <FormControlLabel
               control={<Switch defaultChecked />}
-              label={'Insert Button'}
-            ></FormControlLabel>
+              label="Insert Button"
+            />
             <Tooltip title="If this is disabled the extension will not modify the contents of webpages you visit. Events will still appear in the popup window.">
               <HelpIcon />
             </Tooltip>
@@ -76,9 +81,7 @@ export function DemoCard(): ReactElement {
             <Switch defaultChecked />
             <Typography>Highlight in-page</Typography>
             <Tooltip
-              title={
-                'If this is disabled the extension will not modify the contents of webpages you visit. Events will still appear in the popup window.'
-              }
+              title="If this is disabled the extension will not modify the contents of webpages you visit. Events will still appear in the popup window."
             >
               <HelpIcon />
             </Tooltip>

@@ -1,3 +1,6 @@
+import HelpIcon from '@mui/icons-material/Help';
+import NotificationsIcon from '@mui/icons-material/Notifications';
+import SettingsIcon from '@mui/icons-material/Settings';
 import {
   AppBar,
   Badge,
@@ -7,9 +10,6 @@ import {
   IconButton,
   styled,
 } from '@mui/material';
-import SettingsIcon from '@mui/icons-material/Settings';
-import HelpIcon from '@mui/icons-material/Help';
-import NotificationsIcon from '@mui/icons-material/Notifications';
 import React from 'react';
 
 const StyledBadge = styled(Badge)<BadgeProps>(({ theme }) => ({

@@ -1,4 +1,4 @@
-import { classifyTextNLP, extractDatesNLP } from '../src/utils/textClassification';
+import classifyTextNLP from '../src/utils/textClassification';
 
 test('classification works', () => {
   const americanDates: any[] = [
@@ -62,13 +62,13 @@ test('classification works', () => {
     // },
   ];
 
-  for (const date of americanDates) {
-    const filteredDates = classifyTextNLP(date.in).map((r) => {
+  americanDates.forEach((date) => {
+    const filteredDates = classifyTextNLP(date.in).map((r: any) => {
       return r;
     });
 
     expect(filteredDates).toEqual(date.out);
-  }
+  });
 });
 
 test('replacement works', () => {});

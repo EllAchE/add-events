@@ -1,24 +1,22 @@
-import { Box, Button, Grid, Paper, TextField } from '@mui/material';
+import {
+  Box, Button, Grid, Paper, TextField,
+} from '@mui/material';
 import {
   DesktopDatePicker,
   LocalizationProvider,
   TimePicker,
 } from '@mui/x-date-pickers';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
-import React from 'react';
-import { ReactElement } from 'react';
+import React, { ReactElement } from 'react';
 import Draggable from 'react-draggable';
 import { Provider, useDispatch, useSelector } from 'react-redux';
-import { createEvents } from '../scripts/createEvents';
+
+import createEvents from '../scripts/createEvents';
 import { mapModalState } from '../utils/utils';
 import {
   setStartDate,
   setTitle,
   setLocation,
-  setDescription,
-  setEndDate,
-  setStartTime,
-  setEndTime,
 } from './modalSlice';
 import store from './store';
 
@@ -64,7 +62,7 @@ function StatelessCreationModal(): ReactElement {
               )}
               onChange={(event) => dispatch(setStartDate(event.target.value))}
               value={startDate}
-            ></DesktopDatePicker>
+            />
             <TextField
               value={title}
               onChange={(event) => dispatch(setTitle(event.target.value))}
@@ -78,9 +76,7 @@ function StatelessCreationModal(): ReactElement {
                   variant="filled"
                   label="Location"
                   value={location}
-                  onChange={(event) =>
-                    dispatch(setLocation(event.target.value))
-                  }
+                  onChange={(event) => dispatch(setLocation(event.target.value))}
                   sx={{ width: '100%' }}
                 />
               </Grid>

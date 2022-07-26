@@ -1,13 +1,11 @@
-import React, { ReactElement, useEffect, useState } from 'react';
-import { render } from 'react-dom';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
-import { openTab } from '../scripts/tab';
-import { AppBar, Badge, BadgeProps, IconButton, styled } from '@mui/material';
-import NotificationsIcon from '@mui/icons-material/Notifications';
+import React, { ReactElement, useEffect, useState } from 'react';
+import { render } from 'react-dom';
 
-import { DateAccordion } from './DateAccordion';
 import { App } from '../app/App';
+import openTab from '../scripts/tab';
+import { DateAccordion } from './DateAccordion';
 
 function Popup(): ReactElement {
   const [events, setEvents] = useState([]);
@@ -22,9 +20,9 @@ function Popup(): ReactElement {
   // });
 
   useEffect(() => {
-    chrome.storage.local.get('currentEvents', function (result) {
+    chrome.storage.local.get('currentEvents', (result) => {
       console.log('events in storage', result);
-      setEvents(result['currentEvents'] ? result['currentEvents'] : []);
+      setEvents(result.currentEvents ? result.currentEvents : []);
     });
   }, []);
 

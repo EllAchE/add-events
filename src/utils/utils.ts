@@ -16,11 +16,11 @@ export function isInTheFuture(dateStr: string): boolean {
 }
 
 export function checkIfSetsShareAnElement(a: Set<any>, b: Set<any>) {
-  a.forEach((item) => {
+  for (const item of a) {
     if (b.has(item)) {
       return true;
     }
-  });
+  }
   return false;
 }
 

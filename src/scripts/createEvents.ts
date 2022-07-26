@@ -1,17 +1,13 @@
 import { CalendarEvent } from './types';
 
 // calls the insert API https://developers.google.com/calendar/api/v3/reference/events/insert
-export function createEvents(
+export default function createEvents(
   events: CalendarEvent[],
   callback?: any,
   calendarId?: string
 ): void {
-  calendarId = calendarId ? calendarId : 'primary';
+  calendarId = calendarId || 'primary';
   // will need to create a new calendar and persist that id
-
-  console.log('creating events called');
-  console.log(events);
-  console.log(calendarId);
 
   if (!events) {
     console.error('called creat events without any events to create');
@@ -19,8 +15,8 @@ export function createEvents(
   }
 
   events.forEach((event: any) => {
-    chrome.identity.getAuthToken({ interactive: true }, function (token) {
-      let config = {
+    chrome.identity.getAuthToken({ interactive: true }, (token) => {
+      const config = {
         method: 'POST',
         async: true,
         headers: {
@@ -36,11 +32,10 @@ export function createEvents(
         config
       )
         .then((response) => {
-          console.log('should show snackbar');
-          callback(response.status == 200);
+          callback(response.status === 200);
           return response.json();
         })
-        .then(function (data) {
+        .then((data) => {
           console.log(data);
         });
     });

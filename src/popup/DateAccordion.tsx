@@ -1,3 +1,5 @@
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import FindInPageIcon from '@mui/icons-material/FindInPage';
 import {
   Accordion,
   AccordionSummary,
@@ -13,17 +15,16 @@ import {
   Alert,
   Snackbar,
 } from '@mui/material';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import React, { useState, ReactElement } from 'react';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import FindInPageIcon from '@mui/icons-material/FindInPage';
-import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
-import { LocalizationProvider } from '@mui/x-date-pickers';
-import ConfirmationDialog from './ConfirmationDialog';
-import { createEvents } from '../scripts/createEvents';
 
-/* 
+import createEvents from '../scripts/createEvents';
+import ConfirmationDialog from './ConfirmationDialog';
+
+/*
   Time wheel and datetime selectors
 */
 function DatetimePickers({
@@ -53,25 +54,25 @@ function DatetimePickers({
           <DesktopDatePicker
             label={isSingleDay ? 'Date' : 'Start Date'}
             value={startDate}
-            //maxDate={endDate}
-            //onError={() => alert('start date must be after end date')}
+            // maxDate={endDate}
+            // onError={() => alert('start date must be after end date')}
             onChange={handleStartDateChange}
             renderInput={(params) => (
               <TextField {...params} sx={{ width: '100%' }} />
             )}
-          ></DesktopDatePicker>
+          />
         </Grid>
         {!isSingleDay && (
           <Grid item xs={6}>
             <DesktopDatePicker
               label="End Date"
               value={endDate}
-              //minDate={startDate}
+              // minDate={startDate}
               onChange={handleEndDateChange}
               renderInput={(params) => (
                 <TextField {...params} sx={{ width: '100%' }} />
               )}
-            ></DesktopDatePicker>
+            />
           </Grid>
         )}
       </Grid>
@@ -86,7 +87,7 @@ function DatetimePickers({
             <TimePicker
               label="Start Time"
               value={startDate}
-              //maxTime={endDate}
+              // maxTime={endDate}
               onChange={handleStartDateChange}
               ampm={false}
               renderInput={(params) => (
@@ -99,7 +100,7 @@ function DatetimePickers({
               label="End Time"
               value={endDate}
               ampm={false}
-              //minTime={startDate}
+              // minTime={startDate}
               onChange={handleEndDateChange}
               renderInput={(params) => (
                 <TextField {...params} sx={{ width: '100%' }} />
@@ -141,7 +142,7 @@ function DateSubmissionForm({ eventPrefill }: { eventPrefill: any }) {
   const [endDate, setEndDate] = useState<Date | null>(new Date(iEndDate));
   const [isAllDay, setIsAllDay] = useState<boolean>(!iStart && !iEndDate);
   const [isSingleDay, setIsSingleDay] = useState<boolean>(
-    !(iStartDate && iEndDate)
+    !(iStartDate && iEndDate),
   );
 
   const handleStartDateChange = (newValue: Date | null) => {
@@ -168,21 +169,21 @@ function DateSubmissionForm({ eventPrefill }: { eventPrefill: any }) {
       />
       <Grid sx={{ paddingBottom: 1 }}>
         <FormControlLabel
-          control={
+          control={(
             <Checkbox
               checked={isAllDay}
               onChange={(e) => setIsAllDay(e.target.checked)}
             />
-          }
+          )}
           label="All Day"
         />
         <FormControlLabel
-          control={
+          control={(
             <Checkbox
               checked={isSingleDay}
               onChange={(e) => setIsSingleDay(e.target.checked)}
             />
-          }
+          )}
           label="Single Day"
         />
       </Grid>
@@ -198,7 +199,7 @@ function DateSubmissionForm({ eventPrefill }: { eventPrefill: any }) {
             variant="outlined"
             defaultValue={title}
             onChange={(e) => setTitle(e.target.value)}
-          ></TextField>
+          />
         </Grid>
         <Grid item xs={8}>
           <TextField
@@ -209,7 +210,7 @@ function DateSubmissionForm({ eventPrefill }: { eventPrefill: any }) {
             defaultValue={description}
             onChange={(e) => setDescription(e.target.value)}
             label="Description"
-          ></TextField>
+          />
         </Grid>
       </Grid>
       <DatetimePickers
@@ -258,7 +259,7 @@ function DateSubmissionForm({ eventPrefill }: { eventPrefill: any }) {
                     summary: title,
                   },
                 ],
-                snackbarCallback
+                snackbarCallback,
               );
             }}
           >
@@ -292,7 +293,9 @@ export function DateAccordion({
         if (!eventPrefill.startDate && eventPrefill.date) {
           eventPrefill.startDate = eventPrefill.date;
         }
-        const { startDate, endDate, description, date } = eventPrefill;
+        const {
+          startDate, endDate, description, date,
+        } = eventPrefill;
 
         return (
           <Accordion key={startDate + endDate + description}>
