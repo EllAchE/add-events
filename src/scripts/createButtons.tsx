@@ -1,64 +1,5 @@
 import replaceText from './replaceText';
 
-// function createWordButton(
-//   buttonText: string,
-//   categories: string[]
-// ): HTMLElement {
-//   // const newNode = document.createElement('div');
-//   // newNode.setAttribute('id', 'event-create-modal');
-
-//   // document.body.appendChild(newNode);
-
-//   // render(<ChunkButton/>, document.getElementById('event-create-modal'));
-
-//   let button = document.createElement('span');
-//   button.classList.add(`add_to_cal_button`);
-
-//   // business logic to resolve type conflicts (date and time)
-//   for (const cat of categories) {
-//     button.classList.add(`add_to_cal_button_${cat.toLowerCase()}`);
-//   }
-//   button.textContent = buttonText;
-
-//   let leadCat = categories[0];
-
-//   // business logic needed for all of these
-//   if (categories.includes('Date')) {
-//     leadCat = 'Date';
-//   }
-//   if (categories.includes('Place')) {
-//     leadCat = 'Place';
-//   }
-//   if (categories.includes('Time')) {
-//     leadCat = 'Time';
-//   }
-
-//   // sequence we want -> start date, -> title, end date, start time, end time, location
-//   // Finish with ctrl somehting, switch to title with ctrl t, endt with ctorl...
-
-//   // ideal ux would let you type it in focused window if not found, or skip
-
-//   button.addEventListener('click', (e) => {
-//     // rather than local storage, message sending could do the job?'
-//     // const obj: any = {};
-//     // obj[leadCat] = buttonText;
-//     // chrome.storage.local.set(obj, function () {
-//     //   console.log('set temp storage to', obj);
-//     // });
-//     // const res = chrome.runtime.sendMessage(
-//     //   { type: 'create_event', body: [eventDetails] },
-//     //   (response) => {
-//     //     // if (response.status == 200) {
-//     //     // }
-//     //   }
-//     // );
-//     // // TODO: add logic to display the success message on the page
-//     // alert('Created Test Event');
-//   });
-
-//   return button;
-// }
-
 export function createEventButtons(
   elements: HTMLCollectionOf<HTMLElement>,
   ...params: any
@@ -77,7 +18,7 @@ export function createEventButtons(
       elements[i].tagName != 'META' &&
       !customClassRegex.test(elements[i].className)
     ) {
-      const res = replaceText(elements[i], undefined, ...params);
+      const res = replaceText(elements[i], undefined);
       if (res) {
         for (const el of res) {
           allDates.add(el);

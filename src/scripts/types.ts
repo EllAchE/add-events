@@ -34,7 +34,10 @@ export type GoogleCalendarEventFields = {
   startTime: string;
   endTime: string;
   timeZone: string;
-  recurrence: any; // daily, weekly, monthly, annually, more options. Every <interval> <day,month,year,week> <dow> end recurrence <on date, never, after x recurrences>
+  recurrence: any;
+  // daily, weekly, monthly, annually, more options.
+  // Every <interval> <day,month,year,week> <dow>
+  // end recurrence <on date, never, after x recurrences>
   location: string; // selected from dropdown too
   notification: string;
   calendarId: string; // this will be owned by extension. Potentially different cals

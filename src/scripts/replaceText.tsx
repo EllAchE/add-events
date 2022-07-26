@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import React from 'react';
 import { render } from 'react-dom';
 
 import { ChunkButton } from '../page/ChunkButton';
@@ -8,22 +8,11 @@ import { NLPChunk } from './types';
 // TODO: should adjust the method signature to not take in regex
 export default function replaceText(
   node: HTMLElement,
-  excludeElements?: string[],
-  ...params: any
+  excludeElements?: string[]
 ) {
   excludeElements ||
     (excludeElements = ['script', 'style', 'iframe', 'canvas']);
   let child: any = node.firstChild;
-
-  const {
-    setStartDate,
-    setEndDate,
-    setStartTime,
-    setEndTime,
-    setTitle,
-    setDescription,
-    setLocation,
-  } = params;
 
   // These will be used to display a quick summary of data extracted
   const personSet = new Set();
@@ -34,7 +23,6 @@ export default function replaceText(
   const dateSet = new Set();
 
   while (child) {
-    console.log('child iter');
     if (child.nodeType == 3) {
       const classifiedChunks: NLPChunk[] = classifyTextNLP(child.data);
 
@@ -85,40 +73,3 @@ export default function replaceText(
 
   return dates;
 }
-
-// export function replaceText(
-//   node: any,
-//   regex: RegExp,
-//   callback: any,
-//   excludeElements?: string[]
-// ) {
-//   excludeElements = ['script', 'style', 'iframe', 'canvas'];
-//   if (
-//     !node?.tagName ||
-//     node.className.toLowerCase() == 'add_to_cal_button_ce' ||
-//     excludeElements.indexOf(node.tagName.toLowerCase()) > -1
-//   ) {
-//     console.log('early ex');
-//     console.log(node.data);
-//     console.log(node.tagName);
-//     console.log(node.className);
-//     return;
-//   }
-//   let bk = 0;
-//   node.data.replace(regex, function (all: HTMLElement[]) {
-//     let args = Array.prototype.slice.call(arguments);
-//     let offset = args[args.length - 2];
-//     let newTextNode = node.splitText(offset + bk);
-//     let tag;
-
-//     bk -= node.data.length + all.length;
-
-//     newTextNode.data = newTextNode.data.substr(all.length);
-//     tag = callback.apply(window, [node].concat(args));
-
-//     console.log('inserting button');
-//     node.parentNode.insertBefore(tag, newTextNode);
-//     node = newTextNode;
-//   });
-//   regex.lastIndex = 0;
-// }
