@@ -37,7 +37,7 @@ function StatelessChunkButton(props: any): ReactElement {
   return (
     <span
       className={classList}
-      onClick={(e) => {
+      onClick={() => {
         dispatch(leadFunction(buttonText));
       }}
     >

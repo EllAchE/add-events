@@ -1,8 +1,7 @@
 import replaceText from './replaceText';
 
 export function createEventButtons(
-  elements: HTMLCollectionOf<HTMLElement>,
-  ...params: any
+  elements: HTMLCollectionOf<HTMLElement>
 ): void {
   const allDates = new Set();
 

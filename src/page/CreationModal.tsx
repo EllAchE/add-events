@@ -10,25 +10,17 @@ import { mapModalState } from '../utils/utils';
 import { setStartDate, setTitle, setLocation } from './modalSlice';
 import store from './store';
 
-export function CreationModal(): ReactElement {
-  return (
-    <Provider store={store}>
-      <StatelessCreationModal />
-    </Provider>
-  );
-}
-
 function StatelessCreationModal(): ReactElement {
   const modalState = useSelector((state: any) => state.modal);
   const dispatch = useDispatch();
   const {
     visible,
     startDate,
-    endDate,
-    startTime,
-    endTime,
+    // endDate,
+    // startTime,
+    // endTime,
     title,
-    description,
+    // description,
     location,
   } = modalState;
   return visible ? (
@@ -132,5 +124,13 @@ function StatelessCreationModal(): ReactElement {
     </Draggable>
   ) : (
     <></>
+  );
+}
+
+export default function CreationModal(): ReactElement {
+  return (
+    <Provider store={store}>
+      <StatelessCreationModal />
+    </Provider>
   );
 }

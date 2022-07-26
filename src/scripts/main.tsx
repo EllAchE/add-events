@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from 'react-dom';
 
-import { CreationModal } from '../page/CreationModal';
+import CreationModal from '../page/CreationModal';
 import { getElements } from '../utils/utils';
 import { createEventButtons } from './createButtons';
 
