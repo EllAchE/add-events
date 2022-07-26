@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from 'react-dom';
 
-import { ChunkButton } from '../page/ChunkButton';
+import ChunkButton from '../page/ChunkButton';
 import classifyTextNLP from '../utils/textClassification';
 import { NLPChunk } from './types';
 

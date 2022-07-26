@@ -19,7 +19,7 @@ const StyledBadge = styled(Badge)<BadgeProps>(({ theme }) => ({
   },
 }));
 
-export function App({ children }: { children: any }) {
+export default function App({ children }: { children: any }) {
   return (
     <>
       <AppBar position="static" sx={{ top: 0, left: 0, width: '100%' }}>

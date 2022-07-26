@@ -3,7 +3,7 @@ import Grid from '@mui/material/Grid';
 import React, { ReactElement, useEffect, useState } from 'react';
 import { render } from 'react-dom';
 
-import { App } from '../app/App';
+import App from '../app/App';
 import openTab from '../scripts/tab';
 import { DateAccordion } from './DateAccordion';
 
@@ -12,7 +12,6 @@ function Popup(): ReactElement {
 
   useEffect(() => {
     chrome.storage.local.get('currentEvents', (result) => {
-      console.log('events in storage', result);
       setEvents(result.currentEvents ? result.currentEvents : []);
     });
   }, []);

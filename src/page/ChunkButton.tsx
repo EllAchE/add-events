@@ -9,20 +9,6 @@ import {
 } from './modalSlice';
 import store from './store';
 
-export function ChunkButton({
-  buttonText,
-  categories,
-}: {
-  buttonText: string;
-  categories: string[];
-}): ReactElement {
-  return (
-    <Provider store={store}>
-      <StatelessChunkButton buttonText={buttonText} categories={categories} />
-    </Provider>
-  );
-}
-
 function StatelessChunkButton(props: any): ReactElement {
   const dispatch = useDispatch();
 
@@ -57,5 +43,19 @@ function StatelessChunkButton(props: any): ReactElement {
     >
       {buttonText}
     </span>
+  );
+}
+
+export default function ChunkButton({
+  buttonText,
+  categories,
+}: {
+  buttonText: string;
+  categories: string[];
+}): ReactElement {
+  return (
+    <Provider store={store}>
+      <StatelessChunkButton buttonText={buttonText} categories={categories} />
+    </Provider>
   );
 }

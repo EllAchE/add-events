@@ -13,31 +13,8 @@ import {
 import React, { ReactElement } from 'react';
 import { render } from 'react-dom';
 
-import { App } from '../app/App';
-import { DemoCard } from './DemoCard';
-
-/*
-  User controls their settings from here. Separate page from popup.
- */
-function Options(): ReactElement {
-  return (
-    <App>
-      <Typography variant="h3">Settings</Typography>
-      <DemoCard />
-      <FormGroup>
-        <Typography>Have any questions? Want to contribute?</Typography>
-        <IconButton>
-          <TwitterIcon />
-        </IconButton>
-        <IconButton>
-          <GitHubIcon />
-        </IconButton>
-        <CheckboxOptions />
-        <FreeformOptions />
-      </FormGroup>
-    </App>
-  );
-}
+import App from '../app/App';
+import DemoCard from './DemoCard';
 
 function FreeformOptions(): ReactElement {
   return (
@@ -96,6 +73,28 @@ function CheckboxOptions(): ReactElement {
         />
       </Grid>
     </Grid>
+  );
+}
+/*
+  User controls their settings from here. Separate page from popup.
+ */
+function Options(): ReactElement {
+  return (
+    <App>
+      <Typography variant="h3">Settings</Typography>
+      <DemoCard />
+      <FormGroup>
+        <Typography>Have any questions? Want to contribute?</Typography>
+        <IconButton>
+          <TwitterIcon />
+        </IconButton>
+        <IconButton>
+          <GitHubIcon />
+        </IconButton>
+        <CheckboxOptions />
+        <FreeformOptions />
+      </FormGroup>
+    </App>
   );
 }
 
