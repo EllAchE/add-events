@@ -2,7 +2,7 @@ import React from 'react';
 import { ReactElement } from 'react';
 import { render } from 'react-dom';
 import { ChunkButton } from '../page/ChunkButton';
-import { classifyTextNLP } from '../utils/dateExtraction';
+import { classifyTextNLP } from '../utils/textClassification';
 import { NLPChunk } from './types';
 
 // TODO: should adjust the method signature to not take in regex

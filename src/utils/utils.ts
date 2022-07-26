@@ -1,6 +1,3 @@
-//const euDate = `(${dayRegex}${dateSeparator}${monthRegex}(${dateSeparator}${yearRegex})?${endOfDate})`; // deal with double matching
-//const euWordDate = `(${wordDayRegex}(,\s?|\s)${wordMonthRegexes}(,\s?|\s)${yearRegex}?${endOfDate})`;
-
 import { CalendarEvent } from '../scripts/types';
 
 export function isInTheFuture(dateStr: string): boolean {
@@ -10,33 +7,31 @@ export function isInTheFuture(dateStr: string): boolean {
 
   const date = new Date(dateStr); // might break for some?
 
-  console.log(today, date);
-
   if (dateStr.match(yearRegex)) {
     return date > today;
-  } else {
-    // a more intellignet check desired, i.e. check distance if the event were in the next year, or if it were in the past
-    return true;
   }
+  // a more intellignet check desired, i.e. check distance if the event
+  // were in the next year, or if it were in the past
+  return true;
 }
 
 export function checkIfSetsShareAnElement(a: Set<any>, b: Set<any>) {
-  for (const item of a) {
+  a.forEach((item) => {
     if (b.has(item)) {
       return true;
     }
-  }
+  });
   return false;
 }
 
 export function setIntersection(a: Set<any>, b: Set<any>): Set<any> {
   const s = new Set();
 
-  for (const item of a) {
+  a.forEach((item) => {
     if (b.has(item)) {
       s.add(item);
     }
-  }
+  });
 
   return s;
 }
@@ -46,7 +41,7 @@ export function getElements(): HTMLCollectionOf<Element> {
 }
 
 export function reducerReuseAddValue(state: any, action: any, key: string) {
-  if (state[key]?.length > 0 && state[key].charAt(-1) != '\\s') {
+  if (state[key]?.length > 0 && state[key].charAt(-1) !== '\\s') {
     // TODO: make sure the \\s works to not add space when there is a whitespace ending
     state[key] += ' ';
     state[key] += action.payload;

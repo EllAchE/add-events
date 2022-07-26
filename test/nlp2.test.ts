@@ -1,4 +1,4 @@
-import { classifyTextNLP, extractDatesNLP } from '../src/utils/dateExtraction';
+import { classifyTextNLP, extractDatesNLP } from '../src/utils/textClassification';
 
 test('classification works', () => {
   const americanDates: any[] = [

@@ -1,4 +1,4 @@
-import { extractDatesRegex } from '../src/utils/dateExtraction';
+import { extractDatesRegex } from '../src/utils/textClassification';
 
 test('properly identifies dates', () => {
   const americanDates = [
