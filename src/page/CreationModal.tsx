@@ -1,11 +1,5 @@
-import {
-  Box, Button, Grid, Paper, TextField,
-} from '@mui/material';
-import {
-  DesktopDatePicker,
-  LocalizationProvider,
-  TimePicker,
-} from '@mui/x-date-pickers';
+import { Box, Button, Grid, Paper, TextField } from '@mui/material';
+import { DesktopDatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import React, { ReactElement } from 'react';
 import Draggable from 'react-draggable';
@@ -13,11 +7,7 @@ import { Provider, useDispatch, useSelector } from 'react-redux';
 
 import createEvents from '../scripts/createEvents';
 import { mapModalState } from '../utils/utils';
-import {
-  setStartDate,
-  setTitle,
-  setLocation,
-} from './modalSlice';
+import { setStartDate, setTitle, setLocation } from './modalSlice';
 import store from './store';
 
 export function CreationModal(): ReactElement {
@@ -76,7 +66,9 @@ function StatelessCreationModal(): ReactElement {
                   variant="filled"
                   label="Location"
                   value={location}
-                  onChange={(event) => dispatch(setLocation(event.target.value))}
+                  onChange={(event) =>
+                    dispatch(setLocation(event.target.value))
+                  }
                   sx={{ width: '100%' }}
                 />
               </Grid>

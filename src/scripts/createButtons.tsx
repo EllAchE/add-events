@@ -30,10 +30,6 @@ export function createEventButtons(
   // remove duplicates
   const dates = Array.from(allDates).map((el: string) => JSON.parse(el));
 
-  console.log('should be setting local storage key');
-
-  console.dir(dates);
-
   if (dates.length > 0) {
     // hack as the function is still being excuted on tab open for unknwon reason
     chrome.storage.local.set({ currentEvents: dates }, () => {
