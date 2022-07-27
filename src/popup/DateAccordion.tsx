@@ -21,7 +21,6 @@ import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import React, { useState, ReactElement } from 'react';
 
-import createEvents from '../scripts/createEvents';
 import ConfirmationDialog from './ConfirmationDialog';
 
 /*
@@ -244,23 +243,28 @@ function DateSubmissionForm({ eventPrefill }: { eventPrefill: any }) {
           <Button
             sx={{ width: '100%' }}
             variant="contained"
-            onClick={() => {
+            onClick={async () => {
               openConfirmation();
-              createEvents(
-                [
-                  {
-                    description,
-                    end: {
-                      dateTime: isSingleDay
-                        ? startDate.toISOString()
-                        : endDate.toISOString(),
+              chrome.runtime.sendMessage(
+                {
+                  events: [
+                    {
+                      description,
+                      end: {
+                        dateTime: isSingleDay
+                          ? startDate.toISOString()
+                          : endDate.toISOString(),
+                      },
+                      start: {
+                        dateTime: startDate.toISOString(),
+                      },
+                      summary: title,
                     },
-                    start: {
-                      dateTime: startDate.toISOString(),
-                    },
-                    summary: title,
-                  },
-                ],
+                  ],
+                  type: 'create-event',
+                  calendarName: 'Event Extension',
+                },
+                undefined,
                 snackbarCallback
               );
             }}

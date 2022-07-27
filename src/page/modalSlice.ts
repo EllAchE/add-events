@@ -1,4 +1,3 @@
-import { stepButtonClasses } from '@mui/material';
 import { createSlice } from '@reduxjs/toolkit';
 
 import { reducerReuseAddValue } from '../utils/utils';
@@ -14,23 +13,15 @@ export const modalSlice = createSlice({
     title: undefined,
     description: undefined,
     location: undefined,
+    activeModalField: 'add_to_cal_button_start_date', // TODO: make this less tightly coupled and verbose
   },
   reducers: {
     changeVisibility: (state) => {
       state.visible = !state.visible;
     },
-    // addStartDate: (state, action) => {
-    //   reducerReuseAddValue(state, action, 'startDate');
-    // },
-    // addEndDate: (state, action) => {
-    //   reducerReuseAddValue(state, action, 'endDate');
-    // },
-    // addStartTime: (state, action) => {
-    //   reducerReuseAddValue(state, action, 'startTime');
-    // },
-    // addEndTime: (state, action) => {
-    //   reducerReuseAddValue(state, action, 'endTime');
-    // },
+    setActiveField: (state, action) => {
+      state.activeModalField = action.payload;
+    },
     addTitle: (state, action) => {
       reducerReuseAddValue(state, action, 'title');
     },
@@ -73,10 +64,7 @@ export const {
   setTitle,
   setDescription,
   setLocation,
-  // addStartDate,
-  // addEndDate,
-  // addStartTime,
-  // addEndTime,
+  setActiveField,
   addTitle,
   addDescription,
   addLocation,

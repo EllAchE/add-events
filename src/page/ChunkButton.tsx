@@ -1,5 +1,5 @@
 import React, { ReactElement } from 'react';
-import { Provider, useDispatch } from 'react-redux';
+import { Provider, useDispatch, useSelector } from 'react-redux';
 
 import {
   addLocation,
@@ -22,21 +22,33 @@ function StatelessChunkButton(props: any): ReactElement {
   classList = classList.slice(0, -1);
 
   let leadFunction = addTitle;
+  const cssTriggers: string[] = [];
 
-  // business logic needed for all of these
-  if (categories.includes('Date')) {
-    leadFunction = setStartDate;
-  }
-  if (categories.includes('Place')) {
-    leadFunction = addLocation;
-  }
+  // business logic needed for all of
   if (categories.includes('Time')) {
     leadFunction = setStartTime;
+    cssTriggers.push('add_to_cal_button_start_time');
+    cssTriggers.push('add_to_cal_button_end_time');
+  } else if (categories.includes('Place')) {
+    leadFunction = addLocation;
+    cssTriggers.push('add_to_cal_button_location');
+  } else if (categories.includes('Date')) {
+    leadFunction = setStartDate;
+    cssTriggers.push('add_to_cal_button_start_date');
+    cssTriggers.push('add_to_cal_button_end_date');
+  } else {
+    cssTriggers.push('add_to_cal_button_title');
   }
+
+  const modalState = useSelector((state: any) => state.modal);
+
+  const { activeModalField } = modalState;
 
   return (
     <span
-      className={classList}
+      className={
+        cssTriggers.includes(activeModalField) ? classList : 'add_to_cal_button'
+      }
       onClick={() => {
         dispatch(leadFunction(buttonText));
       }}

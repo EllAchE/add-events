@@ -14,10 +14,51 @@
   "commands": {
     "save-event": {
       "suggested_key": {
+        "default": "Ctrl+I",
+        "mac": "Command+I"
+      },
+      "description": "Saves/Creates the actively constructed event",
+      "global": true
+    },
+    "add-title": {
+      "suggested_key": {
+        "default": "Ctrl+L",
+        "mac": "Ctrl+L"
+      },
+      "global": true,
+      "description": "Focus on title"
+    },
+    "add-end-date": {
+      "suggested_key": {
         "default": "Ctrl+Shift+E",
         "mac": "Command+Shift+E"
       },
-      "description": "Saves/Creates the actively constructed event"
+      "global": true,
+      "description": "Focus on end date"
+    },
+    "add-start-date": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+S",
+        "mac": "Command+Shift+S"
+      },
+      "global": true,
+      "description": "Focus on start date"
+    },
+    "add-end-time": {
+      "global": true,
+      "description": "Focus on end time"
+    },
+    "add-start-time": {
+      "global": true,
+      "description": "Focus on start time"
+    },
+    "add-description": {
+      "global": true,
+      "description": "Focus on description"
+    },
+    "add-location": {
+      "global": true,
+      "description": "Focus on location"
     }
   },
   "content_scripts": [

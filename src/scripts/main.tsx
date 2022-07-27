@@ -4,6 +4,8 @@ import { render } from 'react-dom';
 import CreationModal from '../page/CreationModal';
 import { getElements } from '../utils/utils';
 import { createEventButtons } from './createButtons';
+import store from '../page/store';
+import { setActiveField } from '../page/modalSlice';
 
 const run = () => {
   console.log('run triggered');
@@ -21,7 +23,16 @@ const run = () => {
 };
 
 chrome.runtime.onMessage.addListener((msg, sender, callback) => {
-  console.log('received from sender', sender.id, msg);
+  console.log('message received from', sender);
+  console.log(msg);
+  const { type, elementId } = msg;
+
+  switch (type) {
+    case 'focus':
+      console.log('setting focus');
+      document.getElementById(elementId).focus();
+      store.dispatch(setActiveField(elementId));
+  }
 });
 
 // const observer = new MutationObserver(run);

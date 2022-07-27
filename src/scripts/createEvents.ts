@@ -1,11 +1,15 @@
 import { CalendarEvent } from './types';
 
 // calls the insert API https://developers.google.com/calendar/api/v3/reference/events/insert
-export default function createEvents(
-  events: CalendarEvent[],
-  callback?: any,
-  calendarId?: string
-): void {
+export default function createEvents({
+  events,
+  calendarId,
+  callback,
+}: {
+  events: CalendarEvent[];
+  calendarId?: string;
+  callback?: any;
+}): void {
   calendarId = calendarId || 'primary';
   // will need to create a new calendar and persist that id
 
