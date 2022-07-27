@@ -19,18 +19,18 @@ export const modalSlice = createSlice({
     changeVisibility: (state) => {
       state.visible = !state.visible;
     },
-    addStartDate: (state, action) => {
-      reducerReuseAddValue(state, action, 'startDate');
-    },
-    addEndDate: (state, action) => {
-      reducerReuseAddValue(state, action, 'endDate');
-    },
-    addStartTime: (state, action) => {
-      reducerReuseAddValue(state, action, 'startTime');
-    },
-    addEndTime: (state, action) => {
-      reducerReuseAddValue(state, action, 'endTime');
-    },
+    // addStartDate: (state, action) => {
+    //   reducerReuseAddValue(state, action, 'startDate');
+    // },
+    // addEndDate: (state, action) => {
+    //   reducerReuseAddValue(state, action, 'endDate');
+    // },
+    // addStartTime: (state, action) => {
+    //   reducerReuseAddValue(state, action, 'startTime');
+    // },
+    // addEndTime: (state, action) => {
+    //   reducerReuseAddValue(state, action, 'endTime');
+    // },
     addTitle: (state, action) => {
       reducerReuseAddValue(state, action, 'title');
     },
@@ -73,10 +73,10 @@ export const {
   setTitle,
   setDescription,
   setLocation,
-  addStartDate,
-  addEndDate,
-  addStartTime,
-  addEndTime,
+  // addStartDate,
+  // addEndDate,
+  // addStartTime,
+  // addEndTime,
   addTitle,
   addDescription,
   addLocation,

@@ -54,6 +54,7 @@ function DatetimePickers({
           <DesktopDatePicker
             label={isSingleDay ? 'Date' : 'Start Date'}
             value={startDate}
+            disablePast={true}
             // maxDate={endDate}
             // onError={() => alert('start date must be after end date')}
             onChange={handleStartDateChange}
@@ -66,6 +67,7 @@ function DatetimePickers({
           <Grid item xs={6}>
             <DesktopDatePicker
               label="End Date"
+              disablePast={true}
               value={endDate}
               // minDate={startDate}
               onChange={handleEndDateChange}
@@ -310,7 +312,6 @@ export function DateAccordion({
               </Typography>
             </AccordionSummary>
             <DateSubmissionForm eventPrefill={eventPrefill} />
-            {/** There is a better way to pass the same name child prop I believe */}
           </Accordion>
         );
       })}

@@ -15,6 +15,7 @@ export default function createEvents(
   }
 
   events.forEach((event: any) => {
+    console.log(event);
     chrome.identity.getAuthToken({ interactive: true }, (token) => {
       const config = {
         method: 'POST',

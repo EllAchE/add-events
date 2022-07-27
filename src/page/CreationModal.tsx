@@ -24,7 +24,7 @@ function StatelessCreationModal(): ReactElement {
     location,
   } = modalState;
   return visible ? (
-    <Draggable>
+    <Draggable disabled={false}>
       <Box
         sx={{
           width: 400,
@@ -32,7 +32,7 @@ function StatelessCreationModal(): ReactElement {
           position: 'fixed',
           right: 16,
           bottom: 2,
-          zIndex: 2147483647,
+          zIndex: 2147483646,
         }}
       >
         <Paper elevation={8}>
@@ -40,17 +40,21 @@ function StatelessCreationModal(): ReactElement {
             <DesktopDatePicker
               label="Start Date"
               renderInput={(params) => (
-                <TextField {...params} sx={{ width: '100%' }} />
+                <TextField
+                  {...params}
+                  sx={{ width: '100%', zIndex: 2147483647 }}
+                />
               )}
               onChange={(event) => dispatch(setStartDate(event.target.value))}
               value={startDate}
+              disablePast={true}
             />
             <TextField
               value={title}
               onChange={(event) => dispatch(setTitle(event.target.value))}
               variant="filled"
               label="Title"
-              sx={{ width: '100%' }}
+              sx={{ width: '100%', zIndex: 2147483647 }}
             />
             <Grid container>
               <Grid item xs={9}>
@@ -61,7 +65,7 @@ function StatelessCreationModal(): ReactElement {
                   onChange={(event) =>
                     dispatch(setLocation(event.target.value))
                   }
-                  sx={{ width: '100%' }}
+                  sx={{ width: '100%', zIndex: 2147483647 }}
                 />
               </Grid>
               <Grid item xs={3}>
@@ -71,10 +75,16 @@ function StatelessCreationModal(): ReactElement {
                     width: '100%',
                     paddingTop: 1,
                     paddingBottom: 1,
+                    zIndex: 2147483647,
                   }}
                   onClick={() => {
                     const event = mapModalState(modalState);
-                    createEvents([event]);
+
+                    chrome.runtime.sendMessage({
+                      events: [event],
+                      type: 'create-event',
+                    });
+                    console.dir('message sent');
                   }}
                 >
                   Submit
@@ -91,6 +101,7 @@ function StatelessCreationModal(): ReactElement {
             /> */}
             {/* <DesktopDatePicker
               label="End Date"
+              disablePast={true}
               disabled={true}
               renderInput={(params) => (
                 <TextField {...params} sx={{ width: '100%' }} />

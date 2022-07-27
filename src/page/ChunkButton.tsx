@@ -3,9 +3,9 @@ import { Provider, useDispatch } from 'react-redux';
 
 import {
   addLocation,
-  addStartTime,
   addTitle,
   setStartDate,
+  setStartTime,
 } from './modalSlice';
 import store from './store';
 
@@ -31,7 +31,7 @@ function StatelessChunkButton(props: any): ReactElement {
     leadFunction = addLocation;
   }
   if (categories.includes('Time')) {
-    leadFunction = addStartTime;
+    leadFunction = setStartTime;
   }
 
   return (

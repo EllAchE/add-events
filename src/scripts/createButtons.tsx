@@ -14,10 +14,11 @@ export function createEventButtons(
       elements[i].tagName != 'SCRIPT' &&
       elements[i].tagName != 'NOSCRIPT' && // TODO: need to check if these are valid to ignore
       elements[i].tagName != 'FIGURE' &&
+      elements[i].tagName != 'INPUT' &&
       elements[i].tagName != 'META' &&
       !customClassRegex.test(elements[i].className)
     ) {
-      const res = replaceText(elements[i], undefined);
+      const res = replaceText(elements[i]);
       if (res) {
         for (const el of res) {
           allDates.add(el);

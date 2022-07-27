@@ -11,7 +11,7 @@ export default function replaceText(
   excludeElements?: string[]
 ) {
   excludeElements ||
-    (excludeElements = ['script', 'style', 'iframe', 'canvas']);
+    (excludeElements = ['script', 'style', 'iframe', 'canvas', 'input']);
   let child: any = node.firstChild;
 
   // These will be used to display a quick summary of data extracted
@@ -40,7 +40,6 @@ export default function replaceText(
 
           const createTempNode = (): Node => {
             const newNode = document.createElement('span');
-            newNode.setAttribute('id', 'temp-button-node-class');
             newNode.textContent = buttonText;
             document.body.appendChild(newNode);
 

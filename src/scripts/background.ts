@@ -1,3 +1,5 @@
+import createEvents from './createEvents';
+
 console.log('service worker triggered');
 
 chrome.commands.onCommand.addListener((command) => {
@@ -21,5 +23,15 @@ chrome.commands.onCommand.addListener((command) => {
       break;
     default:
       console.warn(`Command ${command} not found`);
+  }
+});
+
+chrome.runtime.onMessage.addListener((message, sender, callback) => {
+  console.log('received message from', sender);
+  console.log('received message reading', message);
+  const { events, calendarId, type } = message;
+
+  if (type == 'create-event') {
+    createEvents(events, callback, calendarId);
   }
 });
