@@ -41,7 +41,7 @@ export default async function createEvent(
           config
         );
 
-        console.log('response from creating event reads', response);
+        console.log('Response from creating event:', response);
 
         resolve(response.status === 200);
       });

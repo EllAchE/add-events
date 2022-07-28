@@ -22,7 +22,7 @@ export function createEventButtons(
       ) {
         replaceText(elements[i]);
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error(err);
     }
   }

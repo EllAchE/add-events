@@ -49,6 +49,8 @@ function StatelessChunkButton(props: any): ReactElement {
   const defaultOnClick = () => {
     if (visible) {
       dispatch(leadFunction(buttonText));
+    } else {
+      console.warn('Must first click a start date to open the event modal.');
     }
   };
 

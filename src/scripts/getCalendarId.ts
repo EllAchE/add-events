@@ -25,9 +25,6 @@ export default async function getCalendarId(
     return calId;
   }
 
-  console.log('nested chrome scope');
-  console.log(chrome);
-  console.log(chrome.identity);
   const calIdPromise2: Promise<string> = new Promise((resolve, reject) => {
     chrome.identity.getAuthToken({ interactive: true }, async (token) => {
       const config = {

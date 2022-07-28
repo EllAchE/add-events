@@ -2,8 +2,8 @@ import { focusModalElement } from '../utils/utils';
 import { run } from './run';
 
 chrome.runtime.onMessage.addListener((msg, sender, callback) => {
-  console.log('message received from', sender);
-  console.log(msg);
+  console.log('Received message from', sender);
+  console.log('Message:', msg);
   const { type, elementId } = msg;
 
   switch (type) {

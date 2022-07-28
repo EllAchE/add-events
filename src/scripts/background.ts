@@ -3,7 +3,7 @@ import createEvent from './createEvent';
 console.log('service worker triggered');
 import createCalendar from './createCalendar';
 import getCalendarId from './getCalendarId';
-import { messageActiveTab } from './queryActiveTab';
+import { messageActiveTab } from './messageTabs';
 //const dispatch = useDispatch();
 
 chrome.commands.onCommand.addListener((command, tab) => {
@@ -65,8 +65,8 @@ chrome.commands.onCommand.addListener((command, tab) => {
 
 chrome.runtime.onMessage.addListener(
   (message, sender, callback: (response?: any) => void) => {
-    console.log('received message from', sender);
-    console.log('received message reading', message);
+    console.log('Background script received message from', sender);
+    console.log('Message:', message);
     const { events, calendarName, type } = message;
 
     if (type === 'create-event') {
@@ -75,7 +75,6 @@ chrome.runtime.onMessage.addListener(
         'defaultCalendarId'
       ).then((calendarId) => {
         createEvent({ events, calendarId }).then((isSuccess) => {
-          console.log('was it ddd', isSuccess);
           callback(isSuccess);
         });
       });
@@ -89,8 +88,9 @@ chrome.runtime.onMessage.addListener(
 
 chrome.runtime.onInstalled.addListener((details) => {
   if (details.reason === 'install') {
+    console.log('Installed extension for first time!');
     createCalendar('Event Extension'); // TODO: appropriately rename the calendar
   } else if (details.reason === 'update') {
-    console.log('update');
+    console.log('Updated extension!');
   }
 });
