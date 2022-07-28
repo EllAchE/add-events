@@ -18,6 +18,10 @@ export default async function createEvent(
   const event = events[0];
   console.log(event);
 
+  if (!event?.startDate?.dateTime) {
+    return false;
+  }
+
   const createEventSuccessPromise: Promise<boolean> = new Promise(
     (resolve, reject) => {
       chrome.identity.getAuthToken({ interactive: true }, async (token) => {

@@ -2,19 +2,6 @@ import { focusModalElement } from '../utils/utils';
 import { run } from './run';
 
 chrome.runtime.onMessage.addListener((msg, sender, callback) => {
-  console.log('TRIGGERED');
-  console.log('TRIGGERED');
-  console.log('TRIGGERED');
-  console.log('TRIGGERED');
-  console.log('TRIGGERED');
-  console.log('TRIGGERED');
-  console.log('TRIGGERED');
-  console.log('TRIGGERED');
-  console.log('TRIGGERED');
-  console.log('TRIGGERED');
-  console.log('TRIGGERED');
-  console.log('TRIGGERED');
-  console.log('TRIGGERED');
   console.log('message received from', sender);
   console.log(msg);
   const { type, elementId } = msg;

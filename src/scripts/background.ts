@@ -1,4 +1,4 @@
-import createEvent from './createEvents';
+import createEvent from './createEvent';
 
 console.log('service worker triggered');
 import createCalendar from './createCalendar';

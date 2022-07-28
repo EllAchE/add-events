@@ -145,7 +145,7 @@ function StatelessCreationModal(): ReactElement {
                     Reset
                   </Button>
                 </Grid>
-                <Grid xs={1}>
+                <Grid item xs={1}>
                   <IconButton
                     size="small"
                     onClick={() => {
