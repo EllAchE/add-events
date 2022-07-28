@@ -16,11 +16,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@mui/x-date-pickers": "^5.0.0-beta.1",
     "@mui/material": "^5.9.0",
+    "@mui/x-date-pickers": "^5.0.0-beta.1",
     "@reduxjs/toolkit": "^1.8.3",
     "assert": "^2.0.0",
     "buffer": "^6.0.3",
+    "chrono-node": "^2.3.9",
     "clean-webpack-plugin": "^4.0.0",
     "compromise": "^14.4.0",
     "compromise-dates": "^3.4.1",

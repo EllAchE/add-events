@@ -1,4 +1,4 @@
-import createEvents from './createEvents';
+import createEvent from './createEvents';
 
 console.log('service worker triggered');
 import createCalendar from './createCalendar';
@@ -54,27 +54,38 @@ chrome.commands.onCommand.addListener((command, tab) => {
         elementId: 'add_to_cal_button_location',
       });
       break;
+    case 'parse-page':
+      messageActiveTab({
+        type: 'run',
+      });
     default:
       console.warn(`Command ${command} not found`);
   }
 });
 
-chrome.runtime.onMessage.addListener(async (message, sender, callback) => {
-  console.log('received message from', sender);
-  console.log('received message reading', message);
-  console.log('received callback saying', callback);
-  const { events, calendarName, type } = message;
+chrome.runtime.onMessage.addListener(
+  (message, sender, callback: (response?: any) => void) => {
+    console.log('received message from', sender);
+    console.log('received message reading', message);
+    const { events, calendarName, type } = message;
 
-  if (type === 'create-event') {
-    const calendarId = await getCalendarId(
-      calendarName ? calendarName : 'Event Extension',
-      'defaultCalendarId'
-    );
-    createEvents({ events, callback, calendarId });
-  } else if (type === 'get-default-calendar-id') {
-    console.log('not impld');
+    if (type === 'create-event') {
+      getCalendarId(
+        calendarName ? calendarName : 'Event Extension',
+        'defaultCalendarId'
+      ).then((calendarId) => {
+        createEvent({ events, calendarId }).then((isSuccess) => {
+          console.log('was it ddd', isSuccess);
+          callback(isSuccess);
+        });
+      });
+    } else if (type === 'get-default-calendar-id') {
+      console.log('not impld');
+    }
+
+    return true;
   }
-});
+);
 
 chrome.runtime.onInstalled.addListener((details) => {
   if (details.reason === 'install') {

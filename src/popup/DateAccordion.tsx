@@ -199,7 +199,7 @@ function DateSubmissionForm({ eventPrefill }: { eventPrefill: any }) {
             label="Title"
             variant="outlined"
             defaultValue={title}
-            onChange={(e) => setTitle(e.target.value)}
+            onChange={(e) => setTitle(e?.target?.value)}
           />
         </Grid>
         <Grid item xs={8}>
@@ -209,7 +209,7 @@ function DateSubmissionForm({ eventPrefill }: { eventPrefill: any }) {
             multiline
             maxRows={3}
             defaultValue={description}
-            onChange={(e) => setDescription(e.target.value)}
+            onChange={(e) => setDescription(e?.target?.value)}
             label="Description"
           />
         </Grid>
@@ -224,7 +224,7 @@ function DateSubmissionForm({ eventPrefill }: { eventPrefill: any }) {
       />
       <Snackbar
         open={showSnackbar}
-        autoHideDuration={4000}
+        autoHideDuration={3000}
         message={
           snackbarIsSuccess
             ? 'Created new calendar event'

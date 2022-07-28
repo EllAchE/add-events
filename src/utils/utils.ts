@@ -1,5 +1,6 @@
 import { CalendarEvent } from '../scripts/types';
 import { setActiveField } from '../page/modalSlice';
+import { parseDate } from 'chrono-node';
 import store from '../page/store';
 
 export function isInTheFuture(dateStr: string): boolean {
@@ -54,6 +55,10 @@ export function reducerReuseAddValue(state: any, action: any, key: string) {
 
 export function mapModalState(modalState: any): CalendarEvent {
   const { title, description } = modalState;
+
+  console.log('mapping modal state');
+  console.log(modalState);
+
   return {
     start: { dateTime: new Date(modalState.startDate).toISOString() },
     end: {
@@ -73,4 +78,19 @@ export function focusModalElement(elementId: string) {
     console.error('should not happen');
   }
   store.dispatch(setActiveField(elementId));
+}
+
+export function addCurrentYearToDateWithoutYear(dateStr: string): Date {
+  const date = new Date(Date.parse(dateStr));
+
+  // depends on the fact that dates seemingly set the year to 2001 in the absence of any other info
+  if (date.getFullYear() == 2001 && !/2001/.test(dateStr)) {
+    date.setFullYear(new Date().getFullYear());
+  }
+
+  return date;
+}
+
+export function convertArbitraryDateStringToISODate(dateStr: string): string {
+  return parseDate(dateStr).toISOString();
 }

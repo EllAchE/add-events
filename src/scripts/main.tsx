@@ -1,26 +1,20 @@
-import React from 'react';
-import { render } from 'react-dom';
-
-import CreationModal from '../page/CreationModal';
-import { focusModalElement, getElements } from '../utils/utils';
-import { createEventButtons } from './createButtons';
-
-const run = () => {
-  console.log('run triggered');
-
-  const elements = getElements();
-
-  const newNode = document.createElement('div');
-  newNode.setAttribute('id', 'event-create-modal');
-
-  document.body.appendChild(newNode);
-
-  render(<CreationModal />, document.getElementById('event-create-modal'));
-
-  createEventButtons(elements as HTMLCollectionOf<HTMLElement>);
-};
+import { focusModalElement } from '../utils/utils';
+import { run } from './run';
 
 chrome.runtime.onMessage.addListener((msg, sender, callback) => {
+  console.log('TRIGGERED');
+  console.log('TRIGGERED');
+  console.log('TRIGGERED');
+  console.log('TRIGGERED');
+  console.log('TRIGGERED');
+  console.log('TRIGGERED');
+  console.log('TRIGGERED');
+  console.log('TRIGGERED');
+  console.log('TRIGGERED');
+  console.log('TRIGGERED');
+  console.log('TRIGGERED');
+  console.log('TRIGGERED');
+  console.log('TRIGGERED');
   console.log('message received from', sender);
   console.log(msg);
   const { type, elementId } = msg;
@@ -28,6 +22,10 @@ chrome.runtime.onMessage.addListener((msg, sender, callback) => {
   switch (type) {
     case 'focus':
       focusModalElement(elementId);
+      break;
+    case 'parse-page':
+      run();
+      break;
   }
 });
 
@@ -38,7 +36,5 @@ chrome.runtime.onMessage.addListener((msg, sender, callback) => {
 //   childList: true,
 //   subtree: true,
 // });
-
-console.log('in main file about to call run');
 
 run();

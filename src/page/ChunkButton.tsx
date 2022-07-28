@@ -1,5 +1,6 @@
 import React, { ReactElement } from 'react';
 import { Provider, useDispatch, useSelector } from 'react-redux';
+import { convertArbitraryDateStringToISODate } from '../utils/utils';
 
 import {
   addLocation,
@@ -43,15 +44,18 @@ function StatelessChunkButton(props: any): ReactElement {
 
   const modalState = useSelector((state: any) => state.modal);
 
-  const { activeModalField } = modalState;
+  const { activeModalField, visible } = modalState;
 
   const defaultOnClick = () => {
-    dispatch(leadFunction(buttonText));
+    if (visible) {
+      dispatch(leadFunction(buttonText));
+    }
   };
 
   const dateOnClick = () => {
-    dispatch(leadFunction(buttonText));
     dispatch(setVisibility(true));
+    const date = convertArbitraryDateStringToISODate(buttonText);
+    dispatch(leadFunction(date));
   };
 
   if (cssTriggers.includes('add_to_cal_button_start_date')) {

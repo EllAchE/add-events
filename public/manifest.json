@@ -2,7 +2,7 @@
   "name": "CalEvent",
   "version": "0.0",
   "action": {
-    "default_popup": "popup.html"
+    "default_popup": "popup.html#popup"
   },
   "manifest_version": 3,
   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAu3Wb6VZY/7Rt3R5uGVJmaW2Y2LqOGb5X9WBnCfBtxwivD83i5CBW5cxCu6hXHpwFj8naYNLFh2as1xFTFLv/05goyvN0hcxwtNqAQfo7+osLDfXm3ew6yr+vpbzko3smdZhvp7Wesp3DRUXsj1ZBM8XkKOOTVb4kFbgu3QZpk0HUWLAjkKF2UBiscTLLjiDk9facVV78/QtIyfPcBnW1lW1AGGy7jOn2W+SjpUdFUpHBpfsB5/Ad8DfdTaEhMxszm6xHbNq/8dNdwuTYX/mMFc88P31286lq5VoGP9zZVgYQyx8wLe8pB/+k9qmdNBXyVkpBv3CGoY5288U22BoDowIDAQAB",
@@ -17,47 +17,42 @@
         "default": "Ctrl+I",
         "mac": "Command+I"
       },
-      "description": "Saves/Creates the actively constructed event",
-      "global": true
+      "description": "Saves/Creates the actively constructed event"
     },
     "add-title": {
       "suggested_key": {
         "default": "Ctrl+L",
         "mac": "Ctrl+L"
       },
-      "global": true,
       "description": "Focus on title"
-    },
-    "add-end-date": {
-      "suggested_key": {
-        "default": "Ctrl+Shift+E",
-        "mac": "Command+Shift+E"
-      },
-      "global": true,
-      "description": "Focus on end date"
     },
     "add-start-date": {
       "suggested_key": {
-        "default": "Ctrl+Shift+S",
-        "mac": "Command+Shift+S"
+        "default": "Ctrl+A",
+        "mac": "Command+A"
       },
-      "global": true,
       "description": "Focus on start date"
     },
+    "parse-page": {
+      "suggested_key": {
+        "default": "Ctrl+R",
+        "mac": "Command+R"
+      },
+      "description": "Focus on start date"
+    },
+    "add-end-date": {
+      "description": "Focus on end date"
+    },
     "add-end-time": {
-      "global": true,
       "description": "Focus on end time"
     },
     "add-start-time": {
-      "global": true,
       "description": "Focus on start time"
     },
     "add-description": {
-      "global": true,
       "description": "Focus on description"
     },
     "add-location": {
-      "global": true,
       "description": "Focus on location"
     }
   },
@@ -83,7 +78,7 @@
   "homepage_url": "https://ellache.github.io/",
   "options_ui": {
     "open_in_tab": true,
-    "page": "options.html",
+    "page": "options.html#options",
     "css": "options.css"
   }
 }
