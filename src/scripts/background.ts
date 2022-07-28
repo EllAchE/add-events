@@ -62,6 +62,7 @@ chrome.commands.onCommand.addListener((command, tab) => {
 chrome.runtime.onMessage.addListener(async (message, sender, callback) => {
   console.log('received message from', sender);
   console.log('received message reading', message);
+  console.log('received callback saying', callback);
   const { events, calendarName, type } = message;
 
   if (type === 'create-event') {

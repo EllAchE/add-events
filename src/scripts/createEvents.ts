@@ -37,7 +37,10 @@ export default function createEvents({
         config
       )
         .then((response) => {
-          callback(response.status === 200);
+          console.log('response from creating event reads', response);
+          if (response.status === 200) {
+            callback();
+          }
           return response.json();
         })
         .then((data) => {

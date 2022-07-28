@@ -2,10 +2,8 @@ import React from 'react';
 import { render } from 'react-dom';
 
 import CreationModal from '../page/CreationModal';
-import { getElements } from '../utils/utils';
+import { focusModalElement, getElements } from '../utils/utils';
 import { createEventButtons } from './createButtons';
-import store from '../page/store';
-import { setActiveField } from '../page/modalSlice';
 
 const run = () => {
   console.log('run triggered');
@@ -29,9 +27,7 @@ chrome.runtime.onMessage.addListener((msg, sender, callback) => {
 
   switch (type) {
     case 'focus':
-      console.log('setting focus');
-      document.getElementById(elementId).focus();
-      store.dispatch(setActiveField(elementId));
+      focusModalElement(elementId);
   }
 });
 

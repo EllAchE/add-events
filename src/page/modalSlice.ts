@@ -5,7 +5,7 @@ import { reducerReuseAddValue } from '../utils/utils';
 export const modalSlice = createSlice({
   name: ' modal',
   initialState: {
-    visible: true,
+    visible: false,
     startDate: null,
     endDate: null,
     startTime: null,
@@ -16,8 +16,8 @@ export const modalSlice = createSlice({
     activeModalField: 'add_to_cal_button_start_date', // TODO: make this less tightly coupled and verbose
   },
   reducers: {
-    changeVisibility: (state) => {
-      state.visible = !state.visible;
+    setVisibility: (state, action) => {
+      state.visible = action.payload;
     },
     setActiveField: (state, action) => {
       state.activeModalField = action.payload;
@@ -68,6 +68,7 @@ export const {
   addTitle,
   addDescription,
   addLocation,
+  setVisibility,
 } = modalSlice.actions;
 
 export default modalSlice.reducer;

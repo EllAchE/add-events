@@ -9,7 +9,7 @@ import React, { ReactElement } from 'react';
 import Draggable from 'react-draggable';
 import { Provider, useDispatch, useSelector } from 'react-redux';
 
-import { mapModalState } from '../utils/utils';
+import { focusModalElement, mapModalState } from '../utils/utils';
 import {
   setStartDate,
   setTitle,
@@ -18,6 +18,7 @@ import {
   setEndDate,
   setStartTime,
   setEndTime,
+  setVisibility,
 } from './modalSlice';
 import store from './store';
 
@@ -54,6 +55,9 @@ function StatelessCreationModal(): ReactElement {
               label="Start Date"
               renderInput={(params) => (
                 <TextField
+                  onClick={() =>
+                    focusModalElement('add_to_cal_button_start_date')
+                  }
                   id="add_to_cal_button_start_date"
                   {...params}
                   sx={{ width: '100%', zIndex: 2147483647 }}
@@ -65,6 +69,7 @@ function StatelessCreationModal(): ReactElement {
             />
             <TextField
               id="add_to_cal_button_title"
+              onClick={() => focusModalElement('add_to_cal_button_title')}
               value={title}
               onChange={(event) => dispatch(setTitle(event.target.value))}
               variant="filled"
@@ -73,6 +78,7 @@ function StatelessCreationModal(): ReactElement {
             />
             <TextField
               variant="filled"
+              onClick={() => focusModalElement('add_to_cal_button_description')}
               id="add_to_cal_button_description"
               label="Description"
               value={description}
@@ -86,6 +92,9 @@ function StatelessCreationModal(): ReactElement {
               renderInput={(params) => (
                 <TextField
                   {...params}
+                  onClick={() =>
+                    focusModalElement('add_to_cal_button_end_date')
+                  }
                   id="add_to_cal_button_end_date"
                   sx={{ width: '100%', zIndex: 2147483647 }}
                 />
@@ -100,6 +109,9 @@ function StatelessCreationModal(): ReactElement {
               onChange={(event) => dispatch(setStartTime(event.target.value))}
               renderInput={(params) => (
                 <TextField
+                  onClick={() =>
+                    focusModalElement('add_to_cal_button_start_time')
+                  }
                   id="add_to_cal_button_start_time"
                   {...params}
                   sx={{ width: '100%', zIndex: 2147483647 }}
@@ -114,6 +126,9 @@ function StatelessCreationModal(): ReactElement {
               renderInput={(params) => (
                 <TextField
                   id="add_to_cal_button_end_time"
+                  onClick={() =>
+                    focusModalElement('add_to_cal_button_end_time')
+                  }
                   {...params}
                   sx={{ width: '100%', zIndex: 2147483647 }}
                 />
@@ -126,6 +141,9 @@ function StatelessCreationModal(): ReactElement {
                   variant="filled"
                   label="Location"
                   value={location}
+                  onClick={() =>
+                    focusModalElement('add_to_cal_button_location')
+                  }
                   onChange={(event) =>
                     dispatch(setLocation(event.target.value))
                   }
@@ -144,11 +162,21 @@ function StatelessCreationModal(): ReactElement {
                   }}
                   onClick={async () => {
                     const event = mapModalState(modalState);
-                    chrome.runtime.sendMessage({
-                      events: [event],
-                      type: 'create-event',
-                      calendarName: 'Event Extension',
-                    });
+
+                    const successfulCreationCallback = () => {
+                      dispatch(setVisibility(false));
+                      // TODO: should do something if there is an error creating
+                    };
+
+                    chrome.runtime.sendMessage(
+                      {
+                        events: [event],
+                        type: 'create-event',
+                        calendarName: 'Event Extension',
+                      },
+                      undefined,
+                      successfulCreationCallback
+                    );
                   }}
                 >
                   Submit

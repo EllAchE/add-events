@@ -14,6 +14,7 @@ export function createEventButtons(
       elements[i].tagName != 'SCRIPT' &&
       elements[i].tagName != 'NOSCRIPT' && // TODO: need to check if these are valid to ignore
       elements[i].tagName != 'INPUT' &&
+      elements[i].tagName != 'TITLE' &&
       elements[i].tagName != 'META' &&
       !customClassRegex.test(elements[i].className)
     ) {

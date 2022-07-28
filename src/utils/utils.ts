@@ -1,4 +1,6 @@
 import { CalendarEvent } from '../scripts/types';
+import { setActiveField } from '../page/modalSlice';
+import store from '../page/store';
 
 export function isInTheFuture(dateStr: string): boolean {
   const yearRegex = /\d{4}/g;
@@ -62,4 +64,13 @@ export function mapModalState(modalState: any): CalendarEvent {
     summary: title,
     description,
   };
+}
+
+export function focusModalElement(elementId: string) {
+  try {
+    document.getElementById(elementId).focus();
+  } catch (err) {
+    console.error('should not happen');
+  }
+  store.dispatch(setActiveField(elementId));
 }

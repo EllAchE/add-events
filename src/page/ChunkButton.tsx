@@ -6,6 +6,7 @@ import {
   addTitle,
   setStartDate,
   setStartTime,
+  setVisibility,
 } from './modalSlice';
 import store from './store';
 
@@ -44,18 +45,42 @@ function StatelessChunkButton(props: any): ReactElement {
 
   const { activeModalField } = modalState;
 
-  return (
-    <span
-      className={
-        cssTriggers.includes(activeModalField) ? classList : 'add_to_cal_button'
-      }
-      onClick={() => {
-        dispatch(leadFunction(buttonText));
-      }}
-    >
-      {buttonText}
-    </span>
-  );
+  const defaultOnClick = () => {
+    dispatch(leadFunction(buttonText));
+  };
+
+  const dateOnClick = () => {
+    dispatch(leadFunction(buttonText));
+    dispatch(setVisibility(true));
+  };
+
+  if (cssTriggers.includes('add_to_cal_button_start_date')) {
+    return (
+      <span
+        className={
+          cssTriggers.includes(activeModalField)
+            ? classList
+            : 'add_to_cal_button'
+        }
+        onClick={dateOnClick}
+      >
+        {buttonText}
+      </span>
+    );
+  } else {
+    return (
+      <span
+        className={
+          cssTriggers.includes(activeModalField)
+            ? classList
+            : 'add_to_cal_button'
+        }
+        onClick={defaultOnClick}
+      >
+        {buttonText}
+      </span>
+    );
+  }
 }
 
 export default function ChunkButton({
