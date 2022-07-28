@@ -74,7 +74,7 @@ export function mapModalState(modalState: any): CalendarEvent {
 export function focusModalElement(elementId: string) {
   try {
     document.getElementById(elementId).focus();
-  } catch (err) {
+  } catch (err: any) {
     console.error('should not happen');
   }
   store.dispatch(setActiveField(elementId));
@@ -97,4 +97,8 @@ export function convertArbitraryDateStringToISODate(dateStr: string): string {
 
 export function getCurrentPageUrl() {
   return window.location.href;
+}
+
+export function getCurrentPageHost() {
+  return window.location.host;
 }

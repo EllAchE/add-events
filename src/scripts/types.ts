@@ -54,6 +54,20 @@ export type NLPChunk = {
   categories: string[];
 };
 
+export type ChunkSets = {
+  personSet: Set<string>;
+  placeSet: Set<string>;
+  emailSet: Set<string>;
+  properNounSet: Set<string>;
+  dateSet: Set<string>;
+  atMentionSet: Set<string>;
+  urlSet?: Set<string>;
+  internalUrlSet?: Set<string>;
+  samePageUrlSet?: Set<string>;
+  externalUrlSet?: Set<string>;
+  [key: string]: Set<String>;
+};
+
 // TODO: add the typing for the nlp types from nlp compromise
 
 // editable within the UI: description, location, title, start/end,

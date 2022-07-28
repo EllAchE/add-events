@@ -85,37 +85,6 @@ export default function classifyTextNLP(text: string): NLPChunk[] {
       runningChunk.push(term.post);
 
       previousTagMatches = currentTagMatches;
-
-      // // Many of these categories are not going to be mutually exclusive
-      // if (term.tags.includes('Person')) {
-      //   //personSet.add()
-      // }
-      // if (term.tags.includes('Place')) {
-      // }
-      // if (term.tags.includes('Organization')) {
-      // }
-      // if (term.tags.includes('Activity')) {
-      // }
-      // if (term.tags.includes('Date')) {
-      // }
-      // if (term.tags.includes('Time')) {
-      // }
-      // if (term.tags.includes('Money')) {
-      // }
-      // if (term.tags.includes('Currency')) {
-      // }
-      // if (term.tags.includes('Url')) {
-      //   urlSet.add(term.text);
-      // }
-      // if (term.tags.includes('AtMention')) {
-      // }
-      // if (term.tags.includes('Email')) {
-      //   emailSet.add(term.text);
-      // }
-      // // if (term.tags.includes('Acronym')) {
-      // // }
-      // if (term.tags.includes('ProperNoun')) {
-      // }
     }
     runningChunk.pop();
     const chunk = runningChunk.join('');

@@ -158,7 +158,7 @@ function StatelessCreationModal(): ReactElement {
               </Grid>
               <LocalizationProvider dateAdapter={AdapterMoment}>
                 <DesktopDatePicker
-                  label="Start Date"
+                  label="Start Date (Required)"
                   renderInput={(params: TextFieldProps) => (
                     <TextField
                       size="small"
