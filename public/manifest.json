@@ -38,7 +38,7 @@
         "default": "Ctrl+R",
         "mac": "Command+R"
       },
-      "description": "Focus on start date"
+      "description": "Parse page again"
     },
     "add-end-date": {
       "description": "Focus on end date"

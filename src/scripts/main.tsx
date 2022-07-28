@@ -10,7 +10,7 @@ chrome.runtime.onMessage.addListener((msg, sender, callback) => {
     case 'focus':
       focusModalElement(elementId);
       break;
-    case 'parse-page':
+    case 'run':
       run();
       break;
   }

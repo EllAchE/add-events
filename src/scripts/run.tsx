@@ -8,6 +8,7 @@ import { createEventButtons } from './createButtons';
 // If statement to prevent content scripts from executing in popup
 export const run = () => {
   if (location.hash != '#popup' && location.hash != '#options') {
+    console.log('Running script to parse page');
     const elements = getElements();
 
     const newNode = document.createElement('div');
