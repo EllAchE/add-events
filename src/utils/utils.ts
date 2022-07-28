@@ -94,3 +94,7 @@ export function addCurrentYearToDateWithoutYear(dateStr: string): Date {
 export function convertArbitraryDateStringToISODate(dateStr: string): string {
   return parseDate(dateStr).toISOString();
 }
+
+export function getCurrentPageUrl() {
+  return window.location.href;
+}
