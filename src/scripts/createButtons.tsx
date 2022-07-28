@@ -11,12 +11,9 @@ export function createEventButtons(
     try {
       // Ignore tags that will not display text to shorten execution
       if (
-        elements[i].tagName != 'STYLE' &&
-        elements[i].tagName != 'SCRIPT' &&
-        elements[i].tagName != 'NOSCRIPT' && // TODO: need to check if these are valid to ignore
-        elements[i].tagName != 'INPUT' &&
-        elements[i].tagName != 'TITLE' &&
-        elements[i].tagName != 'META' &&
+        !['STYLE', 'SCRIPT', 'NOSCRIPT', 'INPUT', 'TITLE', 'META'].includes(
+          elements[i].tagName
+        ) &&
         !customClassRegex.test(elements[i].className) &&
         getComputedStyle(elements[i]).opacity != '0' &&
         !['rgb(0, 0, 0)', 'rgba(0, 0, 0, 0)', 'transparent'].includes(

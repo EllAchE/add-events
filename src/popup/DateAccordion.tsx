@@ -225,11 +225,6 @@ function DateSubmissionForm({ eventPrefill }: { eventPrefill: any }) {
       <Snackbar
         open={showSnackbar}
         autoHideDuration={3000}
-        message={
-          snackbarIsSuccess
-            ? 'Created new calendar event'
-            : 'Failed to create new calendar event'
-        }
         onClose={() => setShowSnackbar(false)}
       >
         <Alert severity={snackbarIsSuccess ? 'success' : 'warning'}>
