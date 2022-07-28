@@ -56,9 +56,6 @@ export function reducerReuseAddValue(state: any, action: any, key: string) {
 export function mapModalState(modalState: any): CalendarEvent {
   const { title, description } = modalState;
 
-  console.log('mapping modal state');
-  console.log(modalState);
-
   return {
     start: { dateTime: new Date(modalState.startDate).toISOString() },
     end: {
@@ -67,7 +64,10 @@ export function mapModalState(modalState: any): CalendarEvent {
         : new Date(modalState.startDate).toISOString(),
     },
     summary: title,
-    description,
+    description:
+      description +
+      (description ? '\n\n' : '' + 'Event found at url:') +
+      getCurrentPageUrl(),
   };
 }
 

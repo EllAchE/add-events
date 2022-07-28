@@ -18,7 +18,7 @@ export default async function createEvent(
   const event = events[0];
   console.log(event);
 
-  if (!event?.startDate?.dateTime) {
+  if (!event?.start?.dateTime) {
     return false;
   }
 
