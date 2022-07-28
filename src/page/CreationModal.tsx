@@ -8,6 +8,7 @@ import {
   Paper,
   Snackbar,
   TextField,
+  TextFieldProps,
 } from '@mui/material';
 import {
   DesktopDatePicker,
@@ -21,7 +22,11 @@ import Draggable from 'react-draggable';
 import { Provider, useDispatch, useSelector } from 'react-redux';
 import CloseIcon from '@mui/icons-material/Close';
 
-import { focusModalElement, mapModalState } from '../utils/utils';
+import {
+  focusModalElement,
+  getCurrentPageUrl,
+  mapModalState,
+} from '../utils/utils';
 import {
   setStartDate,
   setTitle,
@@ -63,11 +68,6 @@ function StatelessCreationModal(): ReactElement {
       <Snackbar
         open={showSnackbar}
         autoHideDuration={3000}
-        message={
-          snackbarIsSuccess
-            ? 'Created new calendar event!'
-            : 'Failed to create new event'
-        }
         onClose={() => setShowSnackbar(false)}
       >
         <Alert severity={snackbarIsSuccess ? 'success' : 'warning'}>
@@ -159,7 +159,7 @@ function StatelessCreationModal(): ReactElement {
               <LocalizationProvider dateAdapter={AdapterMoment}>
                 <DesktopDatePicker
                   label="Start Date"
-                  renderInput={(params) => (
+                  renderInput={(params: TextFieldProps) => (
                     <TextField
                       size="small"
                       variant="filled"
@@ -172,50 +172,33 @@ function StatelessCreationModal(): ReactElement {
                     />
                   )}
                   onChange={(moment: Moment) => {
-                    console.log('should be settiung start', moment);
                     console.log('should be settiung start', moment.toDate());
                     dispatch(setStartDate(moment.toISOString()));
                   }}
                   value={startDate}
                   disablePast={true}
                 />
-                <TextField
-                  size="small"
-                  id="add_to_cal_button_title"
-                  onClick={() => focusModalElement('add_to_cal_button_title')}
+                <CreationModalTextField
+                  label="Title"
+                  id={'add_to_cal_button_title'}
                   value={title}
                   onChange={(event) => dispatch(setTitle(event?.target?.value))}
-                  variant="filled"
-                  label="Title"
-                  sx={{ width: '100%', zIndex: 2147483647 }}
                 />
-                <TextField
-                  size="small"
-                  variant="filled"
-                  onClick={() =>
-                    focusModalElement('add_to_cal_button_description')
-                  }
-                  id="add_to_cal_button_description"
+                <CreationModalTextField
                   label="Description"
+                  id={'add_to_cal_button_description'}
                   value={description}
                   onChange={(event) =>
                     dispatch(setDescription(event?.target?.value))
                   }
-                  sx={{ width: '100%' }}
                 />
-                <TextField
-                  size="small"
-                  id="add_to_cal_button_location"
-                  variant="filled"
+                <CreationModalTextField
                   label="Location"
+                  id={'add_to_cal_button_location'}
                   value={location}
-                  onClick={() =>
-                    focusModalElement('add_to_cal_button_location')
-                  }
                   onChange={(event) =>
                     dispatch(setLocation(event?.target?.value))
                   }
-                  sx={{ width: '100%', zIndex: 2147483647 }}
                 />
                 <DesktopDatePicker
                   label="End Date"
@@ -285,6 +268,31 @@ function StatelessCreationModal(): ReactElement {
         </Draggable>
       ) : null}
     </>
+  );
+}
+
+function CreationModalTextField({
+  label,
+  id,
+  value,
+  onChange,
+}: {
+  label: string;
+  id: string;
+  value: string | Date;
+  onChange: (event: any) => void;
+}): ReactElement {
+  return (
+    <TextField
+      size="small"
+      id={id}
+      onClick={() => focusModalElement(id)}
+      value={value}
+      onChange={onChange}
+      variant="filled"
+      label={label}
+      sx={{ width: '100%', zIndex: 2147483647 }}
+    />
   );
 }
 
