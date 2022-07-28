@@ -1,4 +1,14 @@
-import { Box, Button, Grid, Paper, Snackbar, TextField } from '@mui/material';
+import {
+  Alert,
+  AppBar,
+  Box,
+  Button,
+  Grid,
+  IconButton,
+  Paper,
+  Snackbar,
+  TextField,
+} from '@mui/material';
 import {
   DesktopDatePicker,
   LocalizationProvider,
@@ -9,6 +19,7 @@ import { Moment } from 'moment';
 import React, { ReactElement, useState } from 'react';
 import Draggable from 'react-draggable';
 import { Provider, useDispatch, useSelector } from 'react-redux';
+import CloseIcon from '@mui/icons-material/Close';
 
 import { focusModalElement, mapModalState } from '../utils/utils';
 import {
@@ -20,6 +31,7 @@ import {
   setStartTime,
   setEndTime,
   setVisibility,
+  setActiveField,
 } from './modalSlice';
 import store from './store';
 
@@ -57,7 +69,13 @@ function StatelessCreationModal(): ReactElement {
             : 'Failed to create new event'
         }
         onClose={() => setShowSnackbar(false)}
-      ></Snackbar>
+      >
+        <Alert severity={snackbarIsSuccess ? 'success' : 'warning'}>
+          {snackbarIsSuccess
+            ? 'Created new calendar event'
+            : 'Failed to create new calendar event'}
+        </Alert>
+      </Snackbar>
       {visible ? (
         <Draggable disabled={false}>
           <Box
@@ -71,11 +89,80 @@ function StatelessCreationModal(): ReactElement {
             }}
           >
             <Paper elevation={8}>
+              <Grid container columnGap={2} direction="row">
+                <Grid item xs={5}>
+                  <Button
+                    id="add_to_cal_button_submit"
+                    variant="contained"
+                    sx={{
+                      width: '100%',
+                      paddingTop: 1,
+                      paddingBottom: 1,
+                      zIndex: 2147483647,
+                    }}
+                    onClick={async () => {
+                      const event = mapModalState(modalState);
+
+                      chrome.runtime.sendMessage(
+                        {
+                          events: [event],
+                          type: 'create-event',
+                          calendarName: 'Event Extension',
+                        },
+                        function (isSuccess: any) {
+                          console.log('call success callbcak', isSuccess);
+                          dispatch(setVisibility(!isSuccess));
+                          snackbarCallback(isSuccess);
+                          // TODO: should do something if there is an error creating
+                        }
+                      );
+                    }}
+                  >
+                    Submit
+                  </Button>
+                </Grid>
+                <Grid item xs={5}>
+                  <Button
+                    id="add_to_cal_button_close"
+                    variant="contained"
+                    sx={{
+                      width: '100%',
+                      paddingTop: 1,
+                      paddingBottom: 1,
+                      zIndex: 2147483647,
+                    }}
+                    onClick={() => {
+                      dispatch(setStartDate(null));
+                      dispatch(setDescription(''));
+                      dispatch(setTitle(''));
+                      dispatch(setLocation(''));
+                      dispatch(setEndDate(null));
+                      dispatch(setStartTime(null));
+                      dispatch(setEndTime(null));
+                      dispatch(setActiveField('add_to_cal_button_start_date'));
+                    }}
+                  >
+                    Reset
+                  </Button>
+                </Grid>
+                <Grid xs={1}>
+                  <IconButton
+                    size="small"
+                    onClick={() => {
+                      dispatch(setVisibility(false));
+                    }}
+                  >
+                    <CloseIcon />
+                  </IconButton>
+                </Grid>
+              </Grid>
               <LocalizationProvider dateAdapter={AdapterMoment}>
                 <DesktopDatePicker
                   label="Start Date"
                   renderInput={(params) => (
                     <TextField
+                      size="small"
+                      variant="filled"
                       onClick={() =>
                         focusModalElement('add_to_cal_button_start_date')
                       }
@@ -93,6 +180,7 @@ function StatelessCreationModal(): ReactElement {
                   disablePast={true}
                 />
                 <TextField
+                  size="small"
                   id="add_to_cal_button_title"
                   onClick={() => focusModalElement('add_to_cal_button_title')}
                   value={title}
@@ -102,6 +190,7 @@ function StatelessCreationModal(): ReactElement {
                   sx={{ width: '100%', zIndex: 2147483647 }}
                 />
                 <TextField
+                  size="small"
                   variant="filled"
                   onClick={() =>
                     focusModalElement('add_to_cal_button_description')
@@ -114,11 +203,27 @@ function StatelessCreationModal(): ReactElement {
                   }
                   sx={{ width: '100%' }}
                 />
+                <TextField
+                  size="small"
+                  id="add_to_cal_button_location"
+                  variant="filled"
+                  label="Location"
+                  value={location}
+                  onClick={() =>
+                    focusModalElement('add_to_cal_button_location')
+                  }
+                  onChange={(event) =>
+                    dispatch(setLocation(event?.target?.value))
+                  }
+                  sx={{ width: '100%', zIndex: 2147483647 }}
+                />
                 <DesktopDatePicker
                   label="End Date"
                   disablePast={true}
                   renderInput={(params) => (
                     <TextField
+                      size="small"
+                      variant="filled"
                       {...params}
                       onClick={() =>
                         focusModalElement('add_to_cal_button_end_date')
@@ -142,6 +247,8 @@ function StatelessCreationModal(): ReactElement {
                   }
                   renderInput={(params) => (
                     <TextField
+                      size="small"
+                      variant="filled"
                       onClick={() =>
                         focusModalElement('add_to_cal_button_start_time')
                       }
@@ -160,6 +267,8 @@ function StatelessCreationModal(): ReactElement {
                   }
                   renderInput={(params) => (
                     <TextField
+                      size="small"
+                      variant="filled"
                       id="add_to_cal_button_end_time"
                       onClick={() =>
                         focusModalElement('add_to_cal_button_end_time')
@@ -169,69 +278,7 @@ function StatelessCreationModal(): ReactElement {
                     />
                   )}
                 />
-                <Grid container>
-                  <Grid item xs={9}>
-                    <TextField
-                      id="add_to_cal_button_location"
-                      variant="filled"
-                      label="Location"
-                      value={location}
-                      onClick={() =>
-                        focusModalElement('add_to_cal_button_location')
-                      }
-                      onChange={(event) =>
-                        dispatch(setLocation(event?.target?.value))
-                      }
-                      sx={{ width: '100%', zIndex: 2147483647 }}
-                    />
-                  </Grid>
-                  <Grid item xs={3}>
-                    <Button
-                      id="add_to_cal_button_submit"
-                      variant="contained"
-                      sx={{
-                        width: '100%',
-                        paddingTop: 1,
-                        paddingBottom: 1,
-                        zIndex: 2147483647,
-                      }}
-                      onClick={async () => {
-                        const event = mapModalState(modalState);
-
-                        chrome.runtime.sendMessage(
-                          {
-                            events: [event],
-                            type: 'create-event',
-                            calendarName: 'Event Extension',
-                          },
-                          function (isSuccess: any) {
-                            console.log('call success callbcak', isSuccess);
-                            dispatch(setVisibility(!isSuccess));
-                            snackbarCallback(isSuccess);
-                            // TODO: should do something if there is an error creating
-                          }
-                        );
-                      }}
-                    >
-                      Submit
-                    </Button>
-                    <Button
-                      id="add_to_cal_button_close"
-                      variant="contained"
-                      sx={{
-                        width: '100%',
-                        paddingTop: 1,
-                        paddingBottom: 1,
-                        zIndex: 2147483647,
-                      }}
-                      onClick={() => {
-                        dispatch(setVisibility(false));
-                      }}
-                    >
-                      Close
-                    </Button>
-                  </Grid>
-                </Grid>
+                <Grid item xs={3}></Grid>
               </LocalizationProvider>
             </Paper>
           </Box>

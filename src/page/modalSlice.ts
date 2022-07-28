@@ -5,7 +5,7 @@ import { reducerReuseAddValue } from '../utils/utils';
 export const modalSlice = createSlice({
   name: ' modal',
   initialState: {
-    visible: false,
+    visible: true,
     startDate: null,
     endDate: null,
     startTime: null,

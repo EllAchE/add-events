@@ -43,6 +43,11 @@ function Popup(): ReactElement {
         </Grid>
         <Grid>
           <Button variant="contained" onClick={() => alert('not implm')}>
+            Parse Page
+          </Button>
+        </Grid>
+        <Grid>
+          <Button variant="contained" onClick={() => alert('not implm')}>
             Tutorial
           </Button>
         </Grid>
