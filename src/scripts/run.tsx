@@ -19,5 +19,9 @@ export const run = () => {
     render(<CreationModal />, document.getElementById('event-create-modal'));
 
     createEventButtons(elements as HTMLCollectionOf<HTMLElement>);
+
+    chrome.storage.local.get(null, (result) => {
+      console.log('IN RUN in storage', result);
+    });
   }
 };

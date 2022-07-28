@@ -52,7 +52,7 @@ export function createEventButtons(
         }
       }
     } catch (err: any) {
-      console.warn(err);
+      console.log('error checking computedStyle', err);
     }
   }
 
@@ -79,12 +79,13 @@ export function createEventButtons(
 
   console.log('chunk set', chunkSet);
   for (const key in chunkSet) {
-    const vals = Array.from(chunkSet[key]).map((el: string) => JSON.parse(el));
+    const vals = Array.from(chunkSet[key]).map((el: string) => el);
     const tempObj: any = {};
     tempObj[key] = vals;
 
+    console.log('setting');
     chrome.storage.local.set(tempObj, () => {
-      console.log(`local storage of ${key} set to ${vals}`);
+      //console.log(`local storage of ${key} set to ${vals}`);
     });
   }
 }

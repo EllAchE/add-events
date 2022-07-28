@@ -275,12 +275,9 @@ function DateSubmissionForm({ eventPrefill }: { eventPrefill: any }) {
 /*
   Rendered dropdown of dates extracted from site
 */
-export function DateAccordion({
-  eventPrefills,
-}: {
-  eventPrefills: any;
-}): ReactElement {
-  if (eventPrefills.length < 1) {
+export function DateAccordion({ dates }: { dates: any }): ReactElement {
+  console.log('event prefill pass', dates);
+  if (dates && dates.length < 1) {
     return (
       <Alert severity="warning">
         <Typography>No events found on page!</Typography>
@@ -290,11 +287,13 @@ export function DateAccordion({
 
   return (
     <>
-      {eventPrefills.map((eventPrefill: any) => {
-        if (!eventPrefill.startDate && eventPrefill.date) {
-          eventPrefill.startDate = eventPrefill.date;
-        }
-        const { startDate, endDate, description, date } = eventPrefill;
+      {dates.map((date: any) => {
+        // if (!date.startDate && date.date) {
+        //   date.startDate = date.date;
+        // }
+        let { startDate, endDate, description } = date;
+
+        startDate = date;
 
         return (
           <Accordion key={startDate + endDate + description}>
@@ -310,7 +309,7 @@ export function DateAccordion({
                 </Tooltip>
               </Typography>
             </AccordionSummary>
-            <DateSubmissionForm eventPrefill={eventPrefill} />
+            <DateSubmissionForm eventPrefill={date} />
           </Accordion>
         );
       })}

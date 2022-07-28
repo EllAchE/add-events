@@ -8,11 +8,41 @@ import openTab from '../scripts/tab';
 import { DateAccordion } from './DateAccordion';
 
 function Popup(): ReactElement {
-  const [events, setEvents] = useState([]);
+  const [persons, setPersons] = useState([]);
+  const [places, setPlaces] = useState([]);
+  const [emails, setEmails] = useState([]);
+  const [ProperNouns, setProperNouns] = useState([]);
+  const [dates, setDates] = useState([]);
+  const [atMentions, setAtMentions] = useState([]);
+  const [internalUrls, setInternalUrls] = useState([]);
+  const [externalUrls, setExternalUrls] = useState([]);
+  const [SamePageUrls, setSamePageUrls] = useState([]);
 
   useEffect(() => {
-    chrome.storage.local.get('currentEvents', (result) => {
-      setEvents(result.currentEvents ? result.currentEvents : []);
+    console.log('change to component');
+    chrome.storage.local.get(null, (result) => {
+      console.log('in storage', result);
+      const {
+        personSet,
+        placeSet,
+        emailSet,
+        properNounSet,
+        dateSet,
+        atMentionSet,
+        internalUrlSet,
+        samePageUrlSet,
+        externalUrlSet,
+      } = result;
+
+      setPersons(personSet ? personSet : []);
+      setPlaces(placeSet ? placeSet : []);
+      setEmails(emailSet ? emailSet : []);
+      setProperNouns(properNounSet ?? []);
+      setDates(dateSet ?? []);
+      setAtMentions(atMentionSet ?? []);
+      setInternalUrls(internalUrlSet ?? []);
+      setExternalUrls(externalUrlSet ?? []);
+      setSamePageUrls(samePageUrlSet ?? []);
     });
   }, []);
 
@@ -27,8 +57,7 @@ function Popup(): ReactElement {
       >
         <h1 style={{ fontSize: 48 }}>Eventful</h1>
       </Grid>
-      <DateAccordion eventPrefills={events} />
-
+      <DateAccordion dates={dates} />
       <Grid container justifyContent="space-around" sx={{ paddingTop: 2 }}>
         {/* <Grid>
           <Button variant="contained" onClick={() => alert('not implm')}>
