@@ -3,14 +3,13 @@ import { render } from 'react-dom';
 
 import ChunkButton from '../page/ChunkButton';
 import classifyTextNLP from '../utils/textClassification';
-import { isInTheFuture } from '../utils/utils';
 import { ChunkSets as ChunkSetObj, NLPChunk } from './types';
 
 // TODO: should adjust the method signature to not take in regex
 export default function replaceText(
   node: HTMLElement,
-  chunkSet: ChunkSetObj
-): ChunkSetObj {
+  chunkSetObj: ChunkSetObj
+): void {
   let child: Node = node.firstChild;
 
   while (child) {
@@ -19,22 +18,21 @@ export default function replaceText(
 
       const classifiedChunks: NLPChunk[] = classifyTextNLP((child as any).data);
 
-      chunkSet = createChunkSets(classifiedChunks, chunkSet); // redundant to reiterate arr
+      addToChunkSet(classifiedChunks, chunkSetObj); // redundant to reiterate arr
 
       // if (extractedDates.length > 0) {
       //   dateSet.add(JSON.stringify(extractedDates[0]));
       // }
       // this logic needs to match better
 
+      console.log('adding chunk buttons to dom', classifiedChunks);
       child = addChunkButtonToDom(classifiedChunks, child);
     }
     child = child.nextSibling;
   }
-
-  return chunkSet;
 }
 
-function createChunkSets(
+function addToChunkSet(
   classifiedChunks: NLPChunk[],
   chunkSet: ChunkSetObj
 ): ChunkSetObj {
@@ -100,6 +98,8 @@ function addChunkButtonToDom(classifiedChunks: NLPChunk[], child: Node) {
 
       child.parentNode.insertBefore(tag as Node, newTextNode as Node);
       child = newTextNode;
+
+      console.log('chunk bi', chunk.chunkButtonId);
 
       render(
         <ChunkButton

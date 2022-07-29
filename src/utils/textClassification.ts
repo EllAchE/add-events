@@ -10,7 +10,6 @@ import {
 } from './utils';
 
 const datePlugin = require('compromise-dates');
-
 nlp.plugin(datePlugin);
 
 const checkTerms = new Set([
@@ -44,61 +43,23 @@ export default function classifyTextNLP(text: string): NLPChunk[] {
 
   for (const ent of entities) {
     const { terms } = ent;
-    let runningChunk = [];
-    let currentTagMatches: Set<string> = new Set(terms[0].tags);
+    let runningChunk: string[] = [];
     let previousTagMatches: Set<string> = new Set(terms[0].tags);
-    let j = 0;
 
-    let term;
-    while (j < terms.length) {
-      term = terms[j];
-      j += 1;
+    const { term, retChunkIndex } = iterateTerms(
+      terms,
+      chunkIndex,
+      runningChunk,
+      text,
+      processedChunks,
+      previousTagMatches
+    );
 
-      currentTagMatches = setIntersection(
-        currentTagMatches,
-        new Set(term.tags)
-      );
-      chunkIndex += term.text.length + term.post.length;
-
-      if (!term.text) {
-        continue;
-      }
-
-      if (runningChunk.length < 1) {
-        currentTagMatches = new Set(term.tags); // initialization case
-      } else if (
-        currentTagMatches.size < 1 ||
-        !checkIfSetsShareAnElement(currentTagMatches, checkTerms)
-      ) {
-        // When we reach the end of a chunk tag set intersection add it to the list
-        runningChunk.pop();
-        const chunk = runningChunk.join('');
-
-        addProcessedChunk(
-          chunkIndex,
-          chunk,
-          term,
-          text,
-          processedChunks,
-          previousTagMatches
-        );
-
-        // reset chunk and tag matches
-        previousTagMatches = currentTagMatches = new Set(term.tags);
-        runningChunk = [];
-      }
-
-      runningChunk.push(term.text);
-      runningChunk.push(term.post);
-
-      previousTagMatches = currentTagMatches;
-    }
-    runningChunk.pop();
-    const chunk = runningChunk.join('');
+    chunkIndex = retChunkIndex;
 
     addProcessedChunk(
       chunkIndex,
-      chunk,
+      runningChunk,
       term,
       text,
       processedChunks,
@@ -108,18 +69,24 @@ export default function classifyTextNLP(text: string): NLPChunk[] {
 
   return processedChunks.filter((chunk: NLPChunk) => {
     // Filter out dates that are in the past
-    chunk.categories.includes('Date') && isInTheFuture(chunk.text);
+    if (chunk.categories.includes('Date')) {
+      return isInTheFuture(chunk.text);
+    }
+    return true;
   });
 }
 
 function addProcessedChunk(
   chunkIndex: number,
-  chunk: string,
+  runningChunk: string[],
   term: any,
   text: string,
   processedChunks: NLPChunk[],
   previousTagMatches: Set<string>
 ) {
+  runningChunk.pop();
+  const chunk = runningChunk.join('');
+
   if (checkIfSetsShareAnElement(previousTagMatches, checkTerms)) {
     const ind = chunkIndex - chunk.length - term.post.length;
     const substr = getTextContextBounds(text, ind);
@@ -131,4 +98,56 @@ function addProcessedChunk(
       surroundingText: substr,
     });
   }
+}
+
+function iterateTerms(
+  terms: any[],
+  chunkIndex: number,
+  runningChunk: string[],
+  text: string,
+  processedChunks: NLPChunk[],
+  previousTagMatches: Set<string>
+) {
+  let j = 0;
+  let term;
+  let currentTagMatches: Set<string> = new Set(terms[0].tags);
+  while (j < terms.length) {
+    term = terms[j];
+    j += 1;
+
+    currentTagMatches = setIntersection(currentTagMatches, new Set(term.tags));
+    chunkIndex += term.text.length + term.post.length;
+
+    if (!term.text) {
+      continue;
+    }
+
+    if (runningChunk.length < 1) {
+      currentTagMatches = new Set(term.tags); // initialization case
+    } else if (
+      currentTagMatches.size < 1 ||
+      !checkIfSetsShareAnElement(currentTagMatches, checkTerms)
+    ) {
+      // When we reach the end of a chunk tag set intersection add it to the list
+      addProcessedChunk(
+        chunkIndex,
+        runningChunk,
+        term,
+        text,
+        processedChunks,
+        previousTagMatches
+      );
+
+      // reset chunk and tag matches
+      previousTagMatches = currentTagMatches = new Set(term.tags);
+      runningChunk = [];
+    }
+
+    runningChunk.push(term.text);
+    runningChunk.push(term.post);
+
+    previousTagMatches = currentTagMatches;
+  }
+
+  return { term, retChunkIndex: chunkIndex };
 }

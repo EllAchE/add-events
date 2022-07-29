@@ -183,3 +183,12 @@ export function setLastStorageUrl(windowPrefixUrl: string) {
     console.log('Set last storage url to:', windowPrefixUrl);
   });
 }
+
+export function stringifyUrl(href: string) {
+  return JSON.stringify({
+    text: href,
+    index: undefined,
+    categories: ['Url'],
+    surroundingText: undefined,
+  });
+}

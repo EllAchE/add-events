@@ -65,7 +65,7 @@ function StatelessCreationModal(): ReactElement {
         <Draggable disabled={false}>
           <Box
             sx={{
-              width: 300,
+              width: 400,
               height: 400,
               position: 'fixed',
               right: 16,

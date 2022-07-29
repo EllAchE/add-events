@@ -3,7 +3,7 @@ import { render } from 'react-dom';
 
 import CreationModal from '../page/CreationModal';
 import { getElements } from '../utils/utils';
-import { createEventButtons } from './createButtons';
+import { createButtons } from './createButtons';
 
 // If statement to prevent content scripts from executing in popup
 export const run = () => {
@@ -13,7 +13,7 @@ export const run = () => {
     const elements = getElements();
 
     createEventCreateModal();
-    createEventButtons(elements as HTMLCollectionOf<HTMLElement>);
+    createButtons(elements as HTMLCollectionOf<HTMLElement>);
 
     chrome.storage.local.get(null, (result) => {
       console.log('IN RUN in storage', result);

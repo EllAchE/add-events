@@ -3,13 +3,12 @@ import {
   getCurrentPageUrl,
   setLastStorageUrl,
   setLastTabAndWindow,
+  stringifyUrl,
 } from '../utils/utils';
 import replaceText from './replaceText';
 import { ChunkSets as ChunkSetObj } from './types';
 
-export function createEventButtons(
-  elements: HTMLCollectionOf<HTMLElement>
-): void {
+export function createButtons(elements: HTMLCollectionOf<HTMLElement>): void {
   let chunkSetObj: ChunkSetObj = createEmptyChunkSetObj();
 
   const windowPrefixUrl = getCurrentPageUrl().slice(0, -1);
@@ -27,18 +26,19 @@ export function createEventButtons(
           getComputedStyle(elements[i]).color
         )
       ) {
-        chunkSetObj = replaceText(elements[i], chunkSetObj);
+        console.log('replacing text');
+        replaceText(elements[i], chunkSetObj);
       }
 
       if (elements[i].tagName === 'A') {
         const href = elements[i].getAttribute('href');
         if (href && /http/.test(href)) {
-          chunkSetObj.urlSet.add(href);
+          chunkSetObj.urlSet.add(stringifyUrl(href));
         } else if (href && href.charAt(0) === '/') {
-          chunkSetObj.urlSet.add(windowPrefixUrl + href);
+          chunkSetObj.urlSet.add(stringifyUrl(windowPrefixUrl + href));
         } else if (href) {
           // case for id selectors, i.e. #maincontent
-          chunkSetObj.urlSet.add(windowPrefixUrl + '/' + href);
+          chunkSetObj.urlSet.add(stringifyUrl(windowPrefixUrl + '/' + href));
         }
       }
     } catch (err: any) {
@@ -52,6 +52,8 @@ export function createEventButtons(
 }
 
 function saveChunkSetsToLocalStorage(chunkSetObj: ChunkSetObj) {
+  console.log('chunkSetObj');
+  console.log(chunkSetObj);
   const internalUrlSet = new Set<string>();
   const samePageUrlSet = new Set<string>();
   const externalUrlSet = new Set<string>();
@@ -59,9 +61,8 @@ function saveChunkSetsToLocalStorage(chunkSetObj: ChunkSetObj) {
   const host = getCurrentPageHost();
 
   for (const urlChunk of chunkSetObj.urlSet) {
-    const obj = JSON.parse(urlChunk);
-    if (obj.text.includes(host)) {
-      if (obj.text.includes('#')) {
+    if (urlChunk.includes(host)) {
+      if (urlChunk.includes('#')) {
         samePageUrlSet.add(urlChunk);
       } else {
         internalUrlSet.add(urlChunk);
