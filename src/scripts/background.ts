@@ -3,7 +3,7 @@ import createEvent from './createEvent';
 console.log('service worker triggered');
 import createCalendar from './createCalendar';
 import getCalendarId from './getCalendarId';
-import { messageActiveTab } from './messageTabs';
+import { messageActiveTab } from '../utils/messageTabs';
 //const dispatch = useDispatch();
 
 chrome.commands.onCommand.addListener((command, tab) => {
@@ -67,14 +67,14 @@ chrome.runtime.onMessage.addListener(
   (message, sender, callback: (response?: any) => void) => {
     console.log('Background script received message from', sender);
     console.log('Message:', message);
-    const { events, calendarName, type } = message;
+    const { event, calendarName, type } = message;
 
     if (type === 'create-event') {
       getCalendarId(
         calendarName ? calendarName : 'Event Extension',
         'defaultCalendarId'
       ).then((calendarId) => {
-        createEvent({ events, calendarId }).then((isSuccess) => {
+        createEvent({ event, calendarId }).then((isSuccess) => {
           callback(isSuccess);
         });
       });

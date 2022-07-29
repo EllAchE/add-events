@@ -242,20 +242,18 @@ function DateSubmissionForm({ eventPrefill }: { eventPrefill: any }) {
               openConfirmation();
               chrome.runtime.sendMessage(
                 {
-                  events: [
-                    {
-                      description,
-                      end: {
-                        dateTime: isSingleDay
-                          ? startDate.toISOString()
-                          : endDate.toISOString(),
-                      },
-                      start: {
-                        dateTime: startDate.toISOString(),
-                      },
-                      summary: title,
+                  event: {
+                    description,
+                    end: {
+                      dateTime: isSingleDay
+                        ? startDate.toISOString()
+                        : endDate.toISOString(),
                     },
-                  ],
+                    start: {
+                      dateTime: startDate.toISOString(),
+                    },
+                    summary: title,
+                  },
                   type: 'create-event',
                   calendarName: 'Event Extension',
                 },

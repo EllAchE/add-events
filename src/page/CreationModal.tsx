@@ -233,7 +233,7 @@ function submitEvent(
 
     chrome.runtime.sendMessage(
       {
-        events: [event],
+        event: event,
         type: 'create-event',
         calendarName: 'Event Extension',
       },

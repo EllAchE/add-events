@@ -2,6 +2,7 @@ import { CalendarEvent } from '../scripts/types';
 import { setActiveField } from '../page/modalSlice';
 import { parseDate } from 'chrono-node';
 import store from '../page/store';
+import React from 'react';
 
 export function isInTheFuture(dateStr: string): boolean {
   const yearRegex = /\d{4}/g;
@@ -65,8 +66,8 @@ export function mapModalState(modalState: any): CalendarEvent {
     },
     summary: title,
     description:
-      description +
-      (description ? '\n\n' : '' + 'Event found at url:') +
+      (description ? description + <br /> + <br /> : '') +
+      'Event found at url:' +
       getCurrentPageUrl(),
   };
 }

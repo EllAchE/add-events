@@ -8,6 +8,7 @@ export default async function getCalendarId(
   calendarName: string,
   storageName?: string
 ): Promise<string> {
+  // First look for it in local storage
   const calIdPromise: Promise<string> = new Promise((resolve, reject) => {
     chrome.storage.local.get(storageName, (result) => {
       let calendarId: string;
@@ -25,6 +26,7 @@ export default async function getCalendarId(
     return calId;
   }
 
+  // If not found fetch it filtering on the passed name
   const calIdPromise2: Promise<string> = new Promise((resolve, reject) => {
     chrome.identity.getAuthToken({ interactive: true }, async (token) => {
       const config = {

@@ -5,6 +5,7 @@ import { NLPChunk } from '../scripts/types';
 import {
   checkIfSetsShareAnElement,
   getTextContextBounds,
+  isInTheFuture,
   setIntersection,
 } from './utils';
 
@@ -110,5 +111,8 @@ export default function classifyTextNLP(text: string): NLPChunk[] {
     }
   }
 
-  return processedChunks;
+  return processedChunks.filter((chunk: NLPChunk) => {
+    // Filter out dates that are in the past
+    chunk.categories.includes('Date') && isInTheFuture(chunk.text);
+  });
 }
