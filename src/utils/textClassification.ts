@@ -13,6 +13,22 @@ const datePlugin = require('compromise-dates');
 
 nlp.plugin(datePlugin);
 
+const checkTerms = new Set([
+  'Place',
+  'Person',
+  'Organization',
+  'Activity',
+  'Date',
+  'Time',
+  'Money',
+  'Currency',
+  'Url',
+  'AtMention',
+  'Email',
+  'ProperNoun',
+  //'Acronym'
+]);
+
 /*
   This function checks through the terms of entities and classifies them according to custom logic.
   This "rechunks" nlp processed terms into groups we care about.
@@ -24,24 +40,9 @@ export default function classifyTextNLP(text: string): NLPChunk[] {
 
   const entities = doc.json();
   const processedChunks: NLPChunk[] = [];
-  let index = 0;
+  let chunkIndex = 0;
 
   for (const ent of entities) {
-    const checkTerms = new Set();
-    checkTerms.add('Place');
-    checkTerms.add('Person');
-    checkTerms.add('Organization');
-    checkTerms.add('Activity');
-    checkTerms.add('Date');
-    checkTerms.add('Time');
-    checkTerms.add('Money');
-    checkTerms.add('Currency');
-    checkTerms.add('Url');
-    checkTerms.add('AtMention');
-    checkTerms.add('Email');
-    // checkTerms.add('Acronym')
-    checkTerms.add('ProperNoun');
-
     const { terms } = ent;
     let runningChunk = [];
     let currentTagMatches: Set<string> = new Set(terms[0].tags);
@@ -57,7 +58,7 @@ export default function classifyTextNLP(text: string): NLPChunk[] {
         currentTagMatches,
         new Set(term.tags)
       );
-      index += term.text.length + term.post.length;
+      chunkIndex += term.text.length + term.post.length;
 
       if (!term.text) {
         continue;
@@ -73,17 +74,14 @@ export default function classifyTextNLP(text: string): NLPChunk[] {
         runningChunk.pop();
         const chunk = runningChunk.join('');
 
-        if (checkIfSetsShareAnElement(previousTagMatches, checkTerms)) {
-          const ind = index - chunk.length - term.post.length;
-          const substr = getTextContextBounds(text, ind);
-
-          processedChunks.push({
-            text: chunk,
-            index: ind,
-            categories: Array.from(previousTagMatches),
-            surroundingText: substr,
-          });
-        }
+        addProcessedChunk(
+          chunkIndex,
+          chunk,
+          term,
+          text,
+          processedChunks,
+          previousTagMatches
+        );
 
         // reset chunk and tag matches
         previousTagMatches = currentTagMatches = new Set(term.tags);
@@ -98,21 +96,39 @@ export default function classifyTextNLP(text: string): NLPChunk[] {
     runningChunk.pop();
     const chunk = runningChunk.join('');
 
-    if (checkIfSetsShareAnElement(previousTagMatches, checkTerms)) {
-      const ind = index - chunk.length - term.post.length;
-      const substr = getTextContextBounds(text, ind);
-
-      processedChunks.push({
-        text: chunk,
-        index: index - chunk.length - term.post.length,
-        categories: Array.from(previousTagMatches),
-        surroundingText: substr,
-      });
-    }
+    addProcessedChunk(
+      chunkIndex,
+      chunk,
+      term,
+      text,
+      processedChunks,
+      previousTagMatches
+    );
   }
 
   return processedChunks.filter((chunk: NLPChunk) => {
     // Filter out dates that are in the past
     chunk.categories.includes('Date') && isInTheFuture(chunk.text);
   });
+}
+
+function addProcessedChunk(
+  chunkIndex: number,
+  chunk: string,
+  term: any,
+  text: string,
+  processedChunks: NLPChunk[],
+  previousTagMatches: Set<string>
+) {
+  if (checkIfSetsShareAnElement(previousTagMatches, checkTerms)) {
+    const ind = chunkIndex - chunk.length - term.post.length;
+    const substr = getTextContextBounds(text, ind);
+
+    processedChunks.push({
+      text: chunk,
+      index: ind,
+      categories: Array.from(previousTagMatches),
+      surroundingText: substr,
+    });
+  }
 }
