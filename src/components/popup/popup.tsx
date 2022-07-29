@@ -2,9 +2,9 @@ import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import React, { ReactElement, useEffect, useState } from 'react';
 import { render } from 'react-dom';
+import { openCalendar } from '../../scripts/utils/browserUtils';
 
 import App from '../app/App';
-import { openCalendar } from '../../scripts/utils/utils';
 import TabGroup from './TabGroup';
 
 function Popup(): ReactElement {

@@ -1,8 +1,8 @@
 import React from 'react';
 import { render } from 'react-dom';
 
-import CreationModal from '../components/page/CreationModal';
-import { getElements } from './utils/utils';
+import CreationModal from '../../components/injected/CreationModal';
+import { getElements } from '../utils/utils';
 import { createButtons } from './createButtons';
 
 // If statement to prevent content scripts from executing in popup

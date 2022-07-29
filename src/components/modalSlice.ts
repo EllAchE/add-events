@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { reducerReuseAddValue } from '../../scripts/utils/utils';
+import { reducerReuseAddValue } from '../scripts/utils/utils';
 
 export const modalSlice = createSlice({
   name: 'modal',

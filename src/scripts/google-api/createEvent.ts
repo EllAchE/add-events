@@ -1,4 +1,4 @@
-import { CalendarEvent } from '../types';
+import { CalendarEvent } from '../../types';
 
 // calls the insert API https://developers.google.com/calendar/api/v3/reference/events/insert
 export default async function createEvent(message: {

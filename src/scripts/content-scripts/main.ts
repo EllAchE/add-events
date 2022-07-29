@@ -1,4 +1,4 @@
-import { focusModalElement } from './utils/utils';
+import { focusModalElement } from '../utils/utils';
 import { run } from './run';
 
 chrome.runtime.onMessage.addListener((msg, sender, callback) => {

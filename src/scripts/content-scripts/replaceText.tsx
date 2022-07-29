@@ -1,9 +1,9 @@
 import React from 'react';
 import { render } from 'react-dom';
 
-import ChunkButton from '../components/injected/ChunkButton';
-import classifyTextNLP from './utils/textClassification';
-import { ChunkSets as ChunkSetObj, NLPChunk } from './types';
+import ChunkButton from '../../components/injected/ChunkButton';
+import classifyTextNLP from './textClassification';
+import { ChunkSets as ChunkSetObj, NLPChunk } from '../../types';
 
 // TODO: should adjust the method signature to not take in regex
 export default function replaceText(

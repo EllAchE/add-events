@@ -21,7 +21,7 @@ import Draggable from 'react-draggable';
 import { Provider, useDispatch, useSelector } from 'react-redux';
 import CloseIcon from '@mui/icons-material/Close';
 
-import { focusModalElement, mapModalState } from '../../scripts/utils/utils';
+import { focusModalElement } from '../../scripts/utils/utils';
 import {
   setStartDate,
   setTitle,
@@ -32,9 +32,10 @@ import {
   setEndTime,
   setVisibility,
   setActiveField,
-} from './modalSlice';
-import store from './store';
+} from '../modalSlice';
+import store from '../store';
 import { Dispatch, AnyAction } from 'redux';
+import { mapModalState } from '../../scripts/utils/reactUtils';
 
 function StatelessCreationModal(): ReactElement {
   const modalState = useSelector((state: any) => state.modal);
@@ -238,7 +239,6 @@ function submitEvent(
         calendarName: 'Event Extension',
       },
       function (isSuccess: any) {
-        console.log('call success callbcak', isSuccess);
         dispatch(setVisibility(!isSuccess));
         snackbarCallback(isSuccess);
       }

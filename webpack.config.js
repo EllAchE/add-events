@@ -6,8 +6,8 @@ module.exports = {
   entry: {
       popup: './src/components/popup/Popup.tsx',
       options: './src/components/options/options.tsx',
-      main: './src/scripts/main.tsx',
-      background: './src/scripts/background.ts',
+      main: './src/scripts/content-scripts/main.ts',
+      background: './src/scripts/service-workers/background.ts',
   },
   resolve: {
     extensions: [".ts", ".tsx", ".js"]

@@ -1,13 +1,9 @@
 import nlp from 'compromise';
 import Three from 'compromise/types/view/three';
 
-import { NLPChunk } from '../types';
-import {
-  checkIfSetsShareAnElement,
-  getTextContextBounds,
-  isInTheFuture,
-  setIntersection,
-} from './utils';
+import { NLPChunk } from '../../types';
+import { checkIfSetsShareAnElement, setIntersection } from '../utils/setUtils';
+import { getTextContextBounds, isInTheFuture } from '../utils/utils';
 
 const datePlugin = require('compromise-dates');
 nlp.plugin(datePlugin);

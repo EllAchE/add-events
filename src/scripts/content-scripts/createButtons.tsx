@@ -2,11 +2,11 @@ import {
   getCurrentPageHost,
   getCurrentPageUrl,
   setLastStorageUrl,
-  setLastTabAndWindow,
   stringifyUrl,
-} from './utils/utils';
+} from '../utils/utils';
 import replaceText from './replaceText';
-import { ChunkSets as ChunkSetObj } from './types';
+import { ChunkSets as ChunkSetObj } from '../../types';
+import { setLastTabAndWindow } from '../utils/browserUtils';
 
 export function createButtons(elements: HTMLCollectionOf<HTMLElement>): void {
   let chunkSetObj: ChunkSetObj = createEmptyChunkSetObj();
