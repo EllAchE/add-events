@@ -111,30 +111,35 @@ export default function TabGroup(tabs: any) {
       </TabPanel>
       <TabPanel value={value} index={1}>
         <AlternateInfoTab
+          key="people"
           noItemsText={'No people found on page 😢.'}
           items={people}
         />
       </TabPanel>
       <TabPanel value={value} index={2}>
         <AlternateInfoTab
+          key="emails"
           noItemsText={'No emails found on page 😢.'}
           items={emails}
         />
       </TabPanel>
       <TabPanel value={value} index={3}>
         <AlternateInfoTab
+          key="urls"
           noItemsText={'No urls found on page 😢.'}
           items={urls}
         />
       </TabPanel>
       <TabPanel value={value} index={4}>
         <AlternateInfoTab
-          noItemsText={'No handles found on page 😢.'}
+          key="handles"
+          noItemsText={'No social handles found on page 😢.'}
           items={atMentions}
         />
       </TabPanel>
       <TabPanel value={value} index={5}>
         <AlternateInfoTab
+          key="places"
           noItemsText={'No places found on page 😢.'}
           items={places}
         />

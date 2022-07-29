@@ -34,51 +34,25 @@ function Popup(): ReactElement {
         externalUrlSet,
       } = result;
 
-      setPeople(
-        personSet?.map((el: string) => {
-          return JSON.parse(el);
-        }) ?? []
-      );
-      setPlaces(
-        placeSet?.map((el: string) => {
-          return JSON.parse(el);
-        }) ?? []
-      );
-      setEmails(
-        emailSet?.map((el: string) => {
-          return JSON.parse(el);
-        }) ?? []
-      );
-      setProperNouns(
-        properNounSet?.map((el: string) => {
-          return JSON.parse(el);
-        }) ?? []
-      );
-      setDates(
-        dateSet?.map((el: string) => {
-          return JSON.parse(el);
-        }) ?? []
-      );
-      setAtMentions(
-        atMentionSet?.map((el: string) => {
-          return JSON.parse(el);
-        }) ?? []
-      );
-      setInternalUrls(
-        internalUrlSet?.map((el: string) => {
-          return JSON.parse(el);
-        }) ?? []
-      );
-      setExternalUrls(
-        externalUrlSet?.map((el: string) => {
-          return JSON.parse(el);
-        }) ?? []
-      );
-      setSamePageUrls(
-        samePageUrlSet?.map((el: string) => {
-          return JSON.parse(el);
-        }) ?? []
-      );
+      const filterSet = (arr: any[]): any[] => {
+        console.log(arr);
+        const f = arr.filter((value: any, index: any, self: any) => {
+          return (
+            value && self.findIndex((v: any) => v.text === value.text) === index
+          );
+        });
+        console.log(f);
+        return f;
+      };
+      setPeople(filterSet(personSet) ?? []);
+      setPlaces(filterSet(placeSet) ?? []);
+      setEmails(filterSet(emailSet) ?? []);
+      setProperNouns(filterSet(properNounSet) ?? []);
+      setDates(filterSet(dateSet) ?? []);
+      setAtMentions(filterSet(atMentionSet) ?? []);
+      setInternalUrls(filterSet(internalUrlSet) ?? []);
+      setExternalUrls(filterSet(externalUrlSet) ?? []);
+      setSamePageUrls(filterSet(samePageUrlSet) ?? []);
     });
   }, []);
 

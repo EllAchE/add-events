@@ -48,7 +48,7 @@ export function createButtons(elements: HTMLCollectionOf<HTMLElement>): void {
 
   saveChunkSetsToLocalStorage(chunkSetObj);
   setLastStorageUrl(windowPrefixUrl);
-  setLastTabAndWindow();
+  setLastTabAndWindow(); // TODO: this likely needs to use messaging
 }
 
 function saveChunkSetsToLocalStorage(chunkSetObj: ChunkSetObj) {
