@@ -89,12 +89,12 @@ export default function TabGroup(tabs: any) {
     <Box sx={{ width: '100%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={value} onChange={handleChange}>
-          <Tab label="Dates" {...a11yProps(0)} />
-          <Tab label="People" {...a11yProps(1)} />
+          <Tab label="Events" {...a11yProps(0)} />
+          <Tab label="Places" {...a11yProps(1)} />
           <Tab label="Emails" {...a11yProps(2)} />
           <Tab label="URLs" {...a11yProps(3)} />
           <Tab label="Handles" {...a11yProps(4)} />
-          <Tab label="Places" {...a11yProps(5)} />
+          <Tab label="People" {...a11yProps(5)} />
         </Tabs>
       </Box>
       <Grid
@@ -111,9 +111,9 @@ export default function TabGroup(tabs: any) {
       </TabPanel>
       <TabPanel value={value} index={1}>
         <AlternateInfoTab
-          key="people"
-          noItemsText={'No people found on page 😢.'}
-          items={people}
+          key="places"
+          noItemsText={'No places found on page 😢.'}
+          items={places}
         />
       </TabPanel>
       <TabPanel value={value} index={2}>
@@ -139,9 +139,9 @@ export default function TabGroup(tabs: any) {
       </TabPanel>
       <TabPanel value={value} index={5}>
         <AlternateInfoTab
-          key="places"
-          noItemsText={'No places found on page 😢.'}
-          items={places}
+          key="people"
+          noItemsText={'No people found on page 😢.'}
+          items={people}
         />
       </TabPanel>
     </Box>

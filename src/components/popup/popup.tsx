@@ -38,7 +38,10 @@ function Popup(): ReactElement {
         console.log(arr);
         const f = arr.filter((value: any, index: any, self: any) => {
           return (
-            value && self.findIndex((v: any) => v.text === value.text) === index
+            value &&
+            self.findIndex(
+              (v: any) => v?.text?.toLowerCase() === value?.text?.toLowerCase()
+            ) === index
           );
         });
         console.log(f);

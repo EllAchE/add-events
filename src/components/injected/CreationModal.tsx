@@ -109,7 +109,11 @@ function StatelessCreationModal(): ReactElement {
                 <Grid item xs={1}>
                   <IconButton
                     size="small"
-                    onClick={() => dis(setVisibility(false))}
+                    onClick={() => {
+                      resetModal(dis);
+                      focusModalElement('add_to_cal_button_start_date');
+                      dis(setVisibility(false));
+                    }}
                   >
                     <CloseIcon />
                   </IconButton>
