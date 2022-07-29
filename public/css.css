@@ -43,6 +43,26 @@
     text-decoration: underline; 
 }
 
+.add_to_cal_button_hashtag {
+    background-color: purple;
+    text-decoration: underline; 
+}
+
+.add_to_cal_button_phonenumber {
+    background-color: lightyellow;
+    text-decoration: underline; 
+}
+
+.add_to_cal_button_activity {
+    background-color: orange;
+    text-decoration: underline; 
+}
+
+.add_to_cal_button_acronym {
+    background-color: blue;
+    text-decoration: underline; 
+}
+
 .add_to_cal_button {
     cursor: pointer;
 }

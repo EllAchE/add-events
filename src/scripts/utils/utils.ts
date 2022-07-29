@@ -88,6 +88,6 @@ export function stringifyUrl(href: string) {
     index: undefined,
     categories: ['Url'],
     surroundingText: undefined,
+    chunkButtonId: href,
   });
 }
-

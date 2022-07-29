@@ -19,9 +19,12 @@ const checkTerms = new Set([
   'Currency',
   'Url',
   'AtMention',
+  'HashTag',
   'Email',
+  'PhoneNumber',
   'ProperNoun',
-  //'Acronym'
+  'Activity',
+  'Acronym',
 ]);
 
 /*
@@ -92,6 +95,7 @@ function addProcessedChunk(
       index: ind,
       categories: Array.from(previousTagMatches),
       surroundingText: substr,
+      chunkButtonId: undefined,
     });
   }
 }

@@ -5,7 +5,7 @@ import {
   stringifyUrl,
 } from '../utils/utils';
 import replaceText from './replaceText';
-import { ChunkSets as ChunkSetObj } from '../../types';
+import { ChunkSetObj } from '../../types';
 import { setLastTabAndWindow } from '../utils/browserUtils';
 
 export function createButtons(elements: HTMLCollectionOf<HTMLElement>): void {
@@ -52,8 +52,7 @@ export function createButtons(elements: HTMLCollectionOf<HTMLElement>): void {
 }
 
 function saveChunkSetsToLocalStorage(chunkSetObj: ChunkSetObj) {
-  console.log('chunkSetObj');
-  console.log(chunkSetObj);
+  console.log('chunkSetObj', chunkSetObj);
   const internalUrlSet = new Set<string>();
   const samePageUrlSet = new Set<string>();
   const externalUrlSet = new Set<string>();
@@ -87,7 +86,7 @@ function saveChunkSetsToLocalStorage(chunkSetObj: ChunkSetObj) {
     tempObj[key] = vals;
 
     chrome.storage.local.set(tempObj, () => {
-      console.log(`local storage of ${key} set to ${vals}`);
+      //console.log(`local storage of ${key} set to ${vals}`);
     });
   }
 }
@@ -101,5 +100,7 @@ function createEmptyChunkSetObj(): ChunkSetObj {
     properNounSet: new Set<string>(),
     dateSet: new Set<string>(),
     atMentionSet: new Set<string>(),
+    hashTagSet: new Set<string>(),
+    phoneNumberSet: new Set<string>(),
   };
 }

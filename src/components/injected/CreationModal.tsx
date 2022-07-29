@@ -20,6 +20,7 @@ import React, { ReactElement, useState } from 'react';
 import Draggable from 'react-draggable';
 import { Provider, useDispatch, useSelector } from 'react-redux';
 import CloseIcon from '@mui/icons-material/Close';
+import SettingsIcon from '@mui/icons-material/Settings';
 
 import { focusModalElement } from '../../scripts/utils/utils';
 import {
@@ -71,20 +72,19 @@ function StatelessCreationModal(): ReactElement {
               position: 'fixed',
               right: 16,
               bottom: 2,
-              zIndex: 2147483646,
+              zIndex: 999,
             }}
           >
             <Paper elevation={8}>
-              <Grid container columnGap={2} direction="row">
+              <Grid container justifyContent="space-around" direction="row">
                 <Grid item xs={5}>
                   <Button
                     id="add_to_cal_button_submit"
                     variant="contained"
                     sx={{
-                      width: '100%',
+                      width: '90%',
                       paddingTop: 1,
                       paddingBottom: 1,
-                      zIndex: 2147483647,
                     }}
                     onClick={submitEvent(modalState, dis, snackbarCallback)}
                   >
@@ -96,15 +96,19 @@ function StatelessCreationModal(): ReactElement {
                     id="add_to_cal_button_close"
                     variant="contained"
                     sx={{
-                      width: '100%',
+                      width: '90%',
                       paddingTop: 1,
                       paddingBottom: 1,
-                      zIndex: 2147483647,
                     }}
                     onClick={() => resetModal(dis)}
                   >
                     Reset
                   </Button>
+                </Grid>
+                <Grid item xs={1}>
+                  <IconButton onClick={() => chrome.runtime.openOptionsPage()}>
+                    <SettingsIcon />
+                  </IconButton>
                 </Grid>
                 <Grid item xs={1}>
                   <IconButton
@@ -131,7 +135,7 @@ function StatelessCreationModal(): ReactElement {
                       }
                       id="add_to_cal_button_start_date"
                       {...params}
-                      sx={{ width: '100%', zIndex: 2147483647 }}
+                      sx={{ width: '100%' }}
                     />
                   )}
                   onChange={(moment: Moment) => {
@@ -173,7 +177,7 @@ function StatelessCreationModal(): ReactElement {
                         focusModalElement('add_to_cal_button_end_date')
                       }
                       id="add_to_cal_button_end_date"
-                      sx={{ width: '100%', zIndex: 2147483647 }}
+                      sx={{ width: '100%' }}
                     />
                   )}
                   onChange={(moment: Moment) => {
@@ -185,8 +189,9 @@ function StatelessCreationModal(): ReactElement {
                 <TimePicker
                   label="Start Time"
                   value={modalState.startTime}
-                  ampm={false}
-                  onChange={(event) => dis(setStartTime(event?.target?.value))}
+                  onChange={(moment: Moment) => {
+                    dis(setStartTime(moment.toISOString()));
+                  }}
                   renderInput={(params) => (
                     <TextField
                       size="small"
@@ -196,15 +201,16 @@ function StatelessCreationModal(): ReactElement {
                       }
                       id="add_to_cal_button_start_time"
                       {...params}
-                      sx={{ width: '100%', zIndex: 2147483647 }}
+                      sx={{ width: '100%' }}
                     />
                   )}
                 />
                 <TimePicker
                   label="End Time"
                   value={modalState.endTime}
-                  ampm={false}
-                  onChange={(event) => dis(setEndTime(event?.target?.value))}
+                  onChange={(moment: Moment) => {
+                    dis(setStartTime(moment.toISOString()));
+                  }}
                   renderInput={(params) => (
                     <TextField
                       size="small"
@@ -214,7 +220,7 @@ function StatelessCreationModal(): ReactElement {
                         focusModalElement('add_to_cal_button_end_time')
                       }
                       {...params}
-                      sx={{ width: '100%', zIndex: 2147483647 }}
+                      sx={{ width: '100%' }}
                     />
                   )}
                 />
@@ -281,7 +287,7 @@ function CreationModalTextField({
       value={value}
       onChange={onChange}
       label={label}
-      sx={{ width: '100%', zIndex: 2147483647 }}
+      sx={{ width: '100%' }}
     />
   );
 }

@@ -3,7 +3,7 @@ import { render } from 'react-dom';
 
 import ChunkButton from '../../components/injected/ChunkButton';
 import classifyTextNLP from './textClassification';
-import { ChunkSets as ChunkSetObj, NLPChunk } from '../../types';
+import { ChunkSetObj, ExtractedTuple, NLPChunk } from '../../types';
 
 // TODO: should adjust the method signature to not take in regex
 export default function replaceText(
@@ -25,7 +25,6 @@ export default function replaceText(
       // }
       // this logic needs to match better
 
-      console.log('adding chunk buttons to dom', classifiedChunks);
       child = addChunkButtonToDom(classifiedChunks, child);
     }
     child = child.nextSibling;
@@ -41,34 +40,42 @@ function addToChunkSet(
     const chunkButtonId =
       'add_to_cal_button_' + chunkButtonIdCounter.toString();
 
-    const stringifiedSet = JSON.stringify({
+    const tup: ExtractedTuple = {
       text: chunk.text,
       position: null,
       categories: chunk.categories,
       surroundingText: chunk.surroundingText,
-      buttonId: chunkButtonId,
-    });
+      chunkButtonId: chunkButtonId,
+    };
+
+    const stringifiedSetTuple: string = JSON.stringify(tup);
 
     if (chunk.categories.includes('Date')) {
-      chunkSet.dateSet.add(stringifiedSet);
+      chunkSet.dateSet.add(stringifiedSetTuple);
     }
     if (chunk.categories.includes('Place')) {
-      chunkSet.placeSet.add(stringifiedSet);
+      chunkSet.placeSet.add(stringifiedSetTuple);
     }
     if (chunk.categories.includes('Url')) {
-      chunkSet.urlSet.add(stringifiedSet);
+      chunkSet.urlSet.add(stringifiedSetTuple);
     }
     if (chunk.categories.includes('Email')) {
-      chunkSet.emailSet.add(stringifiedSet);
+      chunkSet.emailSet.add(stringifiedSetTuple);
     }
     if (chunk.categories.includes('ProperNoun')) {
-      chunkSet.properNounSet.add(stringifiedSet);
+      chunkSet.properNounSet.add(stringifiedSetTuple);
     }
     if (chunk.categories.includes('Person')) {
-      chunkSet.personSet.add(stringifiedSet);
+      chunkSet.personSet.add(stringifiedSetTuple);
     }
     if (chunk.categories.includes('AtMention')) {
-      chunkSet.atMentionSet.add(stringifiedSet);
+      chunkSet.atMentionSet.add(stringifiedSetTuple);
+    }
+    if (chunk.categories.includes('PhoneNumber')) {
+      chunkSet.phoneNumberSet.add(stringifiedSetTuple);
+    }
+    if (chunk.categories.includes('HashTag')) {
+      chunkSet.hashTagSet.add(stringifiedSetTuple);
     }
   });
 
@@ -98,8 +105,6 @@ function addChunkButtonToDom(classifiedChunks: NLPChunk[], child: Node) {
 
       child.parentNode.insertBefore(tag as Node, newTextNode as Node);
       child = newTextNode;
-
-      console.log('chunk bi', chunk.chunkButtonId);
 
       render(
         <ChunkButton

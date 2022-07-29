@@ -38,6 +38,9 @@ export const modalSlice = createSlice({
       state.endDate = action.payload;
     },
     setStartTime: (state, action) => {
+      console.log('start time');
+      console.log(action);
+      console.log(state);
       state.startTime = action.payload;
     },
     setEndTime: (state, action) => {

@@ -56,12 +56,14 @@ export function localStorageWrapper(
   });
 }
 
-export function activateLastTab(
+export function focusElementInTab(
   storage: any,
   elementId: string,
   urlPrefix?: string
 ) {
-  const { lastWindowId, lastTabId } = storage;
+  const { lastWindowId, lastTabId, lastStorageUrl } = storage;
+
+  urlPrefix = urlPrefix ?? lastStorageUrl.slice(0, -1);
 
   // TODO: if the tab is no longer open, launch it in new tab
   try {

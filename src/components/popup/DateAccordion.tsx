@@ -20,6 +20,11 @@ import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import React, { useState, ReactElement } from 'react';
+import {
+  focusElementInTab,
+  localStorageWrapper,
+} from '../../scripts/utils/browserUtils';
+import { getCreateEventConfig } from '../../scripts/utils/reactUtils';
 
 import ConfirmationDialog from './ConfirmationDialog';
 
@@ -241,22 +246,15 @@ function DateSubmissionForm({ eventPrefill }: { eventPrefill: any }) {
             onClick={async () => {
               openConfirmation();
               chrome.runtime.sendMessage(
-                {
-                  event: {
-                    description,
-                    end: {
-                      dateTime: isSingleDay
-                        ? startDate.toISOString()
-                        : endDate.toISOString(),
-                    },
-                    start: {
-                      dateTime: startDate.toISOString(),
-                    },
-                    summary: title,
-                  },
-                  type: 'create-event',
-                  calendarName: 'Event Extension',
-                },
+                getCreateEventConfig(
+                  startDate,
+                  isSingleDay,
+                  endDate,
+                  startDate,
+                  endDate,
+                  description,
+                  title
+                ),
                 undefined,
                 snackbarCallback
               );
@@ -285,9 +283,6 @@ export function DateAccordion({ dates }: { dates: any }): ReactElement {
   return (
     <>
       {dates.map((date: any) => {
-        // if (!date.startDate && date.date) {
-        //   date.startDate = date.date;
-        // }
         let { startDate, endDate, description } = date;
 
         startDate = date.text; // hack
@@ -302,8 +297,7 @@ export function DateAccordion({ dates }: { dates: any }): ReactElement {
                 <Tooltip title="See event details on webpage">
                   <IconButton
                     onClick={() => {
-                      // open last active tab then focus on element with id
-                      // in storage
+                      localStorageWrapper(focusElementInTab, date.buttonId);
                     }}
                   >
                     <FindInPageIcon />

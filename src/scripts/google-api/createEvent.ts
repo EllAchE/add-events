@@ -1,8 +1,8 @@
-import { CalendarEvent } from '../../types';
+import { CalendarEventMessage } from '../../types';
 
 // calls the insert API https://developers.google.com/calendar/api/v3/reference/events/insert
 export default async function createEvent(message: {
-  event: CalendarEvent;
+  event: CalendarEventMessage;
   calendarId: string;
 }): Promise<boolean> {
   let { event, calendarId } = message;
@@ -31,7 +31,7 @@ export default async function createEvent(message: {
     });
   });
 }
-function getConfig(token: string, event: CalendarEvent) {
+function getConfig(token: string, event: CalendarEventMessage) {
   return {
     method: 'POST',
     async: true,
