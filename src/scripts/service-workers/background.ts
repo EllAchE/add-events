@@ -1,10 +1,8 @@
 import createEvent from '../google-api/createEvent';
 
-console.log('service worker triggered');
 import createCalendar from '../google-api/createCalendar';
 import { messageActiveTab } from '../utils/browserUtils';
 import getCalendarId from '../google-api/getCalendarId';
-//const dispatch = useDispatch();
 
 chrome.commands.onCommand.addListener((command, tab) => {
   console.log('received command', command);

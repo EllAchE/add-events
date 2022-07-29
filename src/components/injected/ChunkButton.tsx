@@ -39,7 +39,9 @@ function StatelessChunkButton(props: any): ReactElement {
       <span
         id={id}
         className={
-          cssClasses.includes(activeModalField)
+          cssClasses.includes(activeModalField) ||
+          'add_to_cal_button_title' == activeModalField ||
+          'add_to_cal_button_description' == activeModalField
             ? classList
             : 'add_to_cal_button'
         }
@@ -53,7 +55,9 @@ function StatelessChunkButton(props: any): ReactElement {
       <span
         id={id}
         className={
-          cssClasses.includes(activeModalField)
+          cssClasses.includes(activeModalField) ||
+          'add_to_cal_button_title' == activeModalField ||
+          'add_to_cal_button_description' == activeModalField
             ? classList
             : 'add_to_cal_button'
         }
@@ -65,18 +69,34 @@ function StatelessChunkButton(props: any): ReactElement {
   }
 }
 
+function toggleClassName(
+  cssClasses: string[],
+  activeModalField: any,
+  classList: string
+): string {
+  return cssClasses.includes(activeModalField) ||
+    ['add_to_cal_button_title', 'add_to_cal_button_description'].includes(
+      activeModalField
+    )
+    ? classList
+    : 'add_to_cal_button';
+}
+
 function getClasslist(categories: any) {
   let classList = 'add_to_cal_button ';
 
   for (const cat of categories) {
     classList += `add_to_cal_button_${cat.toLowerCase()} `;
   }
+
+  // special case for title and description, can be handled better
+
   classList = classList.slice(0, -1);
   return classList;
 }
 
 function getLeadFnAndCssTriggers(categories: any) {
-  let leadFunction = addTitle;
+  let leadFunction = addTitle; // TODO: should add to active field otherwise (except pickers)
   const cssClasses: string[] = [];
 
   // business logic needed for all of
