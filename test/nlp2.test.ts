@@ -1,4 +1,4 @@
-import classifyTextNLP from '../src/utils/textClassification';
+import classifyTextNLP from '../src/scripts/utils/textClassification';
 
 test('classification works', () => {
   const americanDates: any[] = [

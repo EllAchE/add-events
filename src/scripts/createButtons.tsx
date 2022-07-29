@@ -4,7 +4,7 @@ import {
   setLastStorageUrl,
   setLastTabAndWindow,
   stringifyUrl,
-} from '../utils/utils';
+} from './utils/utils';
 import replaceText from './replaceText';
 import { ChunkSets as ChunkSetObj } from './types';
 

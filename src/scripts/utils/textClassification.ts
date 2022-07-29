@@ -1,7 +1,7 @@
 import nlp from 'compromise';
 import Three from 'compromise/types/view/three';
 
-import { NLPChunk } from '../scripts/types';
+import { NLPChunk } from '../types';
 import {
   checkIfSetsShareAnElement,
   getTextContextBounds,

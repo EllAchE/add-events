@@ -1,7 +1,7 @@
-import { CalendarEvent } from '../scripts/types';
-import { setActiveField } from '../page/modalSlice';
+import { CalendarEvent } from '../types';
+import { setActiveField } from '../../components/page/modalSlice';
 import { parseDate } from 'chrono-node';
-import store from '../page/store';
+import store from '../../components/page/store';
 import React from 'react';
 
 export function isInTheFuture(dateStr: string): boolean {
@@ -191,4 +191,8 @@ export function stringifyUrl(href: string) {
     categories: ['Url'],
     surroundingText: undefined,
   });
+}
+
+export function openCalendar() {
+  window.open('https://calendar.google.com/calendar/u/0/r', '_blank');
 }

@@ -1,9 +1,9 @@
-import createEvent from './createEvent';
+import createEvent from './google-api/createEvent';
 
 console.log('service worker triggered');
-import createCalendar from './createCalendar';
-import getCalendarId from './getCalendarId';
-import { messageActiveTab } from '../utils/messageTabs';
+import createCalendar from './google-api/createCalendar';
+import { messageActiveTab } from './utils/messageTabs';
+import getCalendarId from './google-api/getCalendarId';
 //const dispatch = useDispatch();
 
 chrome.commands.onCommand.addListener((command, tab) => {

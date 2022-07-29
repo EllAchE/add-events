@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 import { Provider, useDispatch, useSelector } from 'react-redux';
-import { convertArbitraryDateStringToISODate } from '../utils/utils';
+import { convertArbitraryDateStringToISODate } from '../../scripts/utils/utils';
 
 import {
   addLocation,
@@ -8,8 +8,8 @@ import {
   setStartDate,
   setStartTime,
   setVisibility,
-} from './modalSlice';
-import store from './store';
+} from '../modalSlice';
+import store from '../store';
 
 function StatelessChunkButton(props: any): ReactElement {
   const dis = useDispatch();

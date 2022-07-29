@@ -21,7 +21,7 @@ import Draggable from 'react-draggable';
 import { Provider, useDispatch, useSelector } from 'react-redux';
 import CloseIcon from '@mui/icons-material/Close';
 
-import { focusModalElement, mapModalState } from '../utils/utils';
+import { focusModalElement, mapModalState } from '../../scripts/utils/utils';
 import {
   setStartDate,
   setTitle,

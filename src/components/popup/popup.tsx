@@ -4,7 +4,7 @@ import React, { ReactElement, useEffect, useState } from 'react';
 import { render } from 'react-dom';
 
 import App from '../app/App';
-import openTab from '../scripts/tab';
+import { openCalendar } from '../../scripts/utils/utils';
 import TabGroup from './TabGroup';
 
 function Popup(): ReactElement {
@@ -99,7 +99,7 @@ function Popup(): ReactElement {
           </Button>
         </Grid> */}
         <Grid>
-          <Button variant="contained" onClick={() => openTab()}>
+          <Button variant="contained" onClick={openCalendar}>
             Open Calendar
           </Button>
         </Grid>

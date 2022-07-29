@@ -4,8 +4,8 @@ const CopyPlugin = require('copy-webpack-plugin')
 
 module.exports = {
   entry: {
-      popup: './src/popup/Popup.tsx',
-      options: './src/options/options.tsx',
+      popup: './src/components/popup/Popup.tsx',
+      options: './src/components/options/options.tsx',
       main: './src/scripts/main.tsx',
       background: './src/scripts/background.ts',
   },
@@ -33,11 +33,11 @@ module.exports = {
     }],
   },
   plugins: [new HtmlWebpackPlugin({
-      template: './src/popup/popup.html',
+      template: './src/components/popup/popup.html',
       filename: 'popup.html'
     }),
     new HtmlWebpackPlugin({
-        template: './src/options/options.html',
+        template: './src/components/options/options.html',
         filename: 'options.html'
     }),
     new CopyPlugin({
