@@ -30,7 +30,6 @@ export default function ConfirmationDialog({
         <DialogContentText>
           Are you sure you want to create an event?
           <br />
-          {' '}
           Event details
         </DialogContentText>
         <FormControlLabel

@@ -2,7 +2,11 @@ import nlp from 'compromise';
 import Three from 'compromise/types/view/three';
 
 import { NLPChunk } from '../scripts/types';
-import { checkIfSetsShareAnElement, setIntersection } from './utils';
+import {
+  checkIfSetsShareAnElement,
+  getTextContextBounds,
+  setIntersection,
+} from './utils';
 
 const datePlugin = require('compromise-dates');
 
@@ -69,10 +73,14 @@ export default function classifyTextNLP(text: string): NLPChunk[] {
         const chunk = runningChunk.join('');
 
         if (checkIfSetsShareAnElement(previousTagMatches, checkTerms)) {
+          const ind = index - chunk.length - term.post.length;
+          const substr = getTextContextBounds(text, ind);
+
           processedChunks.push({
             text: chunk,
-            index: index - chunk.length - term.post.length,
+            index: ind,
             categories: Array.from(previousTagMatches),
+            surroundingText: substr,
           });
         }
 
@@ -90,10 +98,14 @@ export default function classifyTextNLP(text: string): NLPChunk[] {
     const chunk = runningChunk.join('');
 
     if (checkIfSetsShareAnElement(previousTagMatches, checkTerms)) {
+      const ind = index - chunk.length - term.post.length;
+      const substr = getTextContextBounds(text, ind);
+
       processedChunks.push({
         text: chunk,
         index: index - chunk.length - term.post.length,
         categories: Array.from(previousTagMatches),
+        surroundingText: substr,
       });
     }
   }

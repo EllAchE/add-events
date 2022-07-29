@@ -4,57 +4,59 @@ import { render } from 'react-dom';
 import ChunkButton from '../page/ChunkButton';
 import classifyTextNLP from '../utils/textClassification';
 import { isInTheFuture } from '../utils/utils';
-import { ChunkSets, NLPChunk } from './types';
+import { ChunkSets as ChunkSetObj, NLPChunk } from './types';
 
 // TODO: should adjust the method signature to not take in regex
 export default function replaceText(
   node: HTMLElement,
-  excludeElements?: string[]
-): ChunkSets {
-  excludeElements ||
-    (excludeElements = ['script', 'style', 'iframe', 'canvas', 'input']);
-  let child: any = node.firstChild;
-
-  const personSet = new Set<string>();
-  const placeSet = new Set<string>();
-  const urlSet = new Set<string>();
-  const emailSet = new Set<string>();
-  const properNounSet = new Set<string>();
-  const dateSet = new Set<string>();
-  const atMentionSet = new Set<string>();
+  chunkSet: ChunkSetObj
+): ChunkSetObj {
+  let child: Node = node.firstChild;
 
   while (child) {
     if (child.nodeType == 3) {
       // These will be used to display a quick summary of data extracted
 
-      const classifiedChunks: NLPChunk[] = classifyTextNLP(child.data);
+      const classifiedChunks: NLPChunk[] = classifyTextNLP((child as any).data);
 
       classifiedChunks.filter((chunk: NLPChunk) => {
         // Filter out dates that are in the past
         chunk.categories.includes('Date') && isInTheFuture(chunk.text);
       });
 
+      let chunkButtonIdCounter = 0;
       classifiedChunks.forEach((chunk: NLPChunk) => {
+        const chunkButtonId =
+          'add_to_cal_button_' + chunkButtonIdCounter.toString();
+
+        const stringifiedSet = JSON.stringify({
+          text: chunk.text,
+          position: null,
+          categories: chunk.categories,
+          surroundingText: chunk.surroundingText,
+          buttonId: chunkButtonId,
+        });
+
         if (chunk.categories.includes('Date')) {
-          dateSet.add(chunk.text);
+          chunkSet.dateSet.add(stringifiedSet);
         }
         if (chunk.categories.includes('Place')) {
-          placeSet.add(chunk.text);
+          chunkSet.placeSet.add(stringifiedSet);
         }
         if (chunk.categories.includes('Url')) {
-          urlSet.add(chunk.text);
+          chunkSet.urlSet.add(stringifiedSet);
         }
         if (chunk.categories.includes('Email')) {
-          emailSet.add(chunk.text);
+          chunkSet.emailSet.add(stringifiedSet);
         }
         if (chunk.categories.includes('ProperNoun')) {
-          properNounSet.add(chunk.text);
+          chunkSet.properNounSet.add(stringifiedSet);
         }
         if (chunk.categories.includes('Person')) {
-          personSet.add(chunk.text);
+          chunkSet.personSet.add(stringifiedSet);
         }
         if (chunk.categories.includes('AtMention')) {
-          atMentionSet.add(chunk.text);
+          chunkSet.atMentionSet.add(stringifiedSet);
         }
       }); // redundant to reiterate arr
 
@@ -65,8 +67,10 @@ export default function replaceText(
 
       while (classifiedChunks.length > 0) {
         const chunk = classifiedChunks.shift();
-        child.data.replace(chunk.text, (buttonText: string) => {
-          const newTextNode = child.splitText(child.data.indexOf(chunk.text));
+        (child as any).data.replace(chunk.text, (buttonText: string) => {
+          const newTextNode = (child as any).splitText(
+            (child as any).data.indexOf(chunk.text)
+          );
 
           newTextNode.data = newTextNode.data.substr(buttonText.length);
 
@@ -87,6 +91,7 @@ export default function replaceText(
             <ChunkButton
               buttonText={chunk.text}
               categories={chunk.categories}
+              id={chunk.chunkButtonId}
             />,
             tag as HTMLElement
           );
@@ -96,13 +101,5 @@ export default function replaceText(
     child = child.nextSibling;
   }
 
-  return {
-    personSet,
-    placeSet,
-    urlSet,
-    emailSet,
-    properNounSet,
-    dateSet,
-    atMentionSet,
-  };
+  return chunkSet;
 }

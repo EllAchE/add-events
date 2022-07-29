@@ -52,6 +52,8 @@ export type NLPChunk = {
   text: string;
   index: number;
   categories: string[];
+  surroundingText: string;
+  chunkButtonId?: string;
 };
 
 export type ChunkSets = {

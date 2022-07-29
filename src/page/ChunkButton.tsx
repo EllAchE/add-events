@@ -12,59 +12,34 @@ import {
 import store from './store';
 
 function StatelessChunkButton(props: any): ReactElement {
-  const dispatch = useDispatch();
-
-  const { buttonText, categories } = props;
-
-  let classList = 'add_to_cal_button ';
-
-  for (const cat of categories) {
-    classList += `add_to_cal_button_${cat.toLowerCase()} `;
-  }
-  classList = classList.slice(0, -1);
-
-  let leadFunction = addTitle;
-  const cssTriggers: string[] = [];
-
-  // business logic needed for all of
-  if (categories.includes('Time')) {
-    leadFunction = setStartTime;
-    cssTriggers.push('add_to_cal_button_start_time');
-    cssTriggers.push('add_to_cal_button_end_time');
-  } else if (categories.includes('Place')) {
-    leadFunction = addLocation;
-    cssTriggers.push('add_to_cal_button_location');
-  } else if (categories.includes('Date')) {
-    leadFunction = setStartDate;
-    cssTriggers.push('add_to_cal_button_start_date');
-    cssTriggers.push('add_to_cal_button_end_date');
-  } else {
-    cssTriggers.push('add_to_cal_button_title');
-  }
-
+  const dis = useDispatch();
   const modalState = useSelector((state: any) => state.modal);
 
   const { activeModalField, visible } = modalState;
+  const { buttonText, categories, id } = props;
+  const { leadFunction, cssClasses } = getLeadFnAndCssTriggers(categories);
+  const classList = getClasslist(categories);
 
   const defaultOnClick = () => {
     if (visible) {
-      dispatch(leadFunction(buttonText));
+      dis(leadFunction(buttonText));
     } else {
       console.warn('Must first click a start date to open the event modal.');
     }
   };
 
   const dateOnClick = () => {
-    dispatch(setVisibility(true));
+    dis(setVisibility(true));
     const date = convertArbitraryDateStringToISODate(buttonText);
-    dispatch(leadFunction(date));
+    dis(leadFunction(date));
   };
 
-  if (cssTriggers.includes('add_to_cal_button_start_date')) {
+  if (cssClasses.includes('add_to_cal_button_start_date')) {
     return (
       <span
+        id={id}
         className={
-          cssTriggers.includes(activeModalField)
+          cssClasses.includes(activeModalField)
             ? classList
             : 'add_to_cal_button'
         }
@@ -76,8 +51,9 @@ function StatelessChunkButton(props: any): ReactElement {
   } else {
     return (
       <span
+        id={id}
         className={
-          cssTriggers.includes(activeModalField)
+          cssClasses.includes(activeModalField)
             ? classList
             : 'add_to_cal_button'
         }
@@ -89,16 +65,54 @@ function StatelessChunkButton(props: any): ReactElement {
   }
 }
 
+function getClasslist(categories: any) {
+  let classList = 'add_to_cal_button ';
+
+  for (const cat of categories) {
+    classList += `add_to_cal_button_${cat.toLowerCase()} `;
+  }
+  classList = classList.slice(0, -1);
+  return classList;
+}
+
+function getLeadFnAndCssTriggers(categories: any) {
+  let leadFunction = addTitle;
+  const cssClasses: string[] = [];
+
+  // business logic needed for all of
+  if (categories.includes('Time')) {
+    leadFunction = setStartTime;
+    cssClasses.push('add_to_cal_button_start_time');
+    cssClasses.push('add_to_cal_button_end_time');
+  } else if (categories.includes('Place')) {
+    leadFunction = addLocation;
+    cssClasses.push('add_to_cal_button_location');
+  } else if (categories.includes('Date')) {
+    leadFunction = setStartDate;
+    cssClasses.push('add_to_cal_button_start_date');
+    cssClasses.push('add_to_cal_button_end_date');
+  } else {
+    cssClasses.push('add_to_cal_button_title');
+  }
+  return { leadFunction, cssClasses };
+}
+
 export default function ChunkButton({
   buttonText,
   categories,
+  id,
 }: {
   buttonText: string;
   categories: string[];
+  id: string;
 }): ReactElement {
   return (
     <Provider store={store}>
-      <StatelessChunkButton buttonText={buttonText} categories={categories} />
+      <StatelessChunkButton
+        id={id}
+        buttonText={buttonText}
+        categories={categories}
+      />
     </Provider>
   );
 }

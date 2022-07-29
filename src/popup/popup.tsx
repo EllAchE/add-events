@@ -5,13 +5,13 @@ import { render } from 'react-dom';
 
 import App from '../app/App';
 import openTab from '../scripts/tab';
-import { DateAccordion } from './DateAccordion';
+import TabGroup from './TabGroup';
 
 function Popup(): ReactElement {
-  const [persons, setPersons] = useState([]);
+  const [people, setPeople] = useState([]);
   const [places, setPlaces] = useState([]);
   const [emails, setEmails] = useState([]);
-  const [ProperNouns, setProperNouns] = useState([]);
+  const [properNouns, setProperNouns] = useState([]);
   const [dates, setDates] = useState([]);
   const [atMentions, setAtMentions] = useState([]);
   const [internalUrls, setInternalUrls] = useState([]);
@@ -34,30 +34,63 @@ function Popup(): ReactElement {
         externalUrlSet,
       } = result;
 
-      setPersons(personSet ? personSet : []);
-      setPlaces(placeSet ? placeSet : []);
-      setEmails(emailSet ? emailSet : []);
-      setProperNouns(properNounSet ?? []);
-      setDates(dateSet ?? []);
-      setAtMentions(atMentionSet ?? []);
-      setInternalUrls(internalUrlSet ?? []);
-      setExternalUrls(externalUrlSet ?? []);
-      setSamePageUrls(samePageUrlSet ?? []);
+      setPeople(
+        personSet?.map((el: string) => {
+          return JSON.parse(el);
+        }) ?? []
+      );
+      setPlaces(
+        placeSet?.map((el: string) => {
+          return JSON.parse(el);
+        }) ?? []
+      );
+      setEmails(
+        emailSet?.map((el: string) => {
+          return JSON.parse(el);
+        }) ?? []
+      );
+      setProperNouns(
+        properNounSet?.map((el: string) => {
+          return JSON.parse(el);
+        }) ?? []
+      );
+      setDates(
+        dateSet?.map((el: string) => {
+          return JSON.parse(el);
+        }) ?? []
+      );
+      setAtMentions(
+        atMentionSet?.map((el: string) => {
+          return JSON.parse(el);
+        }) ?? []
+      );
+      setInternalUrls(
+        internalUrlSet?.map((el: string) => {
+          return JSON.parse(el);
+        }) ?? []
+      );
+      setExternalUrls(
+        externalUrlSet?.map((el: string) => {
+          return JSON.parse(el);
+        }) ?? []
+      );
+      setSamePageUrls(
+        samePageUrlSet?.map((el: string) => {
+          return JSON.parse(el);
+        }) ?? []
+      );
     });
   }, []);
 
   return (
     <App>
-      <Grid
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
-        <h1 style={{ fontSize: 48 }}>Eventful</h1>
-      </Grid>
-      <DateAccordion dates={dates} />
+      <TabGroup
+        people={people}
+        emails={emails}
+        dates={dates}
+        places={places}
+        atMentions={atMentions}
+      />
       <Grid container justifyContent="space-around" sx={{ paddingTop: 2 }}>
         {/* <Grid>
           <Button variant="contained" onClick={() => alert('not implm')}>

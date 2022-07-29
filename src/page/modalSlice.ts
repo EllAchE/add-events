@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { reducerReuseAddValue } from '../utils/utils';
 
 export const modalSlice = createSlice({
-  name: ' modal',
+  name: 'modal',
   initialState: {
     visible: true,
     startDate: null,

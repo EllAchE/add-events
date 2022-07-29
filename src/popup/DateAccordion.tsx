@@ -276,11 +276,10 @@ function DateSubmissionForm({ eventPrefill }: { eventPrefill: any }) {
   Rendered dropdown of dates extracted from site
 */
 export function DateAccordion({ dates }: { dates: any }): ReactElement {
-  console.log('event prefill pass', dates);
   if (dates && dates.length < 1) {
     return (
       <Alert severity="warning">
-        <Typography>No events found on page!</Typography>
+        <Typography>No events found on page 😢</Typography>
       </Alert>
     );
   }
@@ -293,7 +292,7 @@ export function DateAccordion({ dates }: { dates: any }): ReactElement {
         // }
         let { startDate, endDate, description } = date;
 
-        startDate = date;
+        startDate = date.text; // hack
 
         return (
           <Accordion key={startDate + endDate + description}>
@@ -303,7 +302,12 @@ export function DateAccordion({ dates }: { dates: any }): ReactElement {
                   ? startDate
                   : `${startDate} - ${endDate}`}
                 <Tooltip title="See event details on webpage">
-                  <IconButton onClick={() => alert('not implemented')}>
+                  <IconButton
+                    onClick={() => {
+                      // open last active tab then focus on element with id
+                      // in storage
+                    }}
+                  >
                     <FindInPageIcon />
                   </IconButton>
                 </Tooltip>

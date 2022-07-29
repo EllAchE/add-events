@@ -1,6 +1,5 @@
 import {
   Alert,
-  AppBar,
   Box,
   Button,
   Grid,
@@ -22,11 +21,7 @@ import Draggable from 'react-draggable';
 import { Provider, useDispatch, useSelector } from 'react-redux';
 import CloseIcon from '@mui/icons-material/Close';
 
-import {
-  focusModalElement,
-  getCurrentPageUrl,
-  mapModalState,
-} from '../utils/utils';
+import { focusModalElement, mapModalState } from '../utils/utils';
 import {
   setStartDate,
   setTitle,
@@ -39,10 +34,11 @@ import {
   setActiveField,
 } from './modalSlice';
 import store from './store';
+import { Dispatch, AnyAction } from 'redux';
 
 function StatelessCreationModal(): ReactElement {
   const modalState = useSelector((state: any) => state.modal);
-  const dispatch = useDispatch();
+  const dis = useDispatch();
 
   const [showSnackbar, setShowSnackbar] = useState<boolean>(false);
   const [snackbarIsSuccess, setSnackbarIsSuccess] = useState<boolean>(false);
@@ -51,17 +47,6 @@ function StatelessCreationModal(): ReactElement {
     setShowSnackbar(true);
     setSnackbarIsSuccess(success);
   };
-
-  const {
-    visible,
-    startDate,
-    endDate,
-    startTime,
-    endTime,
-    title,
-    description,
-    location,
-  } = modalState;
 
   return (
     <>
@@ -76,11 +61,11 @@ function StatelessCreationModal(): ReactElement {
             : 'Failed to create new calendar event'}
         </Alert>
       </Snackbar>
-      {visible ? (
+      {modalState.visible ? (
         <Draggable disabled={false}>
           <Box
             sx={{
-              width: 400,
+              width: 300,
               height: 400,
               position: 'fixed',
               right: 16,
@@ -100,23 +85,7 @@ function StatelessCreationModal(): ReactElement {
                       paddingBottom: 1,
                       zIndex: 2147483647,
                     }}
-                    onClick={async () => {
-                      const event = mapModalState(modalState);
-
-                      chrome.runtime.sendMessage(
-                        {
-                          events: [event],
-                          type: 'create-event',
-                          calendarName: 'Event Extension',
-                        },
-                        function (isSuccess: any) {
-                          console.log('call success callbcak', isSuccess);
-                          dispatch(setVisibility(!isSuccess));
-                          snackbarCallback(isSuccess);
-                          // TODO: should do something if there is an error creating
-                        }
-                      );
-                    }}
+                    onClick={submitEvent(modalState, dis, snackbarCallback)}
                   >
                     Submit
                   </Button>
@@ -131,16 +100,7 @@ function StatelessCreationModal(): ReactElement {
                       paddingBottom: 1,
                       zIndex: 2147483647,
                     }}
-                    onClick={() => {
-                      dispatch(setStartDate(null));
-                      dispatch(setDescription(''));
-                      dispatch(setTitle(''));
-                      dispatch(setLocation(''));
-                      dispatch(setEndDate(null));
-                      dispatch(setStartTime(null));
-                      dispatch(setEndTime(null));
-                      dispatch(setActiveField('add_to_cal_button_start_date'));
-                    }}
+                    onClick={() => resetModal(dis)}
                   >
                     Reset
                   </Button>
@@ -148,9 +108,7 @@ function StatelessCreationModal(): ReactElement {
                 <Grid item xs={1}>
                   <IconButton
                     size="small"
-                    onClick={() => {
-                      dispatch(setVisibility(false));
-                    }}
+                    onClick={() => dis(setVisibility(false))}
                   >
                     <CloseIcon />
                   </IconButton>
@@ -173,32 +131,30 @@ function StatelessCreationModal(): ReactElement {
                   )}
                   onChange={(moment: Moment) => {
                     console.log('should be settiung start', moment.toDate());
-                    dispatch(setStartDate(moment.toISOString()));
+                    dis(setStartDate(moment.toISOString()));
                   }}
-                  value={startDate}
+                  value={modalState.startDate}
                   disablePast={true}
                 />
                 <CreationModalTextField
                   label="Title"
                   id={'add_to_cal_button_title'}
-                  value={title}
-                  onChange={(event) => dispatch(setTitle(event?.target?.value))}
+                  value={modalState.title}
+                  onChange={(event) => dis(setTitle(event?.target?.value))}
                 />
                 <CreationModalTextField
                   label="Description"
                   id={'add_to_cal_button_description'}
-                  value={description}
+                  value={modalState.description}
                   onChange={(event) =>
-                    dispatch(setDescription(event?.target?.value))
+                    dis(setDescription(event?.target?.value))
                   }
                 />
                 <CreationModalTextField
                   label="Location"
                   id={'add_to_cal_button_location'}
-                  value={location}
-                  onChange={(event) =>
-                    dispatch(setLocation(event?.target?.value))
-                  }
+                  value={modalState.location}
+                  onChange={(event) => dis(setLocation(event?.target?.value))}
                 />
                 <DesktopDatePicker
                   label="End Date"
@@ -217,17 +173,15 @@ function StatelessCreationModal(): ReactElement {
                   )}
                   onChange={(moment: Moment) => {
                     console.log('should be settiung end', moment);
-                    dispatch(setEndDate(moment.toISOString()));
+                    dis(setEndDate(moment.toISOString()));
                   }}
-                  value={endDate}
+                  value={modalState.endDate}
                 ></DesktopDatePicker>
                 <TimePicker
                   label="Start Time"
-                  value={startTime}
+                  value={modalState.startTime}
                   ampm={false}
-                  onChange={(event) =>
-                    dispatch(setStartTime(event?.target?.value))
-                  }
+                  onChange={(event) => dis(setStartTime(event?.target?.value))}
                   renderInput={(params) => (
                     <TextField
                       size="small"
@@ -243,11 +197,9 @@ function StatelessCreationModal(): ReactElement {
                 />
                 <TimePicker
                   label="End Time"
-                  value={endTime}
+                  value={modalState.endTime}
                   ampm={false}
-                  onChange={(event) =>
-                    dispatch(setEndTime(event?.target?.value))
-                  }
+                  onChange={(event) => dis(setEndTime(event?.target?.value))}
                   renderInput={(params) => (
                     <TextField
                       size="small"
@@ -271,6 +223,40 @@ function StatelessCreationModal(): ReactElement {
   );
 }
 
+function submitEvent(
+  modalState: any,
+  dispatch: Dispatch<AnyAction>,
+  snackbarCallback: (success: boolean) => void
+): React.MouseEventHandler<HTMLButtonElement> {
+  return async () => {
+    const event = mapModalState(modalState);
+
+    chrome.runtime.sendMessage(
+      {
+        events: [event],
+        type: 'create-event',
+        calendarName: 'Event Extension',
+      },
+      function (isSuccess: any) {
+        console.log('call success callbcak', isSuccess);
+        dispatch(setVisibility(!isSuccess));
+        snackbarCallback(isSuccess);
+      }
+    );
+  };
+}
+
+function resetModal(dispatch: Dispatch<AnyAction>) {
+  dispatch(setStartDate(null));
+  dispatch(setDescription(''));
+  dispatch(setTitle(''));
+  dispatch(setLocation(''));
+  dispatch(setEndDate(null));
+  dispatch(setStartTime(null));
+  dispatch(setEndTime(null));
+  dispatch(setActiveField('add_to_cal_button_start_date'));
+}
+
 function CreationModalTextField({
   label,
   id,
@@ -285,11 +271,11 @@ function CreationModalTextField({
   return (
     <TextField
       size="small"
+      variant="filled"
       id={id}
       onClick={() => focusModalElement(id)}
       value={value}
       onChange={onChange}
-      variant="filled"
       label={label}
       sx={{ width: '100%', zIndex: 2147483647 }}
     />

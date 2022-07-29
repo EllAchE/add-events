@@ -9,15 +9,10 @@ import { createEventButtons } from './createButtons';
 export const run = () => {
   if (location.hash != '#popup' && location.hash != '#options') {
     console.log('Running script to parse page');
+
     const elements = getElements();
 
-    const newNode = document.createElement('div');
-    newNode.setAttribute('id', 'event-create-modal');
-
-    document.body.appendChild(newNode);
-
-    render(<CreationModal />, document.getElementById('event-create-modal'));
-
+    createEventCreateModal();
     createEventButtons(elements as HTMLCollectionOf<HTMLElement>);
 
     chrome.storage.local.get(null, (result) => {
@@ -25,3 +20,11 @@ export const run = () => {
     });
   }
 };
+function createEventCreateModal() {
+  const newNode = document.createElement('div');
+  newNode.setAttribute('id', 'event-create-modal');
+
+  document.body.appendChild(newNode);
+
+  render(<CreationModal />, document.getElementById('event-create-modal'));
+}
