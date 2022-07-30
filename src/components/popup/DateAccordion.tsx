@@ -25,6 +25,7 @@ import {
   localStorageWrapper,
 } from '../../scripts/utils/browserUtils';
 import { getCreateEventConfig } from '../../scripts/utils/reactUtils';
+import { convertArbitraryDateStringToISODate } from '../../scripts/utils/utils';
 
 import ConfirmationDialog from './ConfirmationDialog';
 
@@ -95,7 +96,6 @@ function DatetimePickers({
               value={startDate}
               // maxTime={endDate}
               onChange={handleStartDateChange}
-              ampm={false}
               renderInput={(params) => (
                 <TextField {...params} sx={{ width: '100%' }} />
               )}
@@ -105,7 +105,6 @@ function DatetimePickers({
             <TimePicker
               label="End Time"
               value={endDate}
-              ampm={false}
               // minTime={startDate}
               onChange={handleEndDateChange}
               renderInput={(params) => (
@@ -122,14 +121,22 @@ function DatetimePickers({
 /*
   Form that appears in the accordion dropdown for each extracted date
 */
-function DateSubmissionForm({ eventPrefill }: { eventPrefill: any }) {
+function DateSubmissionForm({ dateChunk }: { dateChunk: any }) {
   const {
     startDate: iStartDate,
     endDate: iEndDate,
     startTime: iStart,
     description: iDesc,
     title: iTitle,
-  } = eventPrefill;
+  } = dateChunk;
+
+  const dateText = dateChunk.text;
+
+  // const iStartDate: any = undefined;
+  // const iEndDate: any = undefined;
+  // const iStart: any = undefined;
+  // const iDesc: any = undefined;
+  // const iTitle: any = undefined;
 
   // TODO: consolidate all of these variables to a single modifiable state (possibly)
 
@@ -143,7 +150,9 @@ function DateSubmissionForm({ eventPrefill }: { eventPrefill: any }) {
 
   const [title, setTitle] = useState<string>(iTitle);
   const [description, setDescription] = useState<string>(iDesc);
-  const [startDate, setStartDate] = useState<Date | null>(new Date(iStartDate));
+  const [startDate, setStartDate] = useState<Date | string | null>(
+    convertArbitraryDateStringToISODate(dateText)
+  );
   const [confirmationOpen, setConfirmationOpen] = useState(false);
   const [endDate, setEndDate] = useState<Date | null>(new Date(iEndDate));
   const [isAllDay, setIsAllDay] = useState<boolean>(!iStart && !iEndDate);
@@ -222,7 +231,7 @@ function DateSubmissionForm({ eventPrefill }: { eventPrefill: any }) {
       <DatetimePickers
         isSingleDay={isSingleDay}
         isAllDay={isAllDay}
-        startDate={startDate}
+        startDate={new Date(startDate)} // TODO: hack for v1
         endDate={endDate}
         handleStartDateChange={handleStartDateChange}
         handleEndDateChange={handleEndDateChange}
@@ -271,26 +280,30 @@ function DateSubmissionForm({ eventPrefill }: { eventPrefill: any }) {
 /*
   Rendered dropdown of dates extracted from site
 */
-export function DateAccordion({ dates }: { dates: any }): ReactElement {
-  if (dates && dates.length < 1) {
+export function DateAccordion({
+  dateChunks,
+}: {
+  dateChunks: any;
+}): ReactElement {
+  if (dateChunks && dateChunks.length < 1) {
     return (
       <Alert severity="warning">
-        <Typography>No events found on page 😢</Typography>
+        <Typography>No events found on page 😢.</Typography>
       </Alert>
     );
   }
 
   return (
     <>
-      {dates.map((date: any) => {
-        let { text, surroundingText, chunkButtonId } = date;
+      {dateChunks.map((dateChunk: any) => {
+        let { text, surroundingText, chunkButtonId } = dateChunk;
 
         return (
           <Accordion key={chunkButtonId}>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
               <Typography>
                 <b>{text}</b>
-                {` || Context: ...${surroundingText}...`}
+                {` || ...${surroundingText}...`}
                 <Tooltip title="See event details on webpage">
                   <IconButton
                     onClick={() => {
@@ -302,7 +315,7 @@ export function DateAccordion({ dates }: { dates: any }): ReactElement {
                 </Tooltip>
               </Typography>
             </AccordionSummary>
-            <DateSubmissionForm eventPrefill={date} />
+            <DateSubmissionForm dateChunk={dateChunk} />
           </Accordion>
         );
       })}

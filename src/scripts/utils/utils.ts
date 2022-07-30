@@ -52,7 +52,11 @@ export function addCurrentYearToDateWithoutYear(dateStr: string): Date {
 }
 
 export function convertArbitraryDateStringToISODate(dateStr: string): string {
-  return parseDate(dateStr).toISOString();
+  const parseAttempt = parseDate(dateStr);
+  if (!parseAttempt) {
+    return dateStr;
+  }
+  return parseAttempt.toISOString();
 }
 
 export function getCurrentPageUrl() {

@@ -107,7 +107,7 @@ export default function TabGroup(tabs: any) {
         <h1 style={{ fontSize: 48 }}>Eventful</h1>
       </Grid>
       <TabPanel index={0} value={value}>
-        <DateAccordion dates={dates} />
+        <DateAccordion dateChunks={dates} />
       </TabPanel>
       <TabPanel value={value} index={1}>
         <AlternateInfoTab
