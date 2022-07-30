@@ -1,99 +1,86 @@
 import GitHubIcon from '@mui/icons-material/GitHub';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import {
-  Autocomplete,
-  Checkbox,
   FormControlLabel,
-  FormGroup,
   Grid,
   IconButton,
+  Switch,
   TextField,
   Typography,
 } from '@mui/material';
-import React, { ReactElement } from 'react';
+import React, { ReactElement, useEffect, useState } from 'react';
 import { render } from 'react-dom';
+import {
+  localStorageWrapper,
+  openGithub,
+  openTwitter,
+  setSettings,
+} from '../../scripts/utils/browserUtils';
 
 import App from '../app/App';
-import DemoCard from './DemoCard';
 
 function FreeformOptions(): ReactElement {
   return (
     <Grid container spacing={2}>
-      <Grid>
-        <Autocomplete
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              variant="filled"
-              label="Automatically Invite Guests"
-              placeholder="Search"
-              sx={{ width: 300 }}
-            />
-          )}
-          options={[]}
-          freeSolo
-          multiple
-        />
-      </Grid>
+      <Grid></Grid>
     </Grid>
   );
 }
 
 function CheckboxOptions(): ReactElement {
-  return (
-    <Grid container spacing={2}>
-      <Grid item xs={2}>
-        <FormControlLabel
-          control={<Checkbox disabled />}
-          label="Match European Times"
-        />
-      </Grid>
-      <Grid item xs={2}>
-        <FormControlLabel
-          control={<Checkbox disabled />}
-          label="Match American times"
-        />
-      </Grid>
-      <Grid item xs={2}>
-        <FormControlLabel
-          control={<Checkbox disabled />}
-          label="Include times"
-        />
-      </Grid>
-      <Grid item xs={2}>
-        <FormControlLabel
-          control={<Checkbox disabled />}
-          label="Insert Button"
-        />
-      </Grid>
-      <Grid item xs={2}>
-        <FormControlLabel
-          control={<Checkbox />}
-          label="Ask Before Adding Event"
-        />
-      </Grid>
-    </Grid>
-  );
+  return <Grid container spacing={2}></Grid>;
 }
 /*
   User controls their settings from here. Separate page from popup.
  */
 function Options(): ReactElement {
+  const [runOnPageLoad, setRunOnPageLoad] = useState<boolean>();
+  console.log('in component init', runOnPageLoad);
+
+  chrome.storage.local.get('runOnPageLoad', (items) => {
+    console.log('setting run on page', items);
+    setRunOnPageLoad(items.runOnPageLoad);
+  });
+  console.log('val after', runOnPageLoad);
+
   return (
     <App>
       <Typography variant="h3">Settings</Typography>
-      <DemoCard />
-      <FormGroup>
-        <Typography>Have any questions? Want to contribute?</Typography>
-        <IconButton>
-          <TwitterIcon />
-        </IconButton>
-        <IconButton>
-          <GitHubIcon />
-        </IconButton>
-        <CheckboxOptions />
-        <FreeformOptions />
-      </FormGroup>
+      <FormControlLabel
+        sx={{
+          paddingTop: 2,
+          paddingBottom: 2,
+        }}
+        control={
+          <Switch
+            value={runOnPageLoad}
+            checked={runOnPageLoad}
+            onChange={(e: any, checked: boolean) => {
+              console.log('on change called', checked);
+              setSettings({ runOnPageLoad: checked });
+              setRunOnPageLoad(checked);
+            }}
+          />
+        }
+        label={<Typography variant="h5">Run on page load</Typography>}
+      />
+      <Typography variant="body1">
+        So right now you can't actually change anything else...
+        <br />
+        But you can customize the shortcuts used to control the modal,
+        <br />
+        Go to{' '}
+        <a href="chrome://extensions/shortcuts">
+          chrome://extensions/shortcuts
+        </a>{' '}
+        to do so!
+      </Typography>
+      <IconButton onClick={openTwitter}>
+        <TwitterIcon />
+      </IconButton>
+      <IconButton onClick={openGithub}>
+        <GitHubIcon />
+      </IconButton>
     </App>
   );
 }

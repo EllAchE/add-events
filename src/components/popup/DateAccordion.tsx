@@ -283,21 +283,18 @@ export function DateAccordion({ dates }: { dates: any }): ReactElement {
   return (
     <>
       {dates.map((date: any) => {
-        let { startDate, endDate, description } = date;
-
-        startDate = date.text; // hack
+        let { text, surroundingText, chunkButtonId } = date;
 
         return (
-          <Accordion key={startDate + endDate + description}>
+          <Accordion key={chunkButtonId}>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
               <Typography>
-                {!endDate || startDate === endDate
-                  ? startDate
-                  : `${startDate} - ${endDate}`}
+                <b>{text}</b>
+                {` || Context: ...${surroundingText}...`}
                 <Tooltip title="See event details on webpage">
                   <IconButton
                     onClick={() => {
-                      localStorageWrapper(focusElementInTab, date.buttonId);
+                      localStorageWrapper(focusElementInTab, chunkButtonId);
                     }}
                   >
                     <FindInPageIcon />

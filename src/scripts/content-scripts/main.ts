@@ -1,3 +1,4 @@
+import { localStorageWrapper } from '../utils/browserUtils';
 import { focusModalElement } from '../utils/utils';
 import { run } from './run';
 
@@ -16,12 +17,18 @@ chrome.runtime.onMessage.addListener((msg, sender, callback) => {
   }
 });
 
-// const observer = new MutationObserver(run);
-// todo: should just run when doc is loaded, but that's broken for some reasona
+function runIfConfigured(storage: any) {
+  if (storage.runOnPageLoad) {
+    run();
 
-// observer.observe(document, {
-//   childList: true,
-//   subtree: true,
-// });
+    // const observer = new MutationObserver(run);
+    // todo: should just run when doc is loaded, but that's broken for some reasona
 
-run();
+    // observer.observe(document, {
+    //   childList: true,
+    //   subtree: true,
+    // });
+  }
+}
+
+localStorageWrapper(runIfConfigured);

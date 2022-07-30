@@ -1,7 +1,7 @@
 import createEvent from '../google-api/createEvent';
 
 import createCalendar from '../google-api/createCalendar';
-import { messageActiveTab } from '../utils/browserUtils';
+import { messageActiveTab, setSettings } from '../utils/browserUtils';
 import getCalendarId from '../google-api/getCalendarId';
 
 chrome.commands.onCommand.addListener((command, tab) => {
@@ -87,6 +87,7 @@ chrome.runtime.onMessage.addListener(
 chrome.runtime.onInstalled.addListener((details) => {
   if (details.reason === 'install') {
     console.log('Installed extension for first time!');
+    setSettings({ runOnPageLoad: true });
     createCalendar('Event Extension'); // TODO: appropriately rename the calendar
   } else if (details.reason === 'update') {
     console.log('Updated extension!');

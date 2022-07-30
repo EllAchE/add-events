@@ -15,6 +15,14 @@ export function openCalendar() {
   window.open('https://calendar.google.com/calendar/u/0/r', '_blank');
 }
 
+export function openTwitter() {
+  window.open('https://twitter.com/myhandleisbest', '_blank');
+}
+
+export function openGithub() {
+  window.open('https://github.com/EllAchE', '_blank');
+}
+
 export function setLastTabAndWindow() {
   chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
     const lastTabId = tabs[0].id;
@@ -76,4 +84,8 @@ export function focusElementInTab(
   }
 
   document.getElementById(elementId).focus();
+}
+
+export function setSettings(settings: any) {
+  chrome.storage.local.set(settings);
 }

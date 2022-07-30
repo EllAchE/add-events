@@ -26,7 +26,6 @@ export function createButtons(elements: HTMLCollectionOf<HTMLElement>): void {
           getComputedStyle(elements[i]).color
         )
       ) {
-        console.log('replacing text');
         replaceText(elements[i], chunkSetObj);
       }
 

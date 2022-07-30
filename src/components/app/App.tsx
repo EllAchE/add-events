@@ -6,6 +6,7 @@ import {
   Badge,
   BadgeProps,
   BottomNavigation,
+  Box,
   Grid,
   IconButton,
   styled,
@@ -38,7 +39,7 @@ export default function App({ children }: { children: any }) {
           </StyledBadge>
         </Grid>
       </AppBar>
-      {children}
+      <Box sx={{ padding: 4 }}>{children}</Box>
       <BottomNavigation>Test</BottomNavigation>
     </>
   );
