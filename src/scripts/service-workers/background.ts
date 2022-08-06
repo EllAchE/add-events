@@ -56,6 +56,12 @@ chrome.commands.onCommand.addListener((command, tab) => {
       messageActiveTab({
         type: 'run',
       });
+      break;
+    case 'clear-modal':
+      messageActiveTab({
+        type: 'clear-modal',
+      });
+      break;
     default:
       console.warn(`Command ${command} not found`);
   }

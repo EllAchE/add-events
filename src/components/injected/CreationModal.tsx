@@ -8,6 +8,7 @@ import {
   Snackbar,
   TextField,
   TextFieldProps,
+  Tooltip,
 } from '@mui/material';
 import {
   DesktopDatePicker,
@@ -37,6 +38,7 @@ import {
 import store from '../store';
 import { Dispatch, AnyAction } from 'redux';
 import { mapModalState } from '../../scripts/utils/reactUtils';
+import ColorLensIcon from '@mui/icons-material/ColorLens';
 
 function StatelessCreationModal(): ReactElement {
   const modalState = useSelector((state: any) => state.modal);
@@ -124,107 +126,120 @@ function StatelessCreationModal(): ReactElement {
                 </Grid>
               </Grid>
               <LocalizationProvider dateAdapter={AdapterMoment}>
-                <DesktopDatePicker
-                  label="Start Date (Required)"
-                  renderInput={(params: TextFieldProps) => (
-                    <TextField
-                      size="small"
-                      variant="filled"
-                      onClick={() =>
-                        focusModalElement('add_to_cal_button_start_date')
-                      }
-                      id="add_to_cal_button_start_date"
-                      {...params}
-                      sx={{ width: '100%' }}
-                    />
-                  )}
-                  onChange={(moment: Moment) => {
-                    console.log('should be settiung start', moment.toDate());
-                    dis(setStartDate(moment.toISOString()));
-                  }}
-                  value={modalState.startDate}
-                  disablePast={true}
-                />
-                <CreationModalTextField
-                  label="Title"
-                  id={'add_to_cal_button_title'}
-                  value={modalState.title}
-                  onChange={(event) => dis(setTitle(event?.target?.value))}
-                />
-                <CreationModalTextField
-                  label="Description"
-                  id={'add_to_cal_button_description'}
-                  value={modalState.description}
-                  onChange={(event) =>
-                    dis(setDescription(event?.target?.value))
-                  }
-                />
-                <CreationModalTextField
-                  label="Location"
-                  id={'add_to_cal_button_location'}
-                  value={modalState.location}
-                  onChange={(event) => dis(setLocation(event?.target?.value))}
-                />
-                <DesktopDatePicker
-                  label="End Date"
-                  disablePast={true}
-                  renderInput={(params) => (
-                    <TextField
-                      size="small"
-                      variant="filled"
-                      {...params}
-                      onClick={() =>
-                        focusModalElement('add_to_cal_button_end_date')
-                      }
-                      id="add_to_cal_button_end_date"
-                      sx={{ width: '100%' }}
-                    />
-                  )}
-                  onChange={(moment: Moment) => {
-                    console.log('should be settiung end', moment);
-                    dis(setEndDate(moment.toISOString()));
-                  }}
-                  value={modalState.endDate}
-                ></DesktopDatePicker>
-                <TimePicker
-                  label="Start Time"
-                  value={modalState.startTime}
-                  onChange={(moment: Moment) => {
-                    dis(setStartTime(moment.toISOString()));
-                  }}
-                  renderInput={(params) => (
-                    <TextField
-                      size="small"
-                      variant="filled"
-                      onClick={() =>
-                        focusModalElement('add_to_cal_button_start_time')
-                      }
-                      id="add_to_cal_button_start_time"
-                      {...params}
-                      sx={{ width: '100%' }}
-                    />
-                  )}
-                />
-                <TimePicker
-                  label="End Time"
-                  value={modalState.endTime}
-                  onChange={(moment: Moment) => {
-                    dis(setStartTime(moment.toISOString()));
-                  }}
-                  renderInput={(params) => (
-                    <TextField
-                      size="small"
-                      variant="filled"
-                      id="add_to_cal_button_end_time"
-                      onClick={() =>
-                        focusModalElement('add_to_cal_button_end_time')
-                      }
-                      {...params}
-                      sx={{ width: '100%' }}
-                    />
-                  )}
-                />
-                <Grid item xs={3}></Grid>
+                <Grid container>
+                  <Grid>
+                    <Grid>
+                      <Tooltip
+                        children={<ColorLensIcon sx={{ color: '#add8e6' }} />}
+                        title={
+                          'Words on the page matching this category will appear with this background'
+                        }
+                      ></Tooltip>
+                    </Grid>
+                    <Grid>
+                      <DesktopDatePicker
+                        label="Start Date (Required)"
+                        renderInput={(params: TextFieldProps) => (
+                          <TextField
+                            size="small"
+                            variant="filled"
+                            onClick={() =>
+                              focusModalElement('add_to_cal_button_start_date')
+                            }
+                            id="add_to_cal_button_start_date"
+                            {...params}
+                            sx={{ width: '100%' }}
+                          />
+                        )}
+                        onChange={(moment: Moment) => {
+                          dis(setStartDate(moment.toISOString()));
+                        }}
+                        value={modalState.startDate}
+                        disablePast={true}
+                      />
+                    </Grid>
+                  </Grid>
+
+                  <CreationModalTextField
+                    label="Title"
+                    id={'add_to_cal_button_title'}
+                    value={modalState.title}
+                    onChange={(event) => dis(setTitle(event?.target?.value))}
+                  />
+                  <CreationModalTextField
+                    label="Description"
+                    id={'add_to_cal_button_description'}
+                    value={modalState.description}
+                    onChange={(event) =>
+                      dis(setDescription(event?.target?.value))
+                    }
+                  />
+                  <CreationModalTextField
+                    label="Location"
+                    id={'add_to_cal_button_location'}
+                    value={modalState.location}
+                    onChange={(event) => dis(setLocation(event?.target?.value))}
+                  />
+                  <DesktopDatePicker
+                    label="End Date"
+                    disablePast={true}
+                    renderInput={(params) => (
+                      <TextField
+                        size="small"
+                        variant="filled"
+                        {...params}
+                        onClick={() =>
+                          focusModalElement('add_to_cal_button_end_date')
+                        }
+                        id="add_to_cal_button_end_date"
+                        sx={{ width: '100%' }}
+                      />
+                    )}
+                    onChange={(moment: Moment) => {
+                      console.log('should be settiung end', moment);
+                      dis(setEndDate(moment.toISOString()));
+                    }}
+                    value={modalState.endDate}
+                  ></DesktopDatePicker>
+                  <TimePicker
+                    label="Start Time"
+                    value={modalState.startTime}
+                    onChange={(moment: Moment) => {
+                      dis(setStartTime(moment.toISOString()));
+                    }}
+                    renderInput={(params) => (
+                      <TextField
+                        size="small"
+                        variant="filled"
+                        onClick={() =>
+                          focusModalElement('add_to_cal_button_start_time')
+                        }
+                        id="add_to_cal_button_start_time"
+                        {...params}
+                        sx={{ width: '100%' }}
+                      />
+                    )}
+                  />
+                  <TimePicker
+                    label="End Time"
+                    value={modalState.endTime}
+                    onChange={(moment: Moment) => {
+                      dis(setStartTime(moment.toISOString()));
+                    }}
+                    renderInput={(params) => (
+                      <TextField
+                        size="small"
+                        variant="filled"
+                        id="add_to_cal_button_end_time"
+                        onClick={() =>
+                          focusModalElement('add_to_cal_button_end_time')
+                        }
+                        {...params}
+                        sx={{ width: '100%' }}
+                      />
+                    )}
+                  />
+                </Grid>
               </LocalizationProvider>
             </Paper>
           </Box>
@@ -256,7 +271,7 @@ function submitEvent(
   };
 }
 
-function resetModal(dispatch: Dispatch<AnyAction>) {
+export function resetModal(dispatch: Dispatch<AnyAction>) {
   dispatch(setStartDate(null));
   dispatch(setDescription(''));
   dispatch(setTitle(''));

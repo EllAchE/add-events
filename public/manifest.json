@@ -19,26 +19,31 @@
       },
       "description": "Saves/Creates the actively constructed event"
     },
-    "add-title": {
-      "suggested_key": {
-        "default": "Ctrl+L",
-        "mac": "Ctrl+L"
-      },
-      "description": "Focus on title"
-    },
-    "add-start-date": {
-      "suggested_key": {
-        "default": "Ctrl+A",
-        "mac": "Command+A"
-      },
-      "description": "Focus on start date"
-    },
     "parse-page": {
       "suggested_key": {
         "default": "Ctrl+R",
         "mac": "Command+R"
       },
       "description": "Parse page again"
+    },
+    "clear-modal": {
+      "suggested_key": {
+        "default": "Ctrl+A",
+        "mac": "Command+A"
+      },
+      "description": "Reset event creation modal"
+    },
+    "toggle-modal-up": {
+      "description": "Goes to modal field above current"
+    },
+    "toggle-modal-down": {
+      "description": "Goes to modal field below current"
+    },
+    "add-title": {
+      "description": "Focus on title"
+    },
+    "add-start-date": {
+      "description": "Focus on start date"
     },
     "add-end-date": {
       "description": "Focus on end date"

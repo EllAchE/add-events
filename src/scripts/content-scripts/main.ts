@@ -1,3 +1,5 @@
+import { resetModal } from '../../components/injected/CreationModal';
+import store from '../../components/store';
 import { localStorageWrapper } from '../utils/browserUtils';
 import { focusModalElement } from '../utils/utils';
 import { run } from './run';
@@ -10,6 +12,9 @@ chrome.runtime.onMessage.addListener((msg, sender, callback) => {
   switch (type) {
     case 'focus':
       focusModalElement(elementId);
+      break;
+    case 'clear-modal':
+      resetModal(store.dispatch);
       break;
     case 'run':
       run();

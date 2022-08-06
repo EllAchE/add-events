@@ -1,7 +1,7 @@
-/* .add_to_cal_button_propernoun {
+.add_to_cal_button_propernoun {
     background-color: lightseagreen;
     text-decoration: underline; 
-} */
+}
 
 .add_to_cal_button_person {
     background-color: lightpink;
@@ -9,7 +9,7 @@
 }
 
 .add_to_cal_button_organization {
-    background-color: red;
+    background-color: rgb(180, 54, 54);
     text-decoration: underline;
 }
 
@@ -23,8 +23,13 @@
     text-decoration: underline;
 }
 
+.add_to_cal_button_email {
+    background-color: antiquewhite;
+    text-decoration: underline;
+}
+
 .add_to_cal_button_date {
-    background-color: lightblue;
+    background-color: #add8e6;
     text-decoration: underline;
 }
 
@@ -59,7 +64,7 @@
 }
 
 .add_to_cal_button_acronym {
-    background-color: blue;
+    background-color: rgb(54, 54, 189);
     text-decoration: underline; 
 }
 
