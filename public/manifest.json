@@ -78,6 +78,7 @@
     "webNavigation",
     "activeTab",
     "identity",
+    "geolocation",
     "identity.email"
   ],
   "homepage_url": "https://ellache.github.io/",

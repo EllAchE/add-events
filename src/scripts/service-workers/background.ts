@@ -75,10 +75,10 @@ chrome.runtime.onMessage.addListener(
 
     if (type === 'create-event') {
       getCalendarId(
-        calendarName ? calendarName : 'Event Extension',
-        'defaultCalendarId'
+        'defaultCalendarId',
+        calendarName ? calendarName : 'Event Extension'
       ).then((calendarId) => {
-        createEvent({ event, calendarId }).then((isSuccess) => {
+        createEvent(event, calendarId).then((isSuccess) => {
           callback(isSuccess);
         });
       });
@@ -90,6 +90,7 @@ chrome.runtime.onMessage.addListener(
   }
 );
 
+// Default calendar name is Event Extension
 chrome.runtime.onInstalled.addListener((details) => {
   if (details.reason === 'install') {
     console.log('Installed extension for first time!');

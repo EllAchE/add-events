@@ -1,6 +1,7 @@
 import GitHubIcon from '@mui/icons-material/GitHub';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import {
+  Checkbox,
   FormControlLabel,
   Grid,
   IconButton,
@@ -35,11 +36,15 @@ function CheckboxOptions(): ReactElement {
  */
 function Options(): ReactElement {
   const [runOnPageLoad, setRunOnPageLoad] = useState<boolean>();
-  console.log('in component init', runOnPageLoad);
+  const [suggestEvents, setSuggestEvents] = useState<boolean>();
+  const [suggestSports, setSuggestSports] = useState<boolean>();
+  const [suggestMusic, setSuggestMusic] = useState<boolean>();
+  const [suggestComedy, setSuggestComedy] = useState<boolean>();
+  const [suggestFamily, setSuggestFamily] = useState<boolean>();
 
   chrome.storage.local.get('runOnPageLoad', (items) => {
-    console.log('setting run on page', items);
     setRunOnPageLoad(items.runOnPageLoad);
+    setSuggestEvents(items.suggestEvents);
   });
   console.log('val after', runOnPageLoad);
 
@@ -56,13 +61,39 @@ function Options(): ReactElement {
             value={runOnPageLoad}
             checked={runOnPageLoad}
             onChange={(e: any, checked: boolean) => {
-              console.log('on change called', checked);
               setSettings({ runOnPageLoad: checked });
               setRunOnPageLoad(checked);
             }}
           />
         }
         label={<Typography variant="h5">Run on page load</Typography>}
+      />
+      <FormControlLabel
+        sx={{
+          paddingTop: 2,
+          paddingBottom: 2,
+        }}
+        control={
+          <Switch
+            value={suggestEvents}
+            checked={suggestEvents}
+            onChange={(e: any, checked: boolean) => {
+              setSettings({ suggestEvents: checked });
+              setSuggestEvents(checked);
+            }}
+          />
+        }
+        label={<Typography variant="h5">Suggest events to me</Typography>}
+      />
+      <EventPreferenceOptions
+        suggestComedy={suggestComedy}
+        suggestFamily={suggestFamily}
+        suggestMusic={suggestMusic}
+        suggestSports={suggestSports}
+        setSuggestComedy={setSuggestComedy}
+        setSuggestFamily={setSuggestFamily}
+        setSuggestMusic={setSuggestMusic}
+        setSuggestSports={setSuggestSports}
       />
       <Typography variant="body1">
         So right now you can't actually change anything else...
@@ -82,6 +113,82 @@ function Options(): ReactElement {
         <GitHubIcon />
       </IconButton>
     </App>
+  );
+}
+
+function EventPreferenceOptions(props: any): ReactElement {
+  const {
+    setSuggestComedy,
+    setSuggestFamily,
+    setSuggestMusic,
+    setSuggestSports,
+    suggestSports,
+    suggestFamily,
+    suggestMusic,
+    suggestComedy,
+  } = props;
+  return (
+    <>
+      <Typography>Show me these types of events:</Typography>
+      <Grid container spacing={2}>
+        <Grid item xs={2}>
+          <FormControlLabel
+            control={
+              <Checkbox
+                value={suggestSports}
+                onChange={(e: any, checked: boolean) => {
+                  setSettings({ suggestSports: checked });
+                  setSuggestSports(checked);
+                }}
+              />
+            }
+            label="Sports"
+          />
+        </Grid>
+        <Grid item xs={2}>
+          <FormControlLabel
+            control={
+              <Checkbox
+                value={suggestMusic}
+                onChange={(e: any, checked: boolean) => {
+                  setSettings({ suggestSports: checked });
+                  setSuggestMusic(checked);
+                }}
+              />
+            }
+            label="Music"
+          />
+        </Grid>
+        <Grid item xs={2}>
+          <FormControlLabel
+            control={
+              <Checkbox
+                value={suggestComedy}
+                onChange={(e: any, checked: boolean) => {
+                  setSettings({ suggestSports: checked });
+                  setSuggestComedy(checked);
+                }}
+              />
+            }
+            label="Comedy"
+          />
+        </Grid>
+        <Grid item xs={2}>
+          <FormControlLabel
+            control={
+              <Checkbox
+                value={suggestFamily}
+                onChange={(e: any, checked: boolean) => {
+                  setSettings({ suggestSports: checked });
+                  setSuggestFamily(checked);
+                }}
+              />
+            }
+            label="Family"
+          />
+        </Grid>
+      </Grid>
+    </>
   );
 }
 

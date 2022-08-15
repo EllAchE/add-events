@@ -4,9 +4,10 @@
     in local storage, users calendars are fetched with 
     an api call and filtered for one with a matching name
 */
+// Default name of the calendar is 'Event Extension'
 export default async function getCalendarId(
-  calendarName: string,
-  storageName?: string
+  storageName?: string,
+  calendarName = 'Event Extension'
 ): Promise<string> {
   // First look for it in local storage
   const calIdPromise: Promise<string> = new Promise((resolve, reject) => {

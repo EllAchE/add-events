@@ -1,13 +1,10 @@
 import { CalendarEventMessage } from '../../types';
 
 // calls the insert API https://developers.google.com/calendar/api/v3/reference/events/insert
-export default async function createEvent(message: {
-  event: CalendarEventMessage;
-  calendarId: string;
-}): Promise<boolean> {
-  let { event, calendarId } = message;
-  calendarId = calendarId || 'primary';
-
+export default async function createEvent(
+  event: CalendarEventMessage,
+  calendarId = 'primary'
+): Promise<boolean> {
   if (!event) {
     console.error('called create event without an event');
     return;
