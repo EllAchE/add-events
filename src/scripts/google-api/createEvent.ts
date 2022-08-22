@@ -16,7 +16,7 @@ export default async function createEvent(
 
   return new Promise((resolve, reject) => {
     chrome.identity.getAuthToken({ interactive: true }, async (token) => {
-      const config = getConfig(token, event);
+      const config = getEventCreateConfig(token, event);
       const response = await fetch(
         `https://www.googleapis.com/calendar/v3/calendars/${calendarId}/events`,
         config
@@ -28,7 +28,11 @@ export default async function createEvent(
     });
   });
 }
-function getConfig(token: string, event: CalendarEventMessage) {
+function getEventCreateConfig(
+  token: string,
+  event: CalendarEventMessage | any
+) {
+  event['id'] = event.title + event.startTime + event.location;
   return {
     method: 'POST',
     async: true,

@@ -7,6 +7,7 @@
     "build": "webpack --config webpack.prod.js",
     "dev": "webpack --watch --config webpack.dev.js",
     "test": "jest ./test/test.ts",
+    "test-api": "jest ./test/api.test.ts",
     "lint": "eslint ./src/*"
   },
   "keywords": [],

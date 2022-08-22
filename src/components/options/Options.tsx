@@ -1,11 +1,11 @@
 import GitHubIcon from '@mui/icons-material/GitHub';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import {
-  Checkbox,
+  Button,
+  Switch,
   FormControlLabel,
   Grid,
   IconButton,
-  Switch,
   TextField,
   Typography,
 } from '@mui/material';
@@ -28,7 +28,7 @@ function FreeformOptions(): ReactElement {
   );
 }
 
-function CheckboxOptions(): ReactElement {
+function SwitchOptions(): ReactElement {
   return <Grid container spacing={2}></Grid>;
 }
 /*
@@ -42,11 +42,15 @@ function Options(): ReactElement {
   const [suggestComedy, setSuggestComedy] = useState<boolean>();
   const [suggestFamily, setSuggestFamily] = useState<boolean>();
 
-  chrome.storage.local.get('runOnPageLoad', (items) => {
+  chrome.storage.local.get(null, (items) => {
+    console.log('storage', items);
     setRunOnPageLoad(items.runOnPageLoad);
     setSuggestEvents(items.suggestEvents);
+    setSuggestComedy(items.suggestComedy);
+    setSuggestSports(items.suggestSports);
+    setSuggestMusic(items.suggestMusic);
+    setSuggestFamily(items.suggestFamily);
   });
-  console.log('val after', runOnPageLoad);
 
   return (
     <App>
@@ -75,8 +79,8 @@ function Options(): ReactElement {
         }}
         control={
           <Switch
-            value={suggestEvents}
             checked={suggestEvents}
+            value={suggestEvents}
             onChange={(e: any, checked: boolean) => {
               setSettings({ suggestEvents: checked });
               setSuggestEvents(checked);
@@ -106,6 +110,18 @@ function Options(): ReactElement {
         </a>{' '}
         to do so!
       </Typography>
+      <Button
+        variant="contained"
+        sx={{
+          width: '90%',
+          paddingTop: 1,
+          paddingBottom: 1,
+        }}
+        onClick={() => console.log('aa')}
+      >
+        Add Events to Calendar
+      </Button>
+      <br />
       <IconButton onClick={openTwitter}>
         <TwitterIcon />
       </IconButton>
@@ -134,9 +150,13 @@ function EventPreferenceOptions(props: any): ReactElement {
         <Grid item xs={2}>
           <FormControlLabel
             control={
-              <Checkbox
+              <Switch
+                checked={suggestSports}
                 value={suggestSports}
                 onChange={(e: any, checked: boolean) => {
+                  console.log('changed');
+                  console.log(checked);
+                  console.log(suggestSports);
                   setSettings({ suggestSports: checked });
                   setSuggestSports(checked);
                 }}
@@ -148,10 +168,11 @@ function EventPreferenceOptions(props: any): ReactElement {
         <Grid item xs={2}>
           <FormControlLabel
             control={
-              <Checkbox
+              <Switch
+                checked={suggestMusic}
                 value={suggestMusic}
                 onChange={(e: any, checked: boolean) => {
-                  setSettings({ suggestSports: checked });
+                  setSettings({ suggestMusic: checked });
                   setSuggestMusic(checked);
                 }}
               />
@@ -162,10 +183,11 @@ function EventPreferenceOptions(props: any): ReactElement {
         <Grid item xs={2}>
           <FormControlLabel
             control={
-              <Checkbox
+              <Switch
+                checked={suggestComedy}
                 value={suggestComedy}
                 onChange={(e: any, checked: boolean) => {
-                  setSettings({ suggestSports: checked });
+                  setSettings({ suggestComedy: checked });
                   setSuggestComedy(checked);
                 }}
               />
@@ -176,10 +198,11 @@ function EventPreferenceOptions(props: any): ReactElement {
         <Grid item xs={2}>
           <FormControlLabel
             control={
-              <Checkbox
+              <Switch
+                checked={suggestFamily}
                 value={suggestFamily}
                 onChange={(e: any, checked: boolean) => {
-                  setSettings({ suggestSports: checked });
+                  setSettings({ suggestFamily: checked });
                   setSuggestFamily(checked);
                 }}
               />

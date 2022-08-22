@@ -65,11 +65,12 @@ function StatelessCreationModal(): ReactElement {
             : 'Failed to create new calendar event'}
         </Alert>
       </Snackbar>
-      {modalState.visible ? (
+      {true ? (
+        //{modalState.visible ? (
         <Draggable disabled={false}>
           <Box
             sx={{
-              width: 400,
+              width: 250,
               height: 400,
               position: 'fixed',
               right: 16,
@@ -79,12 +80,12 @@ function StatelessCreationModal(): ReactElement {
           >
             <Paper elevation={8}>
               <Grid container justifyContent="space-around" direction="row">
-                <Grid item xs={5}>
+                <Grid item xs={4}>
                   <Button
                     id="add_to_cal_button_submit"
                     variant="contained"
                     sx={{
-                      width: '90%',
+                      width: '100%',
                       paddingTop: 1,
                       paddingBottom: 1,
                     }}
@@ -93,12 +94,12 @@ function StatelessCreationModal(): ReactElement {
                     Submit
                   </Button>
                 </Grid>
-                <Grid item xs={5}>
+                <Grid item xs={4}>
                   <Button
                     id="add_to_cal_button_close"
                     variant="contained"
                     sx={{
-                      width: '90%',
+                      width: '100%',
                       paddingTop: 1,
                       paddingBottom: 1,
                     }}
@@ -127,39 +128,35 @@ function StatelessCreationModal(): ReactElement {
               </Grid>
               <LocalizationProvider dateAdapter={AdapterMoment}>
                 <Grid container>
-                  <Grid>
-                    <Grid>
+                  {/* <Grid>
                       <Tooltip
                         children={<ColorLensIcon sx={{ color: '#add8e6' }} />}
                         title={
                           'Words on the page matching this category will appear with this background'
                         }
                       ></Tooltip>
-                    </Grid>
-                    <Grid>
-                      <DesktopDatePicker
-                        label="Start Date (Required)"
-                        renderInput={(params: TextFieldProps) => (
-                          <TextField
-                            size="small"
-                            variant="filled"
-                            onClick={() =>
-                              focusModalElement('add_to_cal_button_start_date')
-                            }
-                            id="add_to_cal_button_start_date"
-                            {...params}
-                            sx={{ width: '100%' }}
-                          />
-                        )}
-                        onChange={(moment: Moment) => {
-                          dis(setStartDate(moment.toISOString()));
-                        }}
-                        value={modalState.startDate}
-                        disablePast={true}
+                    </Grid> */}
+                  <DesktopDatePicker
+                    label="Start Date (Required)"
+                    disablePast={true}
+                    renderInput={(params: TextFieldProps) => (
+                      <TextField
+                        size="small"
+                        fullWidth
+                        variant="filled"
+                        onClick={() =>
+                          focusModalElement('add_to_cal_button_start_date')
+                        }
+                        id="add_to_cal_button_start_date"
+                        {...params}
+                        sx={{ width: '100%' }}
                       />
-                    </Grid>
-                  </Grid>
-
+                    )}
+                    onChange={(moment: Moment) => {
+                      dis(setStartDate(moment.toISOString()));
+                    }}
+                    value={modalState.startDate}
+                  />
                   <CreationModalTextField
                     label="Title"
                     id={'add_to_cal_button_title'}
@@ -183,7 +180,7 @@ function StatelessCreationModal(): ReactElement {
                   <DesktopDatePicker
                     label="End Date"
                     disablePast={true}
-                    renderInput={(params) => (
+                    renderInput={(params: TextFieldProps) => (
                       <TextField
                         size="small"
                         variant="filled"
@@ -196,7 +193,6 @@ function StatelessCreationModal(): ReactElement {
                       />
                     )}
                     onChange={(moment: Moment) => {
-                      console.log('should be settiung end', moment);
                       dis(setEndDate(moment.toISOString()));
                     }}
                     value={modalState.endDate}

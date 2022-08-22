@@ -1,6 +1,6 @@
 export default function createCalendar(calendarName: string) {
   chrome.identity.getAuthToken({ interactive: true }, (token) => {
-    const config = getConfig(token, calendarName);
+    const config = getCalendarCreateConfig(token, calendarName);
     fetch(`https://www.googleapis.com/calendar/v3/calendars`, config).then(
       async (response: Response) => {
         const res = await response.json();
@@ -19,7 +19,7 @@ export default function createCalendar(calendarName: string) {
   });
 }
 
-function getConfig(token: string, calendarName: string) {
+function getCalendarCreateConfig(token: string, calendarName: string) {
   return {
     method: 'POST',
     async: true,
@@ -27,7 +27,7 @@ function getConfig(token: string, calendarName: string) {
       Authorization: `Bearer ${token}`,
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ summary: calendarName }),
+    body: JSON.stringify({ summary: calendarName, id: calendarName }),
     contentType: 'json',
     sendUpdates: true,
   };

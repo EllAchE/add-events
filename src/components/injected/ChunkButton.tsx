@@ -17,12 +17,12 @@ function StatelessChunkButton(props: any): ReactElement {
 
   const { activeModalField, visible } = modalState;
   const { buttonText, categories, id } = props;
-  const { leadFunction, cssClasses } = getLeadFnAndCssTriggers(categories);
+  const { valueSetFunction, cssClasses } = getLeadFnAndCssTriggers(categories);
   const classList = getClasslist(categories);
 
   const defaultOnClick = () => {
     if (visible) {
-      dis(leadFunction(buttonText));
+      dis(valueSetFunction(buttonText));
     } else {
       console.warn('Must first click a start date to open the event modal.');
     }
@@ -31,7 +31,7 @@ function StatelessChunkButton(props: any): ReactElement {
   const dateOnClick = () => {
     dis(setVisibility(true));
     const date = convertArbitraryDateStringToISODate(buttonText);
-    dis(leadFunction(date));
+    dis(valueSetFunction(date));
   };
 
   if (cssClasses.includes('add_to_cal_button_start_date')) {
@@ -96,25 +96,27 @@ function getClasslist(categories: any) {
 }
 
 function getLeadFnAndCssTriggers(categories: any) {
-  let leadFunction = addTitle; // TODO: should add to active field otherwise (except pickers)
+  let valueSetFunction = addTitle; // TODO: should add to active field otherwise (except pickers)
+  let nextField = 'title';
   const cssClasses: string[] = [];
 
   // business logic needed for all of
   if (categories.includes('Time')) {
-    leadFunction = setStartTime;
+    valueSetFunction = setStartTime;
     cssClasses.push('add_to_cal_button_start_time');
     cssClasses.push('add_to_cal_button_end_time');
+    nextField = 'location';
   } else if (categories.includes('Place')) {
-    leadFunction = addLocation;
+    valueSetFunction = addLocation;
     cssClasses.push('add_to_cal_button_location');
   } else if (categories.includes('Date')) {
-    leadFunction = setStartDate;
+    valueSetFunction = setStartDate;
     cssClasses.push('add_to_cal_button_start_date');
     cssClasses.push('add_to_cal_button_end_date');
   } else {
     cssClasses.push('add_to_cal_button_title');
   }
-  return { leadFunction, cssClasses };
+  return { valueSetFunction, cssClasses, nextField };
 }
 
 export default function ChunkButton({
