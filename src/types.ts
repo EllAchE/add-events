@@ -11,12 +11,13 @@ type EventRecurrence = {
   dayOfYear: string;
 };
 
-export interface CalendarEventMessage extends CalendarEvent {
+export interface CalendarEventMessage extends GoogleCalendarEvent {
   type: string;
   calendarName: string;
 }
 
-export type CalendarEvent = {
+// https://developers.google.com/calendar/api/v3/reference/events/insert
+export type GoogleCalendarEvent = {
   end: { dateTime?: string; date?: string };
   start: { dateTime?: string; date?: string };
   startTime?: string;
@@ -87,6 +88,14 @@ export type ExtractedTuple = {
 };
 
 export interface extractedDateTuple extends ExtractedTuple {} // TODO: infer other date properties, i.e. starttime
+
+export type Preferences = {
+  suggestEvents: boolean;
+  suggestSports: boolean;
+  suggestMusic: boolean;
+  suggestComedy: boolean;
+  suggestFamily: boolean;
+};
 
 // TODO: add the typing for the nlp types from nlp compromise
 

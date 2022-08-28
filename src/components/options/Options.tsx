@@ -11,6 +11,7 @@ import {
 } from '@mui/material';
 import React, { ReactElement, useEffect, useState } from 'react';
 import { render } from 'react-dom';
+import { updateCalendarSuggestions } from '../../scripts/content-scripts/cron';
 import {
   localStorageWrapper,
   openGithub,
@@ -117,7 +118,9 @@ function Options(): ReactElement {
           paddingTop: 1,
           paddingBottom: 1,
         }}
-        onClick={() => console.log('aa')}
+        onClick={() =>{
+          updateCalendarSuggestions()
+        }}
       >
         Add Events to Calendar
       </Button>

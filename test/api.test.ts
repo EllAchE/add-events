@@ -1,5 +1,7 @@
-import getEvents from '../src/scripts/content-scripts/getEvents';
+import createAndGetEvents from '../src/scripts/content-scripts/getEvents';
 import searchEvents from '../src/scripts/content-scripts/searchEvents';
+import createEvent from '../src/scripts/google-api/createEvent';
+import { CalendarEventMessage } from '../src/types';
 
 test('returns from api', async () => {
   const body = {
@@ -18,6 +20,8 @@ test('returns from api', async () => {
       include_music: true,
     },
   };
-  const p: any = await getEvents(body);
-  console.dir(p.data);
+  const p: CalendarEventMessage[] = await createAndGetEvents(body);
+  console.dir(p)
+  console.dir('creating event sing');
+  createEvent(p[0]);
 });

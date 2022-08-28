@@ -2,7 +2,7 @@ import { CalendarEventMessage } from '../../types';
 
 const axios = require('axios').default;
 
-export default async function createAndGetEvents(
+export default async function getPrefernces(
   body: any
 ): Promise<CalendarEventMessage[]> {
   // get preferences from local storage
@@ -18,13 +18,8 @@ export default async function createAndGetEvents(
   };
 
   console.dir('calling put');
-  // query server with hosted events
-  const axiosResponse = await axios.put('http://localhost:3000/events', body);
-
-  console.dir('res');
-  console.dir(axiosResponse);
-
-  return axiosResponse?.data?.events;
+  // query server with hosted Prefernces
+  return axios.put('http://localhost:3000/Prefernces', body);
 
   // take server response and create event with it
 }
